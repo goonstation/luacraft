@@ -67,7 +67,7 @@ local tickSum = 0
 local curTick = 0
 local ticks = {}
 
-hook.Add( "render.gameoverlay", "debug", function(dt)
+hook.Add( "render.gameoverlay.all", "debug", function(dt)
 
 	tickSum = tickSum - (ticks[curTick] or 0)
 	tickSum = tickSum + dt

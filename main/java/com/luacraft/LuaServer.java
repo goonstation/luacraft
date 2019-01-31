@@ -9,7 +9,14 @@ import com.luacraft.meta.server.LuaPropertyManager;
 import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaSyntaxException;
 
+import net.minecraftforge.fml.relauncher.Side;
+
 public class LuaServer extends LuaShared {
+	
+	public LuaServer() {
+		super();
+		side = Side.SERVER;
+	}
 
 	public void initialize(boolean hooks) {
 		initializeShared(hooks);

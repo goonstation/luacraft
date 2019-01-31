@@ -21,7 +21,7 @@ public class LuaLibConsole {
 		
 		Color color = defColor;
 		
-		MessageCallbacks console = ConsoleManager.get(((LuaCraftState) l).getActualSide());
+		MessageCallbacks console = ConsoleManager.get(((LuaCraftState) l).getSide());
 
 		for (int i = stackPos; i <= l.getTop(); i++) {
 			if (l.isNoneOrNil(i))

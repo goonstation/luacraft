@@ -344,7 +344,7 @@ command.AutoComplete("gamemode", playerAutoComplete)
 command.Add( "create", function( ply, cmd, args )
 	if not playerHasPermission(ply) then return end
 	if args[1] then
-		local tr = ply:GetEyeTrace ()
+		local tr = ply:GetEyeTrace()
 		ply:GetWorld():Spawn( args[1], tr.HitPos )
 	else
 		ply:ChatPrint( string.format( "/%s <class>", cmd ) )

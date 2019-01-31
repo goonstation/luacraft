@@ -21,9 +21,15 @@ import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaSyntaxException;
 
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.relauncher.Side;
 
 public class LuaClient extends LuaShared {
 	private LuaEventManagerClient luaClientEvent;
+	
+	public LuaClient() {
+		super();
+		side = Side.CLIENT;
+	}
 
 	public void initialize(boolean hooks) {
 		if (hooks) {

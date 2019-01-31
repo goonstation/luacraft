@@ -1,6 +1,6 @@
 local font = surface.GetDefaultFont()
 
-hook.Add( "render.gameoverlay", "Game - Render Overlay", function()
+hook.Add( "render.gameoverlay.all", "Game - Render Overlay", function()
 	local me = LocalPlayer()
 
 	for _,v in pairs( World():GetEntities() ) do

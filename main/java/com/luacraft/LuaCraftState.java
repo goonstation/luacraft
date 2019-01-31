@@ -25,7 +25,8 @@ import net.minecraftforge.fml.server.FMLServerHandler;
 
 public class LuaCraftState extends LuaState implements ILuaReloader {
 	private boolean scriptEnforcer = false;
-	private Side sideOverride = null;
+	private Side runningSide = null;
+	protected Side side = null;
 
 	protected LuaReloader reloader;
 
@@ -40,23 +41,16 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 		super.close();
 	}
 
-	public void setSideOverride(Side side) {
-		sideOverride = side;
+	public void setRunningSide(Side side) {
+		runningSide = side;
 	}
 
-	public Side getSideOverride() {
-		return sideOverride;
+	public Side getRunningSide() {
+		return runningSide;
 	}
-
+	
 	public Side getSide() {
-		if (sideOverride != null)
-			return sideOverride;
-
-		return getActualSide();
-	}
-
-	public Side getActualSide() {
-		return FMLCommonHandler.instance().getEffectiveSide();
+		return side;
 	}
 
 	public FMLClientHandler getForgeClient() {
@@ -72,7 +66,8 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 	}
 
 	public MinecraftServer getServer() {
-		if (getSide().isClient())
+		Side serverSide = runningSide != null ? runningSide : side;
+		if (serverSide.isClient())
 			return getForgeClient().getServer();
 		else
 			return getForgeServer().getServer();
@@ -87,41 +82,41 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 	}
 	
 	public void msg(String text) {
-		ConsoleManager.get(getActualSide()).msg(text);
+		ConsoleManager.get(side).msg(text);
 	}
 	
 	public void msg(Color color, String text) {
-		ConsoleManager.get(getActualSide()).msg(color, text);
+		ConsoleManager.get(side).msg(color, text);
 	}
 	
 	public void printSide(String str) {
-		ConsoleManager.get(getActualSide()).print(str);
+		ConsoleManager.get(side).print(str);
 	}
 
 	public void print(String str) {
 		LuaCraft.getLogger().info(str);
-		ConsoleManager.get(getActualSide()).onPrint(str);
+		ConsoleManager.get(side).onPrint(str);
 	}
 
 	public void error(String str) {
 		LuaCraft.getLogger().error(str);
-		ConsoleManager.get(getActualSide()).onError(str);
+		ConsoleManager.get(side).onError(str);
 	}
 
 	public void info(String str) {
 		LuaCraft.getLogger().info(str);
-		ConsoleManager.get(getActualSide()).onInfo(str);
+		ConsoleManager.get(side).onInfo(str);
 	}
 
 	public void warning(String str) {
 		LuaCraft.getLogger().warn(str);
-		ConsoleManager.get(getActualSide()).onWarning(str);
+		ConsoleManager.get(side).onWarning(str);
 	}
 	
 	public void depricated() {
 		String msg = "Function " + getCallSource() + " is depricated and no longer functions correctly";
 		LuaCraft.getLogger().warn(msg);
-		ConsoleManager.get(getActualSide()).onWarning(msg);
+		ConsoleManager.get(side).onWarning(msg);
 	}
 
 	public String getCallSource() {
