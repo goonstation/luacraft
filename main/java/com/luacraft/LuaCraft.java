@@ -131,7 +131,7 @@ public class LuaCraft {
 		if (event.getSide().isClient() && luaStates.get(Side.SERVER) == null) {
 			LuaServer luaState = new LuaServer();
 			synchronized (luaState) {
-				luaState.setSideOverride(Side.CLIENT); // Singleplayer fix..
+				luaState.setRunningSide(Side.CLIENT); // Singleplayer fix.. the server is running on the client
 				luaState.initialize(true);
 				luaState.runScripts();
 			}

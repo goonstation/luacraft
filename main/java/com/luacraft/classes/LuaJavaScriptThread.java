@@ -16,16 +16,16 @@ public class LuaJavaScriptThread extends LuaJavaThread {
 	}
 
 	public void run() {
-		if (state.getActualSide().isClient()) {
+		if (state.getSide().isClient()) {
 			l = new LuaClient();
 			synchronized (l) {
-				l.setSideOverride(state.getSideOverride());
+				l.setRunningSide(state.getRunningSide());
 				((LuaClient) l).initialize(false);
 			}
 		} else {
 			l = new LuaServer();
 			synchronized (l) {
-				l.setSideOverride(state.getSideOverride());
+				l.setRunningSide(state.getRunningSide());
 				((LuaServer) l).initialize(false);
 			}
 		}
