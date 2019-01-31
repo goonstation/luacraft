@@ -2,6 +2,9 @@ package com.luacraft.classes;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,8 +98,9 @@ public class FileMount {
 	 * Gets a file in either a mounted directory or in root directory
 	 * @param file File name
 	 * @return File object
+	 * @throws FileNotFoundException 
 	 */
-	public static File GetFile(String file) {
+	public static File GetFile(String file) throws FileNotFoundException {
 		File rootFile = GetFileInRoot(file);
 
 		if (rootFile.exists())
@@ -107,8 +111,12 @@ public class FileMount {
 			if (newFile.exists())
 				return newFile;
 		}
-
-		return null;
+		
+		throw new FileNotFoundException(file);
+	}
+	
+	public static FileInputStream GetFileInputStream(String file) throws FileNotFoundException {
+		return new FileInputStream(GetFile(file));
 	}
 
 	/**

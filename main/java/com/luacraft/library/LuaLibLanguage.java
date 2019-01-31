@@ -57,13 +57,14 @@ public class LuaLibLanguage {
 
 	public static JavaFunction ParseFile = new JavaFunction() {
 		public int invoke(LuaState l) {
-			File file = FileMount.GetFile(l.checkString(1));
+			String file = l.checkString(1);
+			InputStream stream;
 			try {
-				InputStream stream = new FileInputStream(file);
-				LanguageMap.inject(stream);
+				stream = FileMount.GetFileInputStream(file);
 			} catch (FileNotFoundException e) {
-				throw new LuaRuntimeException("Cannot open " + file.getName() + ": No such file or directory");
+				throw new LuaRuntimeException("Cannot open " + file + ": No such file or directory");
 			}
+			LanguageMap.inject(stream);
 			return 0;
 		}
 	};

@@ -1,5 +1,7 @@
 package com.luacraft.classes;
 
+import java.io.FileNotFoundException;
+
 import com.luacraft.LuaClient;
 import com.luacraft.LuaCraftState;
 import com.luacraft.LuaServer;
@@ -36,6 +38,8 @@ public class LuaJavaScriptThread extends LuaJavaThread {
 					l.includeFile(file);
 				} catch (LuaRuntimeException e) {
 					l.handleLuaRuntimeError(e);
+				} catch (FileNotFoundException e) {
+					throw new LuaRuntimeException("Cannot open " + file + ": No such file or directory");
 				} finally {
 					l.close();
 				}

@@ -295,7 +295,7 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 			includeFiles(file);
 	}
 
-	public void includeFile(String f) {
+	public void includeFile(String f) throws FileNotFoundException {
 		File file = FileMount.GetFile("lua/" + f);
 		includeFile(file);
 	}

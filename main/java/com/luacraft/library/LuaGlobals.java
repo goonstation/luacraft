@@ -264,21 +264,19 @@ public class LuaGlobals {
 
 	private static JavaFunction loadfileInternal = new JavaFunction() {
 		public int invoke(LuaState l) {
-			String fileName = l.checkString(1);
+			String fileName = "lua/" + l.checkString(1);
 
 			if (!fileName.endsWith(".lua"))
 				throw new LuaRuntimeException("File must be a Lua file");
 
-			File file = FileMount.GetFile("lua/" + fileName);
-
-			InputStream in = null;
+			InputStream in;
 			try {
-				in = new FileInputStream(file);
+				in = FileMount.GetFileInputStream(fileName);
 			} catch (FileNotFoundException e) {
-				throw new LuaRuntimeException("Cannot open " + file.getName() + ": No such file or directory");
+				throw new LuaRuntimeException("Cannot open " + fileName + ": No such file or directory");
 			}
 			try {
-				l.load(in, file.getName());
+				l.load(in, fileName);
 			} catch (IOException e) {
 				throw new LuaRuntimeException(e.getMessage());
 			}
