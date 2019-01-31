@@ -250,6 +250,52 @@ public class LuaLibSurface {
 			return 0;
 		}
 	};
+	
+	/**
+	 * @author Somepotato
+	 * @library surface
+	 * @function DrawTexturedSubRect
+	 * @info Draws a textured (sub) rectangle
+	 * @arguments [[Number]]:xPos, [[Number]]:yPos, [[Number]]:width, [[Number]]:height, [[Number]]:u1, [[Number]]:v1, [[Number]]:u2, [[Number]]:v2
+	 * @return nil
+	 */
+
+	public static JavaFunction DrawTexturedSubRect = new JavaFunction() {
+		public int invoke(LuaState l) {
+			if (currentTexture == null)
+				return 0;
+
+			int x = l.checkInteger(1);
+			int y = l.checkInteger(2);
+			int w = l.checkInteger(3);
+			int h = l.checkInteger(4);
+			double u1 = l.checkNumber(3);
+			double v1 = l.checkNumber(4);
+			double u2 = l.checkNumber(3);
+			double v2 = l.checkNumber(4);
+			
+
+			GlStateManager.enableTexture2D();
+			GlStateManager.enableAlpha();
+			
+			GlStateManager.color(drawColor.r / 255, drawColor.g / 255, drawColor.b / 255, drawColor.a / 255);
+
+			client.renderEngine.bindTexture(currentTexture);
+
+			Tessellator tessellator = Tessellator.getInstance();
+			BufferBuilder worldrenderer = tessellator.getBuffer();
+			
+			worldrenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+			worldrenderer.pos(x + w, y, 0.0D).tex(u2, v1).endVertex();
+			worldrenderer.pos(x, y, 0.0D).tex(u1, v1).endVertex();
+			worldrenderer.pos(x, y + h, 0.0D).tex(u1, v2).endVertex();
+			worldrenderer.pos(x + w, y + h, 0.0D).tex(u2, v2).endVertex();
+			tessellator.draw();
+			
+			GlStateManager.enableBlend();
+			return 0;
+		}
+	};
 
 	public static JavaFunction StartPoly = new JavaFunction() {
 		public int invoke(LuaState l) {
@@ -277,6 +323,8 @@ public class LuaLibSurface {
 			l.setField(-2, "SetTexture");
 			l.pushJavaFunction(DrawTexturedRect);
 			l.setField(-2, "DrawTexturedRect");
+			l.pushJavaFunction(DrawTexturedSubRect);
+			l.setField(-2, "DrawTexturedSubRect");
 		}
 		l.setGlobal("surface");
 	}
