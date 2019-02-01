@@ -47,15 +47,18 @@ public class LuaJavaRunCommand extends CommandBase {
 		return "lua";
 	}
 
+	@Override
 	public String getUsage(ICommandSender iCommandSender) {
 		return "commands.lua.usage";
 	}
 
-	public boolean canCommandSenderUseCommand(ICommandSender iCommandSender) {
+	@Override
+	public boolean checkPermission(MinecraftServer server, ICommandSender sender) {
 		return true;
 	}
 
-	public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
+	@Override
+	public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos targetPos) {
 		List<String> options = new ArrayList<String>();
 
 		if (args.length < 2) {
@@ -71,6 +74,7 @@ public class LuaJavaRunCommand extends CommandBase {
 		return options;
 	}
 
+	@Override
 	public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException {
 		if (args.length <= 0) {
 			TextComponentTranslation usage = new TextComponentTranslation(getUsage(sender));
@@ -120,7 +124,6 @@ public class LuaJavaRunCommand extends CommandBase {
 			LuaCraft.getLogger().info(sender.getName() + " Lua > " + strLua);
 
 			try {
-
 				l.load(strLua, I18n.translateToLocal("luacraft.console"));
 				l.call(0, 0);
 			} catch (LuaException e) {

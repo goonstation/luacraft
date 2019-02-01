@@ -2116,7 +2116,7 @@ public class LuaState {
 
 	private native void lua_unref(int index, int ref);
 
-	private native String lua_funcname();
+	protected native String lua_funcname();
 
 	private native int lua_narg(int narg);
 
