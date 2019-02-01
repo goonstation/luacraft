@@ -143,6 +143,23 @@ public class LuaEntity {
 	};
 
 	/**
+	 * @author Jake
+	 * @function GetLastPos
+	 * @info Returns the entities location from the previous tick
+	 * @arguments nil
+	 * @return [[Vector]]:pos
+	 */
+
+	public static JavaFunction GetLastPos = new JavaFunction() {
+		public int invoke(LuaState l) {
+			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
+			Vector pos = new Vector(self.lastTickPosX, self.lastTickPosZ, self.lastTickPosY);
+			pos.push(l);
+			return 1;
+		}
+	};
+
+	/**
 	 * @author Gregor
 	 * @function SetPos
 	 * @info Sets the entity position
@@ -485,6 +502,22 @@ public class LuaEntity {
 			Vector vel = (Vector) l.checkUserdata(2, Vector.class, "Vector");
 			self.addVelocity(vel.x, vel.z, vel.y);
 			return 0;
+		}
+	};
+
+	/**
+	 * @author Jake
+	 * @function IsInPortal
+	 * @info Returns if the entity is in a portal
+	 * @arguments nil
+	 * @return [[Boolean]]:inportal
+	 */
+
+	public static JavaFunction IsInPortal = new JavaFunction() {
+		public int invoke(LuaState l) {
+			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
+			l.pushBoolean(self.inPortal);
+			return 1;
 		}
 	};
 
@@ -1085,6 +1118,8 @@ public class LuaEntity {
 			l.setField(-2, "SetVelocity");
 			l.pushJavaFunction(AddVelocity);
 			l.setField(-2, "AddVelocity");
+			l.pushJavaFunction(IsInPortal);
+			l.setField(-2, "IsInPortal");
 			l.pushJavaFunction(IsInAir);
 			l.setField(-2, "IsInAir");
 			l.pushJavaFunction(IsSprinting);

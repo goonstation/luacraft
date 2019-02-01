@@ -15,7 +15,6 @@ import net.minecraft.util.FoodStats;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class LuaPlayer {
 	public static JavaFunction __tostring = new JavaFunction() {
@@ -117,7 +116,7 @@ public class LuaPlayer {
 	public static JavaFunction SetHunger = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
-			ReflectionHelper.setPrivateValue(FoodStats.class, self.getFoodStats(), l.checkInteger(2), "foodLevel");
+			self.getFoodStats().setFoodLevel(l.checkInteger(2));
 			return 0;
 		}
 	};

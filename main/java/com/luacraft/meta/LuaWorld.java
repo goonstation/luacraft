@@ -25,7 +25,6 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.GameType;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 public class LuaWorld {
 	public static JavaFunction __tostring = new JavaFunction() {
@@ -482,7 +481,7 @@ public class LuaWorld {
 	public static JavaFunction GetAnimalSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
-			l.pushBoolean((Boolean) ReflectionHelper.getPrivateValue(World.class, self, "spawnPeacefulMobs"));
+			l.pushBoolean(self.spawnPeacefulMobs);
 			return 0;
 		}
 	};
@@ -498,7 +497,7 @@ public class LuaWorld {
 	public static JavaFunction SetAnimalSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
-			ReflectionHelper.setPrivateValue(World.class, self, l.checkBoolean(2), "spawnPeacefulMobs");
+			self.spawnPeacefulMobs = l.checkBoolean(2);
 			return 0;
 		}
 	};
@@ -514,7 +513,7 @@ public class LuaWorld {
 	public static JavaFunction GetMobSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
-			l.pushBoolean((Boolean) ReflectionHelper.getPrivateValue(World.class, self, "spawnHostileMobs"));
+			l.pushBoolean(self.spawnHostileMobs);
 			return 1;
 		}
 	};
@@ -530,7 +529,7 @@ public class LuaWorld {
 	public static JavaFunction SetMobSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
-			ReflectionHelper.setPrivateValue(World.class, self, l.checkBoolean(2), "spawnHostileMobs");
+			self.spawnHostileMobs = l.checkBoolean(2);
 			return 0;
 		}
 	};

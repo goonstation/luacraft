@@ -30,9 +30,9 @@ public class LuaLivingBase {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 
-			double posX = self.lastTickPosX + (self.posX - self.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = self.lastTickPosY + (self.posY - self.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = self.lastTickPosZ + (self.posZ - self.lastTickPosZ) * client.timer.renderPartialTicks;
+			double posX = self.prevPosX + (self.posX - self.prevPosX) * client.timer.renderPartialTicks;
+			double posY = self.prevPosY + (self.posY - self.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = self.prevPosZ + (self.posZ - self.prevPosZ) * client.timer.renderPartialTicks;
 
 			Vector start = new Vector(posX, posZ, posY + self.getEyeHeight());
 			Vector dir = new Vector(self.getLook(client.timer.renderPartialTicks));

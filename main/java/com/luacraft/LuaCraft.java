@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -56,6 +57,8 @@ public class LuaCraft {
 	private static Logger luaLogger;
 	private static LuaLoader luaLoader = new LuaLoader(rootDir);
 	public static HashMap<Side, LuaCraftState> luaStates = new HashMap<Side, LuaCraftState>();
+	
+	private static ArrayList<File> csLuaFiles = new ArrayList<File>();
 
 	public static FMLEventChannel channel = null;
 
@@ -180,6 +183,10 @@ public class LuaCraft {
 			in = LuaCraft.class.getResourceAsStream('/' + file);
 
 		return in;
+	}
+	
+	public static void addCSLuaFile(String file) throws FileNotFoundException {
+		csLuaFiles.add(FileMount.GetFile(file));
 	}
 
 	public static File extractFile(String strFrom, String strTo) {

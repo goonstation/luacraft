@@ -16,6 +16,7 @@ import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaState;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.ActiveRenderInfo;
@@ -112,13 +113,11 @@ public class LuaLibRender {
 			Vector vec1 = (Vector) l.checkUserdata(2, Vector.class, "Vector");
 			Angle ang1 = (Angle) l.checkUserdata(3, Angle.class, "Angle");
 			float flScale = (float) l.checkNumber(4, 1) * 0.125F;
-
-			double posX = client.player.lastTickPosX
-					+ (client.player.posX - client.player.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = client.player.lastTickPosY
-					+ (client.player.posY - client.player.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = client.player.lastTickPosZ
-					+ (client.player.posZ - client.player.lastTickPosZ) * client.timer.renderPartialTicks;
+			
+			EntityPlayerSP player = client.player;
+			double posX = player.prevPosX + (player.posX - player.prevPosX) * client.timer.renderPartialTicks;
+			double posY = player.prevPosY + (player.posY - player.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * client.timer.renderPartialTicks;
 
 			double vecX = vec1.x - posX, vecY = vec1.z - posY, vecZ = vec1.y - posZ;
 
@@ -171,12 +170,10 @@ public class LuaLibRender {
 			Vector vec2 = (Vector) l.checkUserdata(2, Vector.class, "Vector");
 			float lineWidth = (float) l.checkNumber(3, 2);
 
-			double posX = client.player.lastTickPosX
-					+ (client.player.posX - client.player.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = client.player.lastTickPosY
-					+ (client.player.posY - client.player.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = client.player.lastTickPosZ
-					+ (client.player.posZ - client.player.lastTickPosZ) * client.timer.renderPartialTicks;
+			EntityPlayerSP player = client.player;
+			double posX = player.prevPosX + (player.posX - player.prevPosX) * client.timer.renderPartialTicks;
+			double posY = player.prevPosY + (player.posY - player.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * client.timer.renderPartialTicks;
 
 			double minX = vec1.x - posX, minY = vec1.z - posY, minZ = vec1.y - posZ;
 			double maxX = vec2.x - posX, maxY = vec2.z - posY, maxZ = vec2.y - posZ;
@@ -228,12 +225,10 @@ public class LuaLibRender {
 			Vector vec2 = (Vector) l.checkUserdata(2, Vector.class, "Vector");
 			float lineWidth = (float) l.checkNumber(3, 2);
 
-			double posX = client.player.lastTickPosX
-					+ (client.player.posX - client.player.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = client.player.lastTickPosY
-					+ (client.player.posY - client.player.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = client.player.lastTickPosZ
-					+ (client.player.posZ - client.player.lastTickPosZ) * client.timer.renderPartialTicks;
+			EntityPlayerSP player = client.player;
+			double posX = player.prevPosX + (player.posX - player.prevPosX) * client.timer.renderPartialTicks;
+			double posY = player.prevPosY + (player.posY - player.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * client.timer.renderPartialTicks;
 
 			double minX = vec1.x - posX, minY = vec1.z - posY, minZ = vec1.y - posZ;
 			double maxX = vec2.x - posX, maxY = vec2.z - posY, maxZ = vec2.y - posZ;
@@ -306,12 +301,10 @@ public class LuaLibRender {
 			Angle ang1 = (Angle) l.checkUserdata(4, Angle.class, "Angle");
 			int iSlices = l.checkInteger(5, 24);
 
-			double posX = client.player.lastTickPosX
-					+ (client.player.posX - client.player.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = client.player.lastTickPosY
-					+ (client.player.posY - client.player.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = client.player.lastTickPosZ
-					+ (client.player.posZ - client.player.lastTickPosZ) * client.timer.renderPartialTicks;
+			EntityPlayerSP player = client.player;
+			double posX = player.prevPosX + (player.posX - player.prevPosX) * client.timer.renderPartialTicks;
+			double posY = player.prevPosY + (player.posY - player.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * client.timer.renderPartialTicks;
 
 			double vecX = vec1.x - posX, vecY = vec1.z - posY, vecZ = vec1.y - posZ;
 
@@ -369,12 +362,10 @@ public class LuaLibRender {
 			Angle ang1 = (Angle) l.checkUserdata(5, Angle.class, "Angle");
 			int iSlices = l.checkInteger(6, 24);
 
-			double posX = client.player.lastTickPosX
-					+ (client.player.posX - client.player.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = client.player.lastTickPosY
-					+ (client.player.posY - client.player.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = client.player.lastTickPosZ
-					+ (client.player.posZ - client.player.lastTickPosZ) * client.timer.renderPartialTicks;
+			EntityPlayerSP player = client.player;
+			double posX = player.prevPosX + (player.posX - player.prevPosX) * client.timer.renderPartialTicks;
+			double posY = player.prevPosY + (player.posY - player.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * client.timer.renderPartialTicks;
 
 			double vecX = vec1.x - posX, vecY = vec1.z - posY, vecZ = vec1.y - posZ;
 
@@ -429,12 +420,10 @@ public class LuaLibRender {
 			float flRadius1 = (float) l.checkNumber(2);
 			int iSlices = l.checkInteger(3, 24);
 
-			double posX = client.player.lastTickPosX
-					+ (client.player.posX - client.player.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = client.player.lastTickPosY
-					+ (client.player.posY - client.player.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = client.player.lastTickPosZ
-					+ (client.player.posZ - client.player.lastTickPosZ) * client.timer.renderPartialTicks;
+			EntityPlayerSP player = client.player;
+			double posX = player.prevPosX + (player.posX - player.prevPosX) * client.timer.renderPartialTicks;
+			double posY = player.prevPosY + (player.posY - player.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = player.prevPosZ + (player.posZ - player.prevPosZ) * client.timer.renderPartialTicks;
 
 			double vecX = vec1.x - posX, vecY = vec1.z - posY, vecZ = vec1.y - posZ;
 

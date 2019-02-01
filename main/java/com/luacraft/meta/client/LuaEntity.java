@@ -23,11 +23,27 @@ public class LuaEntity {
 	public static JavaFunction GetPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
-			double posX = self.lastTickPosX + (self.posX - self.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = self.lastTickPosY + (self.posY - self.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = self.lastTickPosZ + (self.posZ - self.lastTickPosZ) * client.timer.renderPartialTicks;
-
+			double posX = self.prevPosX + (self.posX - self.prevPosX) * client.timer.renderPartialTicks;
+			double posY = self.prevPosY + (self.posY - self.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = self.prevPosZ + (self.posZ - self.prevPosZ) * client.timer.renderPartialTicks;
 			Vector pos = new Vector(posX, posZ, posY);
+			pos.push(l);
+			return 1;
+		}
+	};
+
+	/**
+	 * @author Jake
+	 * @function GetServerPos
+	 * @info Returns the entity position on the server
+	 * @arguments nil
+	 * @return [[Vector]]:pos
+	 */
+
+	public static JavaFunction GetServerPos = new JavaFunction() {
+		public int invoke(LuaState l) {
+			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
+			Vector pos = new Vector(self.serverPosX, self.serverPosZ, self.serverPosY);
 			pos.push(l);
 			return 1;
 		}
@@ -36,7 +52,7 @@ public class LuaEntity {
 	/**
 	 * @author Gregor
 	 * @function GetEyePos
-	 * @info Returns the entitys eye position
+	 * @info Returns the entity's eye position
 	 * @arguments nil
 	 * @return [[Vector]]:pos
 	 */
@@ -44,10 +60,9 @@ public class LuaEntity {
 	public static JavaFunction GetEyePos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
-			double posX = self.lastTickPosX + (self.posX - self.lastTickPosX) * client.timer.renderPartialTicks;
-			double posY = self.lastTickPosY + (self.posY - self.lastTickPosY) * client.timer.renderPartialTicks;
-			double posZ = self.lastTickPosZ + (self.posZ - self.lastTickPosZ) * client.timer.renderPartialTicks;
-
+			double posX = self.prevPosX + (self.posX - self.prevPosX) * client.timer.renderPartialTicks;
+			double posY = self.prevPosY + (self.posY - self.prevPosY) * client.timer.renderPartialTicks;
+			double posZ = self.prevPosZ + (self.posZ - self.prevPosZ) * client.timer.renderPartialTicks;
 			Vector pos = new Vector(posX, posZ, posY + self.getEyeHeight());
 			pos.push(l);
 			return 1;
@@ -59,6 +74,8 @@ public class LuaEntity {
 		{
 			l.pushJavaFunction(GetPos);
 			l.setField(-2, "GetPos");
+			l.pushJavaFunction(GetServerPos);
+			l.setField(-2, "GetServerPos");
 			l.pushJavaFunction(GetEyePos);
 			l.setField(-2, "GetEyePos");
 		}
