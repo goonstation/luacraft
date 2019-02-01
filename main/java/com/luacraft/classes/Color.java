@@ -23,6 +23,13 @@ public class Color implements LuaUserdata {
 		a = alpha;
 	}
 
+	public Color(int red, int green, int blue) {
+		r = red;
+		g = green;
+		b = blue;
+		a = 255;
+	}
+
 	public void push(LuaState l) {
 		l.pushUserdataWithMeta(this, "Color");
 	}

@@ -15,14 +15,13 @@ end
 function table.Print(tbl, indent, done)
 	done = done or {[tbl] = true}
 	indent = indent or 0
-   
 	for k, v in pairs(tbl) do
 		if (type(v) == "table" and not done[v]) then
-			print(string.rep("\t", indent) .. tostring(k))
+			console.print(string.rep("\t", indent), k)
 			done[v] = true
 			table.Print(v, indent + 2, done)
 		else
-			print(string.rep("\t", indent) .. tostring(k) .. "\t=\t" .. tostring(v))
+			console.print(string.rep("\t", indent), k, "\t=\t", v)
 		end
 	end
 end

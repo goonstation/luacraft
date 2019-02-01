@@ -27,7 +27,7 @@ public class ConsoleTextPane extends JTextPane
     /**
      * Maximum size of the document
      */
-    private int maxDocSize = 1024;
+    private int maxDocSize = 1024 * 10;
 
     /**
      * Prevent multiple swing threads from being created
