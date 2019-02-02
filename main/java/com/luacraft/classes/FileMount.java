@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,15 +27,29 @@ public class FileMount {
 	}
 
 	/**
+	 * Add an external directory to the mount
+	 * @param path Directory name
+	 */
+	public static boolean MountExternalDirectory(String path) {
+		File dir = new File(path);
+		if (!dir.isDirectory())
+			return false;
+
+		mounted.add(dir);
+		return true;
+	}
+
+	/**
 	 * Add directory to the mount
 	 * @param path Directory name
 	 */
-	public static void MountDirectory(String path) {
+	public static boolean MountDirectory(String path) {
 		File dir = GetFileInRoot(path);
 		if (!dir.isDirectory())
-			return;
+			return false;
 
 		mounted.add(dir);
+		return true;
 	}
 
 	/**
@@ -117,6 +131,10 @@ public class FileMount {
 	
 	public static FileInputStream GetFileInputStream(String file) throws FileNotFoundException {
 		return new FileInputStream(GetFile(file));
+	}
+	
+	public static FileOutputStream GetFileOutputStream(String file) throws FileNotFoundException {
+		return new FileOutputStream(GetFile(file));
 	}
 
 	/**

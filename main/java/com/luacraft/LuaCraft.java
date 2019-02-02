@@ -10,13 +10,14 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.luacraft.classes.FileMount;
+import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.LuaJavaChannel;
 import com.luacraft.classes.LuaJavaRunCommand;
 import com.luacraft.console.ConsoleManager;
@@ -59,8 +60,6 @@ public class LuaCraft {
 	private static Logger luaLogger;
 	private static LuaLoader luaLoader = new LuaLoader(rootDir);
 	public static HashMap<Side, LuaCraftState> luaStates = new HashMap<Side, LuaCraftState>();
-	
-	private static ArrayList<File> csLuaFiles = new ArrayList<File>();
 
 	public static FMLEventChannel channel = null;
 
@@ -90,6 +89,13 @@ public class LuaCraft {
 		FileMount.CreateDirectories("lua\\autorun\\server");
 		FileMount.CreateDirectories("lua\\autorun\\shared");
 
+		ConsoleManager.create();
+		try {
+			LuaCache.initialize();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		LuaAddonManager.initialize();
 		LuaResourcePackLoader.initialize();
 	}
@@ -101,8 +107,6 @@ public class LuaCraft {
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(NET_CHANNEL);
 		
 		MinecraftForge.EVENT_BUS.register(config);
-
-		ConsoleManager.create();
 
 		if (event.getSide() == Side.CLIENT) {
 			LuaClient luaState = new LuaClient();
@@ -131,7 +135,7 @@ public class LuaCraft {
 	}
 
 	@EventHandler
-	public void serverStarting(FMLServerStartingEvent event) {
+	public void serverStarting(FMLServerStartingEvent event) {		
 		event.registerServerCommand(new LuaJavaRunCommand());
 
 		if (event.getSide().isClient() && luaStates.get(Side.SERVER) == null) {
@@ -187,10 +191,6 @@ public class LuaCraft {
 
 		return in;
 	}
-	
-	public static void addCSLuaFile(String file) throws FileNotFoundException {
-		csLuaFiles.add(FileMount.GetFile(file));
-	}
 
 	public static File extractFile(String strFrom, String strTo) {
 		File extractedFile = new File(rootDir, strTo);
@@ -238,7 +238,7 @@ public class LuaCraft {
 
 	public static void reloadServerState() {
 		LuaServer state = (LuaServer) getLuaState(Side.SERVER);
-
+		
 		synchronized (state) {
 			state.runScripts();
 		}

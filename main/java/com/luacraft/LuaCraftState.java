@@ -19,7 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.server.FMLServerHandler;
 
@@ -269,8 +268,6 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 		System.out.printf(output = String.format("%-20s| %s\n%s\n", mark + "INDEX", "VALUE", stackContents));
 		print(output);
 	}
-
-
 
 	public void autorun() {
 		autorun("");

@@ -1,18 +1,13 @@
 package com.luacraft.library;
 
-import java.net.URL;
-
 import com.luacraft.LuaCraft;
 import com.luacraft.LuaCraftState;
 import com.luacraft.classes.Color;
-import com.luacraft.classes.LuaJavaHTTPRequest;
 import com.luacraft.console.ConsoleManager;
 import com.luacraft.console.ConsoleManager.MessageCallbacks;
 import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaState;
 import com.naef.jnlua.LuaType;
-
-import net.minecraft.util.text.TextFormatting;
 
 public class LuaLibConsole {
 	

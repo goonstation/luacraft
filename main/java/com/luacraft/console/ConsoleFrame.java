@@ -10,6 +10,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
@@ -23,6 +24,7 @@ import javax.swing.SwingUtilities;
 
 import com.luacraft.LuaCraft;
 import com.luacraft.LuaCraftState;
+import com.luacraft.classes.CommandLineParser;
 import com.luacraft.classes.FileMount;
 import com.luacraft.library.LuaLibConsole;
 import com.naef.jnlua.LuaException;
@@ -173,6 +175,19 @@ public class ConsoleFrame extends JFrame
                 return null;
         }
     }
+    
+    private void reloadSelectedTabSide() {
+        switch(getSelectedTabSide()) {
+		case CLIENT:
+			LuaCraft.reloadClientState();
+			break;
+		case SERVER:
+			LuaCraft.reloadServerState();
+			break;
+		default:
+			break;
+        }
+    }
 
     /**
      * Searches lua state for correlating side
@@ -214,16 +229,38 @@ public class ConsoleFrame extends JFrame
      * @param input luacode/commands
      */
     private void processInput(String input) {
-        if(input.startsWith("=")) {
-            // Maybe I can do something later
-            String command = input.substring(1);
+        if(input.startsWith("/")) {            
+        	List<String> args = CommandLineParser.parse(input.substring(1));
+        	
+        	String command = args.remove(0);
+        	
             if(command.equals("hide")) {
                 setVisible(false);
             } else if(command.equals("mounted")) {
                 addTextToCurrentSelection("Mounted folders:", Color.WHITE);
+                addTextToCurrentSelection(String.format("\t%s", FileMount.GetRoot().getAbsolutePath()), Color.WHITE);
                 for(File file : FileMount.GetMountedDirectories()) {
-                    addTextToCurrentSelection(String.format("\t%s", file.getName()), Color.WHITE);
+                    addTextToCurrentSelection(String.format("\t%s", file.getAbsolutePath()), Color.WHITE);
                 }
+            } else if (command.equals("reload")) {
+            	reloadSelectedTabSide();
+            } else if (command.equals("connect")) {
+            	if (args.size() <= 0) {
+            		addTextToCurrentSelection("/connect <address[:port]>", Color.WHITE);
+            		return;
+            	}
+            	String server[] = args.get(0).split(":");
+            	
+            	String address = server[0];
+            	int port = server.length >= 2 ? Integer.parseInt(server[1]) : 25565;
+            	
+            	addTextToCurrentSelection("Connecting to " + address + ":" + port, Color.WHITE);
+            	
+            	try {
+            		LuaCraft.getForgeClient().connectToServerAtStartup(address, port);
+            	} catch (Exception e) {
+            		addTextToCurrentSelection(e.getLocalizedMessage(), Color.RED);
+            	}
             }
         } else {
             LuaCraftState state = getSelectedLuaState();

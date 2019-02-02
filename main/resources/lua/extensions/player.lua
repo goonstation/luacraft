@@ -7,7 +7,7 @@
 
 local Player = FindMetaTable( "Player" )
 
-local pdata = sql.Connect( ("jdbc:sqlite:%s.db"):format( SERVER and "sv" or "cl" ) )
+local pdata = sql.Connect( ("jdbc:sqlite:luacraft/%s.db"):format( SERVER and "sv" or "cl" ) )
 if pdata then
 	pdata:Query( "CREATE TABLE IF NOT EXISTS playerpdata ( infoid TEXT NOT NULL PRIMARY KEY, value TEXT )" ):Start()
 

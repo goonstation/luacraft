@@ -1,15 +1,15 @@
 package com.luacraft.library;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 
 import com.luacraft.LuaCraftState;
 import com.luacraft.classes.Angle;
 import com.luacraft.classes.Color;
 import com.luacraft.classes.FileMount;
+import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.Vector;
 import com.luacraft.meta.LuaObject;
 import com.naef.jnlua.JavaFunction;
@@ -264,19 +264,26 @@ public class LuaGlobals {
 
 	private static JavaFunction loadfileInternal = new JavaFunction() {
 		public int invoke(LuaState l) {
-			String fileName = "lua/" + l.checkString(1);
+			String file = l.checkString(1);
+			String fullpath = "lua/" + file;
 
-			if (!fileName.endsWith(".lua"))
+			if (!fullpath.endsWith(".lua"))
 				throw new LuaRuntimeException("File must be a Lua file");
 
-			InputStream in;
+			InputStream in = null;
 			try {
-				in = FileMount.GetFileInputStream(fileName);
-			} catch (FileNotFoundException e) {
-				throw new LuaRuntimeException("Cannot open " + fileName + ": No such file or directory");
+				in = LuaCache.getFileInputStream(file);
+				if (in != null) ((LuaCraftState) l).info("Using cache for file: " + fullpath);
+			} catch (SQLException | IOException e) {
+				throw new LuaRuntimeException("Cannot open cached file: " + e.getLocalizedMessage());
 			}
 			try {
-				l.load(in, fileName);
+				if (in == null) in = FileMount.GetFileInputStream(fullpath);
+			} catch (FileNotFoundException e) {
+				throw new LuaRuntimeException("Cannot open " + fullpath + ": No such file or directory");
+			}
+			try {
+				l.load(in, fullpath);
 			} catch (IOException e) {
 				throw new LuaRuntimeException(e.getMessage());
 			}

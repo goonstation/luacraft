@@ -1,14 +1,13 @@
 package com.luacraft.library.server;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.sql.SQLException;
 
 import com.luacraft.LuaCraft;
 import com.luacraft.LuaCraftState;
 import com.luacraft.LuaUserdata;
-import com.luacraft.classes.FileMount;
+import com.luacraft.classes.LuaCache;
 import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaState;
@@ -22,15 +21,15 @@ public class LuaGlobals {
 
 	public static JavaFunction AddCSLuaFile = new JavaFunction() {
 		public int invoke(LuaState l) {
-			String fileName = "lua/" + l.checkString(1);
+			String fileName = l.checkString(1);
 
 			if (!fileName.endsWith(".lua"))
 				throw new LuaRuntimeException("File must be a Lua file");
 			
 			try {
-				LuaCraft.addCSLuaFile(fileName);
-			} catch (FileNotFoundException e) {
-				throw new LuaRuntimeException("Cannot open " + fileName + ": No such file or directory");
+				LuaCache.addCSLuaFile(fileName);
+			} catch (IOException | SQLException e) {
+				throw new LuaRuntimeException("Cannot AddCSLuaFile " + e.getLocalizedMessage());
 			}
 			return 0;
 		}
