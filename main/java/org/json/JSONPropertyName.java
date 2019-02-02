@@ -1,7 +1,7 @@
 package org.json;
 
 /*
-Copyright (c) 2002 JSON.org
+Copyright (c) 2018 JSON.org
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -24,56 +24,24 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
+import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.Target;
+
+@Documented
+@Retention(RUNTIME)
+@Target({ METHOD })
 /**
- * The HTTPTokener extends the JSONTokener to provide additional methods for the
- * parsing of HTTP headers.
- * 
- * @author JSON.org
- * @version 2015-12-09
+ * Use this annotation on a getter method to override the Bean name parser for
+ * Bean -&gt; JSONObject mapping. A value set to empty string <code>""</code>
+ * will have the Bean parser fall back to the default field name processing.
  */
-public class HTTPTokener extends JSONTokener {
-
+public @interface JSONPropertyName {
 	/**
-	 * Construct an HTTPTokener from a string.
-	 * 
-	 * @param string A source string.
+	 * @return The name of the property as to be used in the JSON Object.
 	 */
-	public HTTPTokener(String string) {
-		super(string);
-	}
-
-	/**
-	 * Get the next token or string. This is used in parsing HTTP headers.
-	 * 
-	 * @throws JSONException
-	 * @return A String.
-	 */
-	public String nextToken() throws JSONException {
-		char c;
-		char q;
-		StringBuilder sb = new StringBuilder();
-		do {
-			c = next();
-		} while (Character.isWhitespace(c));
-		if (c == '"' || c == '\'') {
-			q = c;
-			for (;;) {
-				c = next();
-				if (c < ' ') {
-					throw syntaxError("Unterminated string.");
-				}
-				if (c == q) {
-					return sb.toString();
-				}
-				sb.append(c);
-			}
-		}
-		for (;;) {
-			if (c == 0 || Character.isWhitespace(c)) {
-				return sb.toString();
-			}
-			sb.append(c);
-			c = next();
-		}
-	}
+	String value();
 }

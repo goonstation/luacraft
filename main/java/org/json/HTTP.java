@@ -1,36 +1,36 @@
 package org.json;
 
 /*
- Copyright (c) 2002 JSON.org
+Copyright (c) 2002 JSON.org
 
- Permission is hereby granted, free of charge, to any person obtaining a copy
- of this software and associated documentation files (the "Software"), to deal
- in the Software without restriction, including without limitation the rights
- to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- copies of the Software, and to permit persons to whom the Software is
- furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
- The above copyright notice and this permission notice shall be included in all
- copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
- The Software shall be used for Good, not Evil.
+The Software shall be used for Good, not Evil.
 
- THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- SOFTWARE.
- */
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
-import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * Convert an HTTP header to a JSONObject and back.
  * 
  * @author JSON.org
- * @version 2010-12-24
+ * @version 2015-12-09
  */
 public class HTTP {
 
@@ -92,9 +92,9 @@ public class HTTP {
 		String token;
 
 		token = x.nextToken();
-		if (token.toUpperCase().startsWith("HTTP")) {
+		if (token.toUpperCase(Locale.ROOT).startsWith("HTTP")) {
 
-			// Response
+// Response
 
 			jo.put("HTTP-Version", token);
 			jo.put("Status-Code", x.nextToken());
@@ -103,14 +103,14 @@ public class HTTP {
 
 		} else {
 
-			// Request
+// Request
 
 			jo.put("Method", token);
 			jo.put("Request-URI", x.nextToken());
 			jo.put("HTTP-Version", x.nextToken());
 		}
 
-		// Fields
+// Fields
 
 		while (x.more()) {
 			String name = x.nextTo(':');
@@ -150,9 +150,7 @@ public class HTTP {
 	 * @throws JSONException if the object does not contain enough information.
 	 */
 	public static String toString(JSONObject jo) throws JSONException {
-		Iterator keys = jo.keys();
-		String string;
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		if (jo.has("Status-Code") && jo.has("Reason-Phrase")) {
 			sb.append(jo.getString("HTTP-Version"));
 			sb.append(' ');
@@ -171,13 +169,14 @@ public class HTTP {
 			throw new JSONException("Not enough material for an HTTP header.");
 		}
 		sb.append(CRLF);
-		while (keys.hasNext()) {
-			string = keys.next().toString();
-			if (!string.equals("HTTP-Version") && !string.equals("Status-Code") && !string.equals("Reason-Phrase")
-					&& !string.equals("Method") && !string.equals("Request-URI") && !jo.isNull(string)) {
-				sb.append(string);
+		// Don't use the new entrySet API to maintain Android support
+		for (final String key : jo.keySet()) {
+			String value = jo.optString(key);
+			if (!"HTTP-Version".equals(key) && !"Status-Code".equals(key) && !"Reason-Phrase".equals(key)
+					&& !"Method".equals(key) && !"Request-URI".equals(key) && !JSONObject.NULL.equals(value)) {
+				sb.append(key);
 				sb.append(": ");
-				sb.append(jo.getString(string));
+				sb.append(jo.optString(key));
 				sb.append(CRLF);
 			}
 		}
