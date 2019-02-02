@@ -38,7 +38,8 @@ public class HTTP {
 	public static final String CRLF = "\r\n";
 
 	/**
-	 * Convert an HTTP header string into a JSONObject. It can be a request header or a response header. A request header will contain
+	 * Convert an HTTP header string into a JSONObject. It can be a request header
+	 * or a response header. A request header will contain
 	 * 
 	 * <pre>
 	 * {
@@ -58,7 +59,8 @@ public class HTTP {
 	 * }
 	 * </pre>
 	 * 
-	 * In addition, the other parameters in the header will be captured, using the HTTP field names as JSON names, so that
+	 * In addition, the other parameters in the header will be captured, using the
+	 * HTTP field names as JSON names, so that
 	 * 
 	 * <pre>
 	 *    Date: Sun, 26 May 2002 18:06:04 GMT
@@ -76,11 +78,12 @@ public class HTTP {
 	 * ...}
 	 * </pre>
 	 * 
-	 * It does no further checking or conversion. It does not parse dates. It does not do '%' transforms on URLs.
+	 * It does no further checking or conversion. It does not parse dates. It does
+	 * not do '%' transforms on URLs.
 	 * 
-	 * @param string
-	 *            An HTTP header string.
-	 * @return A JSONObject containing the elements and attributes of the XML string.
+	 * @param string An HTTP header string.
+	 * @return A JSONObject containing the elements and attributes of the XML
+	 *         string.
 	 * @throws JSONException
 	 */
 	public static JSONObject toJSONObject(String string) throws JSONException {
@@ -139,13 +142,12 @@ public class HTTP {
 	 * }
 	 * </pre>
 	 * 
-	 * Any other members of the JSONObject will be output as HTTP fields. The result will end with two CRLF pairs.
+	 * Any other members of the JSONObject will be output as HTTP fields. The result
+	 * will end with two CRLF pairs.
 	 * 
-	 * @param jo
-	 *            A JSONObject
+	 * @param jo A JSONObject
 	 * @return An HTTP header string.
-	 * @throws JSONException
-	 *             if the object does not contain enough information.
+	 * @throws JSONException if the object does not contain enough information.
 	 */
 	public static String toString(JSONObject jo) throws JSONException {
 		Iterator keys = jo.keys();
