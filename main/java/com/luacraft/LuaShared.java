@@ -130,7 +130,7 @@ public class LuaShared extends LuaCraftState {
 		load("io.stderr:setvbuf('no')", "=LuaShared.LoadLibraries");
 		call(0, 0);
 
-		String lua = LuaCraft.getRootLuaDirectory();
+		String lua = LuaCraft.getLuaDirectory();
 
 		// Set the package path to the correct location
 		getGlobal("package");

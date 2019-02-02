@@ -7,9 +7,14 @@ import java.util.TreeMap;
 
 import com.luacraft.classes.FileMount;
 
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 /**
  * This will find all custom assets and mount them to a dummy LuaCraft
  */
+
+@SideOnly(Side.CLIENT)
 public class LuaResourcePackLoader {
     private static final Map<String,LuaResourcePack> resources = new HashMap<>();
     private static final File jarFolder = FileMount.GetFileInRoot("jars");

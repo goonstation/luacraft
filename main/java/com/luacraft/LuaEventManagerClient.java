@@ -10,6 +10,7 @@ import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.client.event.RenderPlayerEvent;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class LuaEventManagerClient {
@@ -326,6 +327,43 @@ public class LuaEventManagerClient {
 				} catch (LuaRuntimeException e) {
 					l.handleLuaRuntimeError(e);
 				}
+			}
+		}
+	}
+
+	/**
+	 * @author fr1kin
+	 * @function player.tooltip
+	 * @info Called when the items tool tip is requested
+	 * @arguments [[Player]]:player, [[ItemStack]]:item, [[bool]]:advancedtip, [[table]]:tip
+	 * @return
+	 */
+	@SubscribeEvent
+	public void onItemTooltip(ItemTooltipEvent event) {
+		synchronized (l) {
+			if (!l.isOpen())
+				return;
+
+			try {
+				l.pushHookCall();
+				l.pushString("player.tooltip");
+				LuaUserdata.PushUserdata(l, event.getEntityPlayer());
+				LuaUserdata.PushUserdata(l, event.getItemStack());
+				l.pushBoolean(event.getFlags().isAdvanced());
+				l.newTable();
+				{
+					for(int i = 0; i < event.getToolTip().size(); i++) {
+						l.pushInteger(i + 1);
+						l.pushString(event.getToolTip().get(i));
+						l.setTable(-3);
+					}
+				}
+				l.call(5, 0);
+
+			} catch (LuaRuntimeException e) {
+				l.handleLuaRuntimeError(e);
+			} finally {
+				l.setTop(0);
 			}
 		}
 	}

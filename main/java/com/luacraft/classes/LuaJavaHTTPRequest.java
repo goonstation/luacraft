@@ -28,7 +28,6 @@ public class LuaJavaHTTPRequest extends Thread {
 	public LuaJavaHTTPRequest(LuaState luaState, URL requestURL, int index) throws IOException {
 		l = luaState;
 		callbackRef = newCallbackRef(index);
-
 		connection = (HttpURLConnection) requestURL.openConnection();
 	}
 

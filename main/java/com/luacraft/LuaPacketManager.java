@@ -26,13 +26,11 @@ public class LuaPacketManager {
 		synchronized (l) {
 			if (!l.isOpen())
 				return;
-			
-			EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).player;
 
 			try {
 				l.pushHookCall();
 				l.pushString("client.connect");
-				l.pushUserdataWithMeta(player, "Player");
+				l.pushUserdataWithMeta(((NetHandlerPlayServer) event.getHandler()).player, "Player");
 				l.pushBoolean(event.isLocal());
 				l.pushString(event.getConnectionType());
 				l.call(3, 0);
@@ -46,17 +44,14 @@ public class LuaPacketManager {
 	
 	@SubscribeEvent
 	public void onClientDisconnectFromServer(ClientDisconnectionFromServerEvent event) {
-
 		synchronized (l) {
 			if (!l.isOpen())
 				return;
 			
-			EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).player;
-			
 			try {
 				l.pushHookCall();
 				l.pushString("client.disconnect");
-				l.pushUserdataWithMeta(player, "Player");
+				l.pushUserdataWithMeta(((NetHandlerPlayServer) event.getHandler()).player, "Player");
 				l.call(2, 0);
 			} catch (LuaRuntimeException e) {
 				l.handleLuaRuntimeError(e);
@@ -72,12 +67,10 @@ public class LuaPacketManager {
 			if (!l.isOpen())
 				return;
 			
-			EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).player;
-			
 			try {
 				l.pushHookCall();
 				l.pushString("client.connect");
-				l.pushUserdataWithMeta(player, "Player");
+				l.pushUserdataWithMeta(((NetHandlerPlayServer) event.getHandler()).player, "Player");
 				l.pushBoolean(event.isLocal());
 				l.call(2, 0);
 			} catch (LuaRuntimeException e) {
@@ -90,7 +83,6 @@ public class LuaPacketManager {
 	
 	@SubscribeEvent
 	public void onClientDisconnectFromServer(ServerDisconnectionFromClientEvent event) {
-
 		synchronized (l) {
 			if (!l.isOpen())
 				return;
@@ -129,6 +121,19 @@ public class LuaPacketManager {
 						byte[] data = buffer.readByteArray();
 						l.downloadLuaFile(file, data);
 						return;
+					} else if (func.equals("LuaCacheSync")) {
+						l.warning("Received LuaCacheSync");
+						
+						int numFiles = buffer.readVarInt();
+						
+						l.info("Files: " + numFiles);
+						
+						for (int i = 1; i <= numFiles; i++) {
+							String file = buffer.readString(32767);
+							String hash = buffer.readString(32767);
+
+							l.info("\t" + file + ": " + hash);
+						}
 					}
 	
 					buffer.readerIndex(0);

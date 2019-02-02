@@ -28,7 +28,7 @@ public class ConsoleManager
     {
         if(console == null) {
             console = new ConsoleFrame("LuaCraft Console");
-            console.setLuaStatesMap(LuaCraft.luaStates);
+            console.setLuaStatesMap(LuaCraft.states);
             onConfigChange();
         }
     }

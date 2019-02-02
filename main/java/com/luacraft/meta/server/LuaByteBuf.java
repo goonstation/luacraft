@@ -58,7 +58,7 @@ public class LuaByteBuf {
 	public static JavaFunction Broadcast = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
-			SPacketCustomPayload packet = new SPacketCustomPayload("LuaCraft", self);
+			SPacketCustomPayload packet = new SPacketCustomPayload(LuaCraft.NET_CHANNEL, self);
 
 			if (l.isNumber(2))
 				server.getPlayerList().sendPacketToAllPlayersInDimension(packet, l.toInteger(2));

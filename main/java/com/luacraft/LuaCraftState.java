@@ -89,6 +89,7 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 	}
 	
 	public void printSide(String str) {
+		LuaCraft.getLogger().info(str);
 		ConsoleManager.get(side).print(str);
 	}
 
@@ -113,9 +114,7 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 	}
 	
 	public void depricated() {
-		String msg = "Function " + lua_funcname() + " is depricated and no longer functions correctly";
-		LuaCraft.getLogger().warn(msg);
-		ConsoleManager.get(side).onWarning(msg);
+		warning("Function " + lua_funcname() + " is depricated and no longer functions correctly");
 	}
 
 	public String getCallSource() {

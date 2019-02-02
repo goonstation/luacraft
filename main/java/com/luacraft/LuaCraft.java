@@ -2,8 +2,6 @@ package com.luacraft;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -49,41 +47,30 @@ public class LuaCraft {
 	public static final String MODID = "luacraft";
 	public static final String VERSION = "1.3";
 	public static final String DEFAULT_RESOURCEPACK = "luacraftassets";
-	
 	public static final String NET_CHANNEL = "LuaCraft:net";
 	
-	public static HashMap<String, LuaJavaChannel> threadChannels = new HashMap<String, LuaJavaChannel>();
-
-	public static String luaDir = "lua" + File.separator;
-	public static String rootDir = System.getProperty("user.dir") + File.separator;
-
-	private static Logger luaLogger;
-	private static LuaLoader luaLoader = new LuaLoader(rootDir);
-	public static HashMap<Side, LuaCraftState> luaStates = new HashMap<Side, LuaCraftState>();
-
-	public static FMLEventChannel channel = null;
-
+	public static FMLEventChannel channel;
+	private static Logger logger;
 	public static LuaConfig config;
 
-	public static FMLClientHandler getForgeClient() {
-		return FMLClientHandler.instance();
-	}
+	public static String rootDir = System.getProperty("user.dir") + File.separator + "luacraft" + File.separator;
 	
-	@SideOnly(Side.CLIENT)
-	public static net.minecraft.client.Minecraft getClient() {
-		return getForgeClient().getClient();
-	}
+	public static HashMap<String, LuaJavaChannel> threadChannels = new HashMap<String, LuaJavaChannel>();
+	public static HashMap<Side, LuaCraftState> states = new HashMap<Side, LuaCraftState>();
+	private static LuaLoader loader = new LuaLoader(rootDir);
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		NativeSupport.getInstance().setLoader(loader);
+		
 		ModContainer modContainer = FMLCommonHandler.instance().findContainerFor(this);
-		luaLogger = LogManager.getLogger(modContainer.getName());
-
+		
+		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(NET_CHANNEL);
+		logger = LogManager.getLogger(modContainer.getName());
 		config = new LuaConfig(event.getSuggestedConfigurationFile());
 
-		FileMount.SetRoot(rootDir + "luacraft");
+		FileMount.SetRoot(rootDir);
 		FileMount.CreateDirectories("addons");
-		FileMount.CreateDirectories("downloads");
 		FileMount.CreateDirectories("jars");
 		FileMount.CreateDirectories("lua\\autorun\\client");
 		FileMount.CreateDirectories("lua\\autorun\\server");
@@ -97,56 +84,53 @@ public class LuaCraft {
 			e.printStackTrace();
 		}
 		LuaAddonManager.initialize();
-		LuaResourcePackLoader.initialize();
+		if (event.getSide() == Side.CLIENT)
+			LuaResourcePackLoader.initialize();
 	}
-
+	
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		NativeSupport.getInstance().setLoader(luaLoader);
-		
-		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(NET_CHANNEL);
-		
 		MinecraftForge.EVENT_BUS.register(config);
 
 		if (event.getSide() == Side.CLIENT) {
-			LuaClient luaState = new LuaClient();
-			synchronized (luaState) {
-				luaState.initialize(true);
-				luaState.runScripts();
+			LuaClient state = new LuaClient();
+			synchronized (state) {
+				state.initialize(true);
+				state.runScripts();
 			}
-			synchronized (luaStates) {
-				luaStates.put(Side.CLIENT, luaState);
+			synchronized (states) {
+				states.put(Side.CLIENT, state);
 			}
 		} else {
-			LuaServer luaState = new LuaServer();
-			synchronized (luaState) {
-				luaState.initialize(true);
-				luaState.runScripts();
+			LuaServer state = new LuaServer();
+			synchronized (state) {
+				state.initialize(true);
+				state.runScripts();
 			}
-			synchronized (luaStates) {
-				luaStates.put(Side.SERVER, luaState);
+			synchronized (states) {
+				states.put(Side.SERVER, state);
 			}
 		}
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		luaLogger.info(rootDir);
+		logger.info(rootDir);
 	}
 
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event) {		
 		event.registerServerCommand(new LuaJavaRunCommand());
 
-		if (event.getSide().isClient() && luaStates.get(Side.SERVER) == null) {
-			LuaServer luaState = new LuaServer();
-			synchronized (luaState) {
-				luaState.setRunningSide(Side.CLIENT); // Singleplayer fix.. the server is running on the client
-				luaState.initialize(true);
-				luaState.runScripts();
+		if (event.getSide().isClient() && states.get(Side.SERVER) == null) {
+			LuaServer state = new LuaServer();
+			synchronized (state) {
+				state.setRunningSide(Side.CLIENT); // Singleplayer fix.. the server is running on the client
+				state.initialize(true);
+				state.runScripts();
 			}
-			synchronized (luaStates) {
-				luaStates.put(Side.SERVER, luaState);
+			synchronized (states) {
+				states.put(Side.SERVER, state);
 			}
 		}
 	}
@@ -157,39 +141,34 @@ public class LuaCraft {
 
 	@EventHandler
 	public void serverStopping(FMLServerStoppingEvent event) {
-		LuaCraftState luaState = luaStates.get(Side.SERVER);
-		synchronized (luaState) {
-			if (event.getSide().isClient() && luaState != null) {
-				luaState.close();
-				luaStates.remove(Side.SERVER);
+		LuaCraftState state = states.get(Side.SERVER);
+		synchronized (state) {
+			if (event.getSide().isClient() && state != null) {
+				state.close();
+				states.remove(Side.SERVER);
 			}
 		}
 	}
+	
+	public static FMLClientHandler getForgeClient() {
+		return FMLClientHandler.instance();
+	}
+	
+	@SideOnly(Side.CLIENT)
+	public static net.minecraft.client.Minecraft getClient() {
+		return getForgeClient().getClient();
+	}
 
 	public static Logger getLogger() {
-		return luaLogger;
+		return logger;
 	}
 
 	public static LuaCraftState getLuaState(Side side) {
-		return luaStates.get(side);
+		return states.get(side);
 	}
 
-	public static String getMinecraftDirectory() {
-		return rootDir;
-	}
-
-	public static String getRootLuaDirectory() {
-		return getMinecraftDirectory() + luaDir;
-	}
-
-	public static InputStream getPackedFileInputStream(String file) throws FileNotFoundException {
-		InputStream in = null;
-		if (luaLoader.isEclipse)
-			in = new FileInputStream(new File(rootDir, "../src/main/resources/" + file));
-		else
-			in = LuaCraft.class.getResourceAsStream('/' + file);
-
-		return in;
+	public static InputStream getPackedFileInputStream(String file) {
+		return LuaCraft.class.getResourceAsStream('/' + file);
 	}
 
 	public static File extractFile(String strFrom, String strTo) {
@@ -204,11 +183,10 @@ public class LuaCraft {
 		int readBytes;
 		byte[] buffer = new byte[1024];
 
-		InputStream fileInStream = null;
+		InputStream fileInStream = getPackedFileInputStream(strFrom);
 		OutputStream fileOutStream = null;
 
 		try {
-			fileInStream = getPackedFileInputStream(strFrom);
 			fileOutStream = new FileOutputStream(extractedFile);
 
 			while ((readBytes = fileInStream.read(buffer)) != -1)
@@ -267,5 +245,9 @@ public class LuaCraft {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	public static String getLuaDirectory() {
+		return rootDir + "lua" + File.separator;
 	}
 }

@@ -51,7 +51,6 @@ import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.BonemealEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.FillBucketEvent;
-import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerDestroyItemEvent;
 import net.minecraftforge.event.entity.player.PlayerDropsEvent;
@@ -1507,43 +1506,6 @@ public class LuaEventManager {
 
 	/**
 	 * @author fr1kin
-	 * @function player.tooltip
-	 * @info Called when the items tool tip is requested
-	 * @arguments [[Player]]:player, [[ItemStack]]:item, [[bool]]:advancedtip, [[table]]:tip
-	 * @return
-	 */
-	@SubscribeEvent
-	public void onItemTooltip(ItemTooltipEvent event) {
-		synchronized (l) {
-			if (!l.isOpen())
-				return;
-
-			try {
-				l.pushHookCall();
-				l.pushString("player.tooltip");
-				LuaUserdata.PushUserdata(l, event.getEntityPlayer());
-				LuaUserdata.PushUserdata(l, event.getItemStack());
-				l.pushBoolean(event.getFlags().isAdvanced());
-				l.newTable();
-				{
-					for(int i = 0; i < event.getToolTip().size(); i++) {
-						l.pushInteger(i + 1);
-						l.pushString(event.getToolTip().get(i));
-						l.setTable(-3);
-					}
-				}
-				l.call(5, 0);
-
-			} catch (LuaRuntimeException e) {
-				l.handleLuaRuntimeError(e);
-			} finally {
-				l.setTop(0);
-			}
-		}
-	}
-
-	/**
-	 * @author fr1kin
 	 * @function player.flyablefall
 	 * @info Called when a player falls but can fly
 	 * @arguments [[Player]]:player, [[number]]:distance, [[number]]:multiplier
@@ -2486,7 +2448,7 @@ public class LuaEventManager {
 				l.pushHookCall();
 				l.pushString("entity.playsound");
 				LuaUserdata.PushUserdata(l, event.getEntity());
-				l.pushString(event.getSound().getSoundName().toString());
+				l.pushString(event.getSound().toString());
 				l.pushString(event.getCategory().getName());
 				l.pushNumber(event.getDefaultVolume());
 				l.pushNumber(event.getDefaultPitch());

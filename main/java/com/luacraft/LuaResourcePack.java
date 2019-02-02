@@ -32,10 +32,14 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.MetadataSerializer;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 /**
  * Used for mounting assets to a jar file so that Minecraft can read it
  */
+
+@SideOnly(Side.CLIENT)
 public class LuaResourcePack implements IResourcePack {
     private File jarFile;
     private JarOutputStream stream;
