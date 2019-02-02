@@ -49,6 +49,8 @@ public class LuaCraft {
 	public static final String VERSION = "1.3";
 	public static final String DEFAULT_RESOURCEPACK = "luacraftassets";
 	
+	public static final String NET_CHANNEL = "LuaCraft:net";
+	
 	public static HashMap<String, LuaJavaChannel> threadChannels = new HashMap<String, LuaJavaChannel>();
 
 	public static String luaDir = "lua" + File.separator;
@@ -82,6 +84,7 @@ public class LuaCraft {
 
 		FileMount.SetRoot(rootDir + "luacraft");
 		FileMount.CreateDirectories("addons");
+		FileMount.CreateDirectories("downloads");
 		FileMount.CreateDirectories("jars");
 		FileMount.CreateDirectories("lua\\autorun\\client");
 		FileMount.CreateDirectories("lua\\autorun\\server");
@@ -93,10 +96,10 @@ public class LuaCraft {
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel("LuaCraft");
-
 		NativeSupport.getInstance().setLoader(luaLoader);
-
+		
+		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(NET_CHANNEL);
+		
 		MinecraftForge.EVENT_BUS.register(config);
 
 		ConsoleManager.create();

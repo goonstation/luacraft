@@ -27,7 +27,7 @@ public class LuaByteBuf {
 				return 0;
 
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
-			CPacketCustomPayload packet = new CPacketCustomPayload("LuaCraft", self);
+			CPacketCustomPayload packet = new CPacketCustomPayload(LuaCraft.NET_CHANNEL, self);
 			client.player.connection.sendPacket(packet);
 			return 0;
 		}
@@ -38,6 +38,8 @@ public class LuaByteBuf {
 		{
 			l.pushJavaFunction(SendToServer);
 			l.setField(-2, "SendToServer");
+			l.pushJavaFunction(SendToServer);
+			l.setField(-2, "Send");
 		}
 		l.pop(1);
 	}

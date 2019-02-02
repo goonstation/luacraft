@@ -50,7 +50,7 @@ public class LuaLibConsole {
 		return color;
 	}
 
-	private static String easyMsgC(LuaState l, int stackPos, Color defColor, boolean useTabs) {
+	public static String easyMsgC(LuaState l, int stackPos, Color defColor, boolean useTabs) {
 		StringBuilder message = new StringBuilder();
 		
 		Color color = defColor;

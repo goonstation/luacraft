@@ -1,5 +1,6 @@
 package com.luacraft.meta.server;
 
+import com.luacraft.LuaCraft;
 import com.luacraft.LuaCraftState;
 import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaState;
@@ -24,7 +25,7 @@ public class LuaByteBuf {
 	public static JavaFunction Send = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
-			SPacketCustomPayload packet = new SPacketCustomPayload("LuaCraft", self);
+			SPacketCustomPayload packet = new SPacketCustomPayload(LuaCraft.NET_CHANNEL, self);
 
 			for (int i = 2; i <= l.getTop(); i++) {
 				if (l.isUserdata(i, EntityPlayerMP.class)) {

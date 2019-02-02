@@ -24,6 +24,7 @@ import javax.swing.SwingUtilities;
 import com.luacraft.LuaCraft;
 import com.luacraft.LuaCraftState;
 import com.luacraft.classes.FileMount;
+import com.luacraft.library.LuaLibConsole;
 import com.naef.jnlua.LuaException;
 import com.naef.jnlua.LuaRuntimeException;
 import com.naef.jnlua.LuaState;
@@ -32,7 +33,7 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ConsoleFrame extends JFrame
 {
-    public static final Color BACKGROUND_COLOR = new Color(55, 55, 55);
+    public static final Color BACKGROUND_COLOR = new Color(52, 61, 70);
 
     private boolean isFocused;
 
@@ -234,6 +235,10 @@ public class ConsoleFrame extends JFrame
                 try {
                     state.load(input, "console");
                     state.call(0, LuaState.MULTRET);
+                    if (state.getTop() > 0) {
+                    	LuaCraft.getLogger().info(LuaLibConsole.easyMsgC(state, 1, new com.luacraft.classes.Color(ConsoleManager.PRINT), true));
+                    }
+                    state.setTop(0);
                 } catch (LuaRuntimeException e) {
                     state.handleLuaRuntimeError(e);
                 } catch (LuaException e) {
