@@ -1,9 +1,11 @@
 package com.luacraft.classes;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -32,18 +34,18 @@ public class LuaCache {
 	private static HashMap<String, String> cacheMap;
 	
 	private static final String HASH_TYPE = "SHA-256";
+	private static final int CACHE_VERSION = 1;
 	
 	public static HashMap<String, String> getCacheMap() {
 		return cacheMap;
 	}
 	
 	// Server and client both have a cache.db file to sync
-	public static void initialize() throws SQLException, ClassNotFoundException {
-		Class.forName("org.sqlite.JDBC");
+	public static void initialize() throws SQLException {
 		cacheMap = new HashMap<String, String>();
 		connection = DriverManager.getConnection("jdbc:sqlite:luacraft/cache.db");
 		Statement stmt = connection.createStatement();
-		stmt.execute("CREATE TABLE IF NOT EXISTS cache ( file TEXT NOT NULL PRIMARY KEY, hash TEXT NOT NULL, data TEXT )");
+		stmt.execute("CREATE TABLE IF NOT EXISTS cache ( file TEXT NOT NULL PRIMARY KEY, hash TEXT NOT NULL, data TEXT NOT NULL )");
 	}
 	
 	// Only used by the server
@@ -82,11 +84,23 @@ public class LuaCache {
 	}
 	
 	// Allows for the client to decompress and load the file
-	public static GZIPInputStream getFileInputStream(String file) throws SQLException, IOException {
+	public static GZIPInputStream getFileInputStream(String file) throws SQLException {
 		PreparedStatement stmt = connection.prepareStatement("SELECT data FROM cache WHERE file=?;");
 		stmt.setString(1, file);
 		ResultSet result = stmt.executeQuery();
-		return new GZIPInputStream(result.getBinaryStream("data"));
+		
+		GZIPInputStream stream = null;
+		
+		if (result.next()) {
+			try {
+				stream = new GZIPInputStream(new ByteArrayInputStream(result.getBytes("data")));
+			} catch (IOException e) {} // Ignore GZIP errors, allowing this to return null and have the client request a download
+		}
+		
+		result.close();
+		stmt.close();
+		
+		return stream;
 	}
 	
 	// Only used by the server
@@ -134,22 +148,29 @@ public class LuaCache {
 	}
 	
 	// Only used by the client
-	public static void compareAndRequestFiles(HashMap<String, String> serverHashes) throws SQLException {
+	public static void compareAndRequestFiles(HashMap<String, String> serverHashes) throws SQLException, NoSuchAlgorithmException, IOException {
 		for (Entry<String, String> entry : serverHashes.entrySet()) {
 			String file = entry.getKey();
 			String hash = entry.getValue();
 			
-			PreparedStatement stmt = connection.prepareStatement("SELECT hash, data FROM cache WHERE file=?;");
-			stmt.setString(1, file);
-			ResultSet result = stmt.executeQuery();
+			GZIPInputStream stream = getFileInputStream(file);
+			String clHash = null;
 			
-			// Only request the file if the entry doesn't exist in the cache or the hashes mismatch			
-			if (!result.next() || !result.getString("hash").equals(hash)) {
-				requestFileFromServer(file);
+			if (stream != null) {
+				MessageDigest digest = MessageDigest.getInstance(HASH_TYPE);
+				byte[] buffer = new byte[4096];
+				int bytesRead;
+		        while ((bytesRead = stream.read(buffer)) != -1) {
+		    		digest.update(buffer, 0, bytesRead); // Hash our file in chunks
+		        }
+		        clHash = Hex.encodeHexString(digest.digest());
+		        stream.close();
 			}
 			
-			result.close();
-			stmt.close();
+			// Request the file if the entry doesn't exist in the cache or the hashes mismatch
+			if (stream == null || clHash == null || !clHash.equals(hash)) {
+				requestFileFromServer(file);
+			}
 		}
 	}
 

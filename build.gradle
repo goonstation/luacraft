@@ -55,8 +55,8 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
-    compile 'mysql:mysql-connector-java:5.1.38'
-    compile 'org.xerial:sqlite-jdbc:3.8.11.2'
+    compile 'mysql:mysql-connector-java:8.0.15'
+    compile 'org.xerial:sqlite-jdbc:3.23.1'
 }
 
 processResources {

@@ -1,5 +1,7 @@
 package com.luacraft;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -57,7 +59,7 @@ public class LuaPacketManager {
 			
 			try {
 				LuaCache.compareAndRequestFiles(serverCache);
-			} catch (SQLException e) {
+			} catch (SQLException | NoSuchAlgorithmException | IOException e) {
 				l.error("Failed to validate cache: " + e.getLocalizedMessage());
 			}
 			return;

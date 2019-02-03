@@ -274,7 +274,7 @@ public class LuaGlobals {
 			try {
 				in = LuaCache.getFileInputStream(file);
 				if (in != null) ((LuaCraftState) l).info("Using cache for file: " + fullpath);
-			} catch (SQLException | IOException e) {
+			} catch (SQLException e) {
 				throw new LuaRuntimeException("Cannot open cached file: " + e.getLocalizedMessage());
 			}
 			try {

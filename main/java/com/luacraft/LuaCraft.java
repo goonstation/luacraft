@@ -84,7 +84,7 @@ public class LuaCraft {
 		ConsoleManager.create();
 		try {
 			LuaCache.initialize();
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		LuaAddonManager.initialize();
