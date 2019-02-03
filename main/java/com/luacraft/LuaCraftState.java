@@ -25,7 +25,7 @@ import net.minecraftforge.fml.server.FMLServerHandler;
 public class LuaCraftState extends LuaState implements ILuaReloader {
 	private boolean scriptEnforcer = false;
 	private Side runningSide = null;
-	protected Side side = null;
+	private Side side = null;
 
 	protected LuaReloader reloader;
 
@@ -51,6 +51,18 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 	public Side getSide() {
 		return side;
 	}
+	
+	public void setSide(Side side) {
+		this.side = side;
+	}
+	
+	public boolean isClient() {
+		return side.isClient();
+	}
+	
+	public boolean isServer() {
+		return side.isServer();
+	}
 
 	public FMLClientHandler getForgeClient() {
 		return FMLClientHandler.instance();
@@ -71,11 +83,7 @@ public class LuaCraftState extends LuaState implements ILuaReloader {
 		else
 			return getForgeServer().getServer();
 	}
-
-	public void downloadLuaFile(String filename, byte[] data) {
-
-	}
-
+	
 	public void getLoadedAddons() {
 		// TODO: Addon list
 	}

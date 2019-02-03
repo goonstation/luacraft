@@ -273,7 +273,7 @@ public class ConsoleFrame extends JFrame
                     state.load(input, "console");
                     state.call(0, LuaState.MULTRET);
                     if (state.getTop() > 0) {
-                    	LuaCraft.getLogger().info(LuaLibConsole.easyMsgC(state, 1, new com.luacraft.classes.Color(ConsoleManager.PRINT), true));
+                    	LuaCraft.getLogger().info(LuaLibConsole.easyMsgC(state, 1, new com.luacraft.classes.Color(ConsoleManager.PRINT), true, true));
                     }
                     state.setTop(0);
                 } catch (LuaRuntimeException e) {

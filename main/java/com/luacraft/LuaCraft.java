@@ -65,7 +65,6 @@ public class LuaCraft {
 		
 		ModContainer modContainer = FMLCommonHandler.instance().findContainerFor(this);
 		
-		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(NET_CHANNEL);
 		logger = LogManager.getLogger(modContainer.getName());
 		config = new LuaConfig(event.getSuggestedConfigurationFile());
 
@@ -75,22 +74,22 @@ public class LuaCraft {
 		FileMount.CreateDirectories("lua\\autorun\\client");
 		FileMount.CreateDirectories("lua\\autorun\\server");
 		FileMount.CreateDirectories("lua\\autorun\\shared");
+	}
+	
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(NET_CHANNEL);
+		MinecraftForge.EVENT_BUS.register(config);
 
 		ConsoleManager.create();
 		try {
 			LuaCache.initialize();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		LuaAddonManager.initialize();
 		if (event.getSide() == Side.CLIENT)
 			LuaResourcePackLoader.initialize();
-	}
-	
-	@EventHandler
-	public void init(FMLInitializationEvent event) {
-		MinecraftForge.EVENT_BUS.register(config);
 
 		if (event.getSide() == Side.CLIENT) {
 			LuaClient state = new LuaClient();
@@ -157,6 +156,10 @@ public class LuaCraft {
 	@SideOnly(Side.CLIENT)
 	public static net.minecraft.client.Minecraft getClient() {
 		return getForgeClient().getClient();
+	}
+	
+	public static boolean isListenedServer() {
+		return getClient().world.isRemote;
 	}
 
 	public static Logger getLogger() {

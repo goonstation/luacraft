@@ -15,10 +15,15 @@ public class LuaServer extends LuaShared {
 	
 	public LuaServer() {
 		super();
-		side = Side.SERVER;
+		setSide(Side.SERVER);
 	}
 
 	public void initialize(boolean hooks) {
+		pushBoolean(false);
+		setGlobal("CLIENT");
+		pushBoolean(true);
+		setGlobal("SERVER");
+		
 		initializeShared(hooks);
 		loadLibraries();
 	}
@@ -48,10 +53,5 @@ public class LuaServer extends LuaShared {
 		LuaPlayer.Init(this);
 		LuaByteBuf.Init(this);
 		LuaPropertyManager.Init(this);
-
-		pushBoolean(false);
-		setGlobal("CLIENT");
-		pushBoolean(true);
-		setGlobal("SERVER");
 	}
 }

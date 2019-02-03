@@ -3,6 +3,7 @@ package com.luacraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.LuaJavaBlock;
 import com.luacraft.classes.Vector;
 import com.naef.jnlua.LuaRuntimeException;
@@ -10,7 +11,9 @@ import com.naef.jnlua.LuaRuntimeException;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.ResourceLocation;
@@ -84,6 +87,10 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ServerTickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerDisconnectionFromClientEvent;
 
 public class LuaEventManager {
 	public final LuaCraftState l;
@@ -332,10 +339,13 @@ public class LuaEventManager {
 	 */
 
 	@SubscribeEvent
-	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
+	public void onPlayerLoggedIn(PlayerLoggedInEvent event) {		
 		synchronized (l) {
 			if (!l.isOpen())
 				return;
+			
+			if (l.isServer())
+				LuaCache.syncCacheToPlayer(event.player);
 
 			try {
 				l.pushHookCall();
@@ -2559,6 +2569,87 @@ public class LuaEventManager {
 				LuaUserdata.PushUserdata(l, event.getWorld());
 				l.call(2, 0);
 
+			} catch (LuaRuntimeException e) {
+				l.handleLuaRuntimeError(e);
+			} finally {
+				l.setTop(0);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onClientConnectToServer(ClientConnectedToServerEvent event) {		
+		synchronized (l) {
+			if (!l.isOpen() || l.isServer())
+				return;
+
+			try {
+				l.pushHookCall();
+				l.pushString("client.connect");
+				l.pushBoolean(event.isLocal());
+				l.pushString(event.getConnectionType());
+				l.call(3, 0);
+			} catch (LuaRuntimeException e) {
+				l.handleLuaRuntimeError(e);
+			} finally {
+				l.setTop(0);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onClientDisconnectFromServer(ClientDisconnectionFromServerEvent event) {
+		synchronized (l) {
+			if (!l.isOpen())
+				return;
+			
+			try {
+				l.pushHookCall();
+				l.pushString("client.disconnect");
+				l.call(1, 0);
+			} catch (LuaRuntimeException e) {
+				l.handleLuaRuntimeError(e);
+			} finally {
+				l.setTop(0);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onClientConnectToServer(ServerConnectionFromClientEvent event) {				
+		synchronized (l) {
+			if (!l.isOpen() || l.isClient())
+				return;
+			
+			EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).player;
+			
+			try {
+				l.pushHookCall();
+				l.pushString("client.connect");
+				l.pushUserdataWithMeta(player, "Player");
+				l.pushBoolean(event.isLocal());
+				l.call(3, 0);
+			} catch (LuaRuntimeException e) {
+				l.handleLuaRuntimeError(e);
+			} finally {
+				l.setTop(0);
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void onClientDisconnectFromServer(ServerDisconnectionFromClientEvent event) {
+		synchronized (l) {
+			if (!l.isOpen())
+				return;
+			
+			EntityPlayerMP player = ((NetHandlerPlayServer) event.getHandler()).player;
+			
+			try {
+				l.pushHookCall();
+				l.pushString("client.disconnect");
+				l.pushUserdataWithMeta(player, "Player");
+				l.call(2, 0);
 			} catch (LuaRuntimeException e) {
 				l.handleLuaRuntimeError(e);
 			} finally {

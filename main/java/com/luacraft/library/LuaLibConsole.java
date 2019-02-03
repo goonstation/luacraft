@@ -11,9 +11,7 @@ import com.naef.jnlua.LuaType;
 
 public class LuaLibConsole {
 	
-	private static Color getTypeColor(LuaType type) {
-		Color color = null;
-		
+	private static Color getTypeColor(Color color, LuaType type) {		
 		switch(type) {
 		case BOOLEAN:
 			color = new Color(236, 96, 98);
@@ -41,11 +39,10 @@ public class LuaLibConsole {
 		default:
 			break;
 		}
-		
 		return color;
 	}
 
-	public static String easyMsgC(LuaState l, int stackPos, Color defColor, boolean useTabs) {
+	public static String easyMsgC(LuaState l, int stackPos, Color defColor, boolean useColor, boolean useTabs) {
 		StringBuilder message = new StringBuilder();
 		
 		Color color = defColor;
@@ -56,13 +53,12 @@ public class LuaLibConsole {
 			if (l.isUserdata(i, Color.class)) {
 				color = (Color) l.checkUserdata(i, Color.class, "Color");
 			} else {
-				Color objColor = getTypeColor(l.type(i));
-				
 				l.getGlobal("tostring");
 				l.pushValue(i);
 				l.call(1, 1);
 				
-				String text = l.checkString(-1);
+				String text = l.toString(-1);
+				l.pop(1);
 				
 				if (useTabs == true && i > stackPos) {
 					text = "\t" + text;
@@ -70,13 +66,14 @@ public class LuaLibConsole {
 				
 				message.append(text);
 				
-				console.msg((objColor != null ? objColor : color).toJavaColor(), text);
-				l.pop(1);
+				if (useColor)
+					color = getTypeColor(color, l.type(i));
+				
+				console.msg(color.toJavaColor(), text);
 			}
 		}
 		
 		console.msg("\n");
-		
 		return message.toString();
 	}
 	
@@ -90,7 +87,7 @@ public class LuaLibConsole {
 
 	public static JavaFunction print = new JavaFunction() {
 		public int invoke(LuaState l) {
-			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.PRINT), true));
+			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.PRINT), true, true));
 			return 0;
 		}
 	};
@@ -106,7 +103,7 @@ public class LuaLibConsole {
 
 	public static JavaFunction consolePrint = new JavaFunction() {
 		public int invoke(LuaState l) {
-			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.PRINT), false));
+			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.PRINT), false, false));
 			return 0;
 		}
 	};
@@ -122,7 +119,7 @@ public class LuaLibConsole {
 
 	public static JavaFunction consoleInfo = new JavaFunction() {
 		public int invoke(LuaState l) {
-			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.INFO), false));
+			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.INFO), false, false));
 			return 0;
 		}
 	};
@@ -138,7 +135,7 @@ public class LuaLibConsole {
 
 	public static JavaFunction consoleWarn = new JavaFunction() {
 		public int invoke(LuaState l) {
-			LuaCraft.getLogger().warn(easyMsgC(l, 1, new Color(ConsoleManager.WARNING), false));
+			LuaCraft.getLogger().warn(easyMsgC(l, 1, new Color(ConsoleManager.WARNING), false, false));
 			return 0;
 		}
 	};
@@ -154,7 +151,7 @@ public class LuaLibConsole {
 
 	public static JavaFunction consoleError = new JavaFunction() {
 		public int invoke(LuaState l) {
-			LuaCraft.getLogger().error(easyMsgC(l, 1, new Color(ConsoleManager.ERROR), false));
+			LuaCraft.getLogger().error(easyMsgC(l, 1, new Color(ConsoleManager.ERROR), false, false));
 			return 0;
 		}
 	};

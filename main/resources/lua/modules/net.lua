@@ -22,8 +22,8 @@ function Incoming(buff, ply)
 	callbacks[name]( buff, ply )
 end
 
-function Start(name,length)
-	local buff = ByteBuf(length and length + #name + 2 or nil)
+function Start(name)
+	local buff = ByteBuf()
 	buff:WriteString(name)
 	return buff
 end

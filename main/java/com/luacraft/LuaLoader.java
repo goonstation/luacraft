@@ -5,6 +5,8 @@ import org.apache.commons.lang3.SystemUtils;
 import com.naef.jnlua.NativeSupport.Loader;
 
 public class LuaLoader implements Loader {
+	private static boolean DEVELOPER = true;
+	
 	private String rootDir = null;
 
 	private String arch = null;

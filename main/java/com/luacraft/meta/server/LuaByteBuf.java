@@ -9,6 +9,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.network.play.server.SPacketCustomPayload;
 import net.minecraft.server.MinecraftServer;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class LuaByteBuf {
 
@@ -25,19 +26,18 @@ public class LuaByteBuf {
 	public static JavaFunction Send = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
-			SPacketCustomPayload packet = new SPacketCustomPayload(LuaCraft.NET_CHANNEL, self);
 
 			for (int i = 2; i <= l.getTop(); i++) {
 				if (l.isUserdata(i, EntityPlayerMP.class)) {
 					EntityPlayerMP player = (EntityPlayerMP) l.checkUserdata(i, EntityPlayerMP.class, "Player");
-					player.connection.sendPacket(packet);
+					LuaCraft.channel.sendToAll(new FMLProxyPacket(self, LuaCraft.NET_CHANNEL));
 				} else if (l.isTable(i)) {
 					l.pushNil();
 					while (l.next(i)) {
 						if (l.isUserdata(-1, EntityPlayerMP.class)) {
 							EntityPlayerMP player = (EntityPlayerMP) l.checkUserdata(-1, EntityPlayerMP.class,
-									"Player");
-							player.connection.sendPacket(packet);
+									"Player");							
+							LuaCraft.channel.sendTo(new FMLProxyPacket(self, LuaCraft.NET_CHANNEL), player);
 						}
 						l.pop(1);
 					}
@@ -61,9 +61,9 @@ public class LuaByteBuf {
 			SPacketCustomPayload packet = new SPacketCustomPayload(LuaCraft.NET_CHANNEL, self);
 
 			if (l.isNumber(2))
-				server.getPlayerList().sendPacketToAllPlayersInDimension(packet, l.toInteger(2));
+				LuaCraft.channel.sendToDimension(new FMLProxyPacket(self, LuaCraft.NET_CHANNEL), l.toInteger(2));
 			else
-				server.getPlayerList().sendPacketToAllPlayers(packet);
+				LuaCraft.channel.sendToAll(new FMLProxyPacket(self, LuaCraft.NET_CHANNEL));
 
 			return 0;
 		}

@@ -7,7 +7,7 @@ import com.naef.jnlua.LuaState;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.PacketBuffer;
-import net.minecraft.network.play.client.CPacketCustomPayload;
+import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class LuaByteBuf {
 
@@ -26,9 +26,8 @@ public class LuaByteBuf {
 			if (client.player == null)
 				return 0;
 
-			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
-			CPacketCustomPayload packet = new CPacketCustomPayload(LuaCraft.NET_CHANNEL, self);
-			client.player.connection.sendPacket(packet);
+			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");			
+			LuaCraft.channel.sendToServer(new FMLProxyPacket(self, LuaCraft.NET_CHANNEL));
 			return 0;
 		}
 	};

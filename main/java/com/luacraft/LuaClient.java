@@ -28,7 +28,7 @@ public class LuaClient extends LuaShared {
 	
 	public LuaClient() {
 		super();
-		side = Side.CLIENT;
+		setSide(Side.CLIENT);
 	}
 
 	public void initialize(boolean hooks) {
@@ -37,7 +37,12 @@ public class LuaClient extends LuaShared {
 			printSide("Registering client event manager");
 			MinecraftForge.EVENT_BUS.register(luaClientEvent);
 		}
-		
+
+		pushBoolean(true);
+		setGlobal("CLIENT");
+		pushBoolean(false);
+		setGlobal("SERVER");
+
 		initializeShared(hooks);
 		loadLibraries();
 	}
@@ -89,10 +94,5 @@ public class LuaClient extends LuaShared {
 		LuaModelResource.Init(this);
 		LuaRenderLivingBase.Init(this);
 		LuaVector.Init(this);
-
-		pushBoolean(true);
-		setGlobal("CLIENT");
-		pushBoolean(false);
-		setGlobal("SERVER");
 	}
 }

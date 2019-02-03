@@ -2,6 +2,7 @@ package com.luacraft.library.server;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import com.luacraft.LuaCraft;
@@ -28,7 +29,7 @@ public class LuaGlobals {
 			
 			try {
 				LuaCache.addCSLuaFile(fileName);
-			} catch (IOException | SQLException e) {
+			} catch (NoSuchAlgorithmException | IOException | SQLException e) {
 				throw new LuaRuntimeException("Cannot AddCSLuaFile " + e.getLocalizedMessage());
 			}
 			return 0;

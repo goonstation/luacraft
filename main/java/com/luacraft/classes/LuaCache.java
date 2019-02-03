@@ -22,36 +22,35 @@ import org.apache.commons.codec.binary.Hex;
 import com.luacraft.LuaCraft;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.network.NetHandlerPlayServer;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.FMLNetworkEvent.ServerConnectionFromClientEvent;
 import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class LuaCache {
 	private static Connection connection;
-	
 	private static HashMap<String, String> cacheMap;
 	
-	public static void initialize() throws SQLException {
+	private static final String HASH_TYPE = "SHA-256";
+	
+	public static HashMap<String, String> getCacheMap() {
+		return cacheMap;
+	}
+	
+	// Server and client both have a cache.db file to sync
+	public static void initialize() throws SQLException, ClassNotFoundException {
+		Class.forName("org.sqlite.JDBC");
 		cacheMap = new HashMap<String, String>();
 		connection = DriverManager.getConnection("jdbc:sqlite:luacraft/cache.db");
 		Statement stmt = connection.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS cache ( file TEXT NOT NULL PRIMARY KEY, hash TEXT NOT NULL, data TEXT )");
 	}
 	
-	public static void addCSLuaFile(String file) throws IOException, SQLException {
-		String path = "lua/" + file;
+	// Only used by the server
+	public static void addCSLuaFile(String file) throws IOException, SQLException, NoSuchAlgorithmException {
+		File luaFile = FileMount.GetFile("lua/" + file);
 		
-		File luaFile = FileMount.GetFile(path);
-		
-		MessageDigest digest = null;
-		try {
-			digest = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		MessageDigest digest = MessageDigest.getInstance(HASH_TYPE);
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		GZIPOutputStream gzip = new GZIPOutputStream(out);
@@ -61,8 +60,8 @@ public class LuaCache {
 		
 		int bytesRead;
         while ((bytesRead = stream.read(buffer)) != -1) {
-        	gzip.write(buffer, 0, bytesRead);
-    		digest.update(buffer, 0, bytesRead);
+        	gzip.write(buffer, 0, bytesRead); // Compress our file in chunks
+    		digest.update(buffer, 0, bytesRead); // Hash our file in chunks
         }
         
 		stream.close();
@@ -82,43 +81,86 @@ public class LuaCache {
 		out.close();
 	}
 	
+	// Allows for the client to decompress and load the file
 	public static GZIPInputStream getFileInputStream(String file) throws SQLException, IOException {
 		PreparedStatement stmt = connection.prepareStatement("SELECT data FROM cache WHERE file=?;");
 		stmt.setString(1, file);
 		ResultSet result = stmt.executeQuery();
-		while (result.next()) {
-			return new GZIPInputStream(result.getBinaryStream("data"));
-		}
-		return null;
+		return new GZIPInputStream(result.getBinaryStream("data"));
 	}
 	
-	public static HashMap<String, String> getCacheMap() {
-		return cacheMap;
-	}
-	
-	@SubscribeEvent
-	public void onClientConnectToServer(ServerConnectionFromClientEvent event) {
+	// Only used by the server
+	public static void syncCacheToPlayer(EntityPlayer player) {
 		HashMap<String, String> cache = LuaCache.getCacheMap();
 		
 		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
 		buffer.writeString("LuaCacheSync");
 		buffer.writeVarInt(cache.size());
 
-		LuaCraft.getLogger().info("LuaCacheSync");
-		LuaCraft.getLogger().info("Files: " + cache.size());
-		
 		for (Entry<String, String> entry : cache.entrySet()) {
 		    String file = entry.getKey();
 		    String hash = entry.getValue();
 		    buffer.writeString(file);
 		    buffer.writeString(hash);
-		    
-		    LuaCraft.getLogger().info("\t" + file + ": " + hash);
+		}
+		LuaCraft.channel.sendTo(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL), (EntityPlayerMP) player);
+	}
+	
+	// Only used by the server
+	public static void sendFileToClient(String file, EntityPlayer player) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement("SELECT hash, data FROM cache WHERE file=?;");
+		stmt.setString(1, file);
+		ResultSet result = stmt.executeQuery();
+		
+		if (result.next()) {
+			PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+			buffer.writeString("CachedLuaFile");
+			buffer.writeString(file);
+			buffer.writeString(result.getString("hash"));
+			buffer.writeByteArray(result.getBytes("data"));
+			LuaCraft.channel.sendTo(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL), (EntityPlayerMP) player);
 		}
 		
-		LuaCraft.channel.sendTo(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL), ((NetHandlerPlayServer) event.getHandler()).player);
-		
-		LuaCraft.getLogger().info("Sent LuaCacheSync to player..");
+		result.close();
+		stmt.close();
+	}
+	
+	// Only used by the client
+	public static void requestFileFromServer(String file) {
+		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+		buffer.writeString("GetCachedLuaFile");
+		buffer.writeString(file);
+		LuaCraft.channel.sendToServer(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL));
+	}
+	
+	// Only used by the client
+	public static void compareAndRequestFiles(HashMap<String, String> serverHashes) throws SQLException {
+		for (Entry<String, String> entry : serverHashes.entrySet()) {
+			String file = entry.getKey();
+			String hash = entry.getValue();
+			
+			PreparedStatement stmt = connection.prepareStatement("SELECT hash, data FROM cache WHERE file=?;");
+			stmt.setString(1, file);
+			ResultSet result = stmt.executeQuery();
+			
+			// Only request the file if the entry doesn't exist in the cache or the hashes mismatch			
+			if (!result.next() || !result.getString("hash").equals(hash)) {
+				requestFileFromServer(file);
+			}
+			
+			result.close();
+			stmt.close();
+		}
+	}
+
+	// Only used by the client
+	public static void cacheFile(String file, String hash, byte[] data) throws SQLException {
+		PreparedStatement stmt = connection.prepareStatement("REPLACE INTO cache(file, hash, data) VALUES(?, ?, ?);");
+		stmt.setString(1, file);
+		stmt.setString(2, hash);
+		stmt.setBytes(3, data);
+		stmt.execute();
+		stmt.close();
 	}
 	
 	// SELECT * FROM cache WHERE file LIKE 'autorun/%.lua'
