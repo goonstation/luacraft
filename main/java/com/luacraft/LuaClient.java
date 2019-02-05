@@ -57,7 +57,7 @@ public class LuaClient extends LuaShared {
 			info("Loading lua/autorun/client/*.lua");
 
 			// Include autorun files in the cache
-			for (Entry<String, String> entry : LuaCache.getCacheMap().entrySet()) {
+			for (Entry<String, String> entry : LuaCache.getCachedFilesForServer().entrySet()) {
 				String file = entry.getKey();
 				if (!file.startsWith("autorun/")) continue;
 				try {

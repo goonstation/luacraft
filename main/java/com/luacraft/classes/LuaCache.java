@@ -31,19 +31,21 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class LuaCache {
 	private static Connection connection;
-	
+
 	private static HashMap<String, String> cacheMap;
+	private static HashMap<String, String> serverCache;
 	
 	private static final String HASH_TYPE = "SHA-256";
 	private static final int CACHE_VERSION = 1;
 	
-	public static HashMap<String, String> getCacheMap() {
-		return cacheMap;
+	public static HashMap<String, String> getCachedFilesForServer() {
+		return serverCache;
 	}
 	
 	// Server and client both have a cache.db file to sync
 	public static void initialize() throws SQLException {
 		cacheMap = new HashMap<String, String>();
+		serverCache = new HashMap<String, String>();
 		connection = DriverManager.getConnection("jdbc:sqlite:luacraft/cache.db");
 		Statement stmt = connection.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS cache ( file TEXT NOT NULL PRIMARY KEY, hash TEXT NOT NULL, data TEXT NOT NULL )");
@@ -150,7 +152,7 @@ public class LuaCache {
 			String file = entry.getKey();
 			String hash = entry.getValue();
 			
-			cacheMap.put(file, hash);
+			serverCache.put(file, hash);
 			
 			GZIPInputStream stream = getFileInputStream(file);
 			String clHash = null;
