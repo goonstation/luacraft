@@ -1,9 +1,13 @@
 package com.luacraft;
 
 import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.luacraft.classes.FileMount;
+import com.luacraft.classes.LuaCache;
 import com.luacraft.library.client.LuaGlobals;
 import com.luacraft.library.client.LuaLibGame;
 import com.luacraft.library.client.LuaLibInput;
@@ -51,6 +55,19 @@ public class LuaClient extends LuaShared {
 		autorunSharedScripts();
 		try {
 			info("Loading lua/autorun/client/*.lua");
+
+			// Include autorun files in the cache
+			for (Entry<String, String> entry : LuaCache.getCacheMap().entrySet()) {
+				String file = entry.getKey();
+				if (!file.startsWith("autorun/")) continue;
+				try {
+					includeFileStream(LuaCache.getFileInputStream(file), "cache:" + file);
+				} catch (IOException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 			autorun("client"); // Load all files within autorun/client
 			// Load items
 			info("Loading lua/items/*/shared.lua");

@@ -56,7 +56,8 @@ public class LuaShared extends LuaCraftState {
 			printSide("Registering shared event manager");
 			MinecraftForge.EVENT_BUS.register(luaEvent);
 		}
-		
+
+		loadBaseLibraries();
 		loadLibraries();
 		loadExtensions();
 	}
@@ -104,10 +105,10 @@ public class LuaShared extends LuaCraftState {
 
 		includeDirectory("extensions"); // Load any extensions a user made
 	}
-
-	private void loadLibraries() {
-		printSide("Loading shared libraries..");
-
+	
+	private void loadBaseLibraries() {
+		printSide("Loading base libraries..");
+		
 		openLib(Library.BASE);
 		openLib(Library.PACKAGE);
 		openLib(Library.TABLE);
@@ -143,6 +144,10 @@ public class LuaShared extends LuaCraftState {
 		pushString(lua + "modules/?.dll;" + lua + "modules/bin/?.dll;" + lua + "modules/bin/loadall.dll");
 		setField(-2, "cpath");
 		pop(1);
+	}
+
+	private void loadLibraries() {
+		printSide("Loading shared libraries..");
 
 		// Libs
 		LuaGlobals.Init(this);

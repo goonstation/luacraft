@@ -3,13 +3,11 @@ package com.luacraft.library;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 
 import com.luacraft.LuaCraftState;
 import com.luacraft.classes.Angle;
 import com.luacraft.classes.Color;
 import com.luacraft.classes.FileMount;
-import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.Vector;
 import com.luacraft.meta.LuaObject;
 import com.naef.jnlua.JavaFunction;
@@ -272,13 +270,7 @@ public class LuaGlobals {
 
 			InputStream in = null;
 			try {
-				in = LuaCache.getFileInputStream(file);
-				if (in != null) ((LuaCraftState) l).info("Using cache for file: " + fullpath);
-			} catch (SQLException e) {
-				throw new LuaRuntimeException("Cannot open cached file: " + e.getLocalizedMessage());
-			}
-			try {
-				if (in == null) in = FileMount.GetFileInputStream(fullpath);
+				in = FileMount.GetFileInputStream(fullpath);
 			} catch (FileNotFoundException e) {
 				throw new LuaRuntimeException("Cannot open " + fullpath + ": No such file or directory");
 			}

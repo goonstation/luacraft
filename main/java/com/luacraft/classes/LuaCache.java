@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
@@ -32,6 +31,7 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class LuaCache {
 	private static Connection connection;
+	
 	private static HashMap<String, String> cacheMap;
 	
 	private static final String HASH_TYPE = "SHA-256";
@@ -106,14 +106,12 @@ public class LuaCache {
 	}
 	
 	// Only used by the server
-	public static void syncCacheToPlayer(EntityPlayer player) {
-		HashMap<String, String> cache = LuaCache.getCacheMap();
-		
+	public static void syncCacheToPlayer(EntityPlayer player) {		
 		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
 		buffer.writeString("LuaCacheSync");
-		buffer.writeVarInt(cache.size());
+		buffer.writeVarInt(cacheMap.size());
 
-		for (Entry<String, String> entry : cache.entrySet()) {
+		for (Entry<String, String> entry : cacheMap.entrySet()) {
 		    buffer.writeString(entry.getKey()); // Filename
 		    buffer.writeString(entry.getValue()); // Hash value
 		}
@@ -151,6 +149,8 @@ public class LuaCache {
 		for (Entry<String, String> entry : serverHashes.entrySet()) {
 			String file = entry.getKey();
 			String hash = entry.getValue();
+			
+			cacheMap.put(file, hash);
 			
 			GZIPInputStream stream = getFileInputStream(file);
 			String clHash = null;
@@ -195,5 +195,5 @@ public class LuaCache {
 		stmt.close();
 	}
 	
-	// SELECT * FROM cache WHERE file LIKE 'autorun/%.lua'
+	// SELECT * FROM cache WHERE file LIKE 'autorun/client/%.lua'
 }
