@@ -28,8 +28,8 @@ public class LuaServer extends LuaShared {
 		loadLibraries();
 	}
 
-	public void runScripts() {
-		runSharedScripts();
+	public void autorunScripts() {
+		autorunSharedScripts();
 		info("Loading lua/autorun/server/*.lua");
 		try {
 			autorun("server"); // Load all files within autorun/server

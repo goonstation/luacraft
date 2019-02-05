@@ -47,8 +47,8 @@ public class LuaClient extends LuaShared {
 		loadLibraries();
 	}
 
-	public void runScripts() {
-		runSharedScripts();
+	public void autorunScripts() {
+		autorunSharedScripts();
 		try {
 			info("Loading lua/autorun/client/*.lua");
 			autorun("client"); // Load all files within autorun/client

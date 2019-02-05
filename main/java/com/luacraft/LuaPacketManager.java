@@ -45,6 +45,7 @@ public class LuaPacketManager {
 					l.error("Failed to cache file: " + e.getLocalizedMessage());
 				}
 			}
+			((LuaClient) l).autorunScripts();
 			return;
 		} else if (func.equals("LuaCacheSync")) {
 			l.warning("Received LuaCacheSync");
@@ -59,7 +60,10 @@ public class LuaPacketManager {
 				l.info("\t" + file + ":\t" + hash);
 			}
 			try {
-				LuaCache.compareAndRequestFiles(serverCache);
+				boolean needFiles = LuaCache.compareAndRequestFiles(serverCache);
+				if (!needFiles) {
+					((LuaClient) l).autorunScripts();
+				}
 			} catch (SQLException | NoSuchAlgorithmException | IOException e) {
 				l.error("Failed to validate cache: " + e.getLocalizedMessage());
 			}

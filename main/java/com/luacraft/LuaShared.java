@@ -61,7 +61,7 @@ public class LuaShared extends LuaCraftState {
 		loadExtensions();
 	}
 
-	public void runSharedScripts() {
+	public void autorunSharedScripts() {
 		info("Loading lua/autorun/*.lua");
 		try {
 			autorun(); // Load all files within autorun

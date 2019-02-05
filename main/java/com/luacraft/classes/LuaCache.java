@@ -145,7 +145,7 @@ public class LuaCache {
 	}
 	
 	// Only used by the client
-	public static void compareAndRequestFiles(HashMap<String, String> serverHashes) throws SQLException, NoSuchAlgorithmException, IOException {
+	public static boolean compareAndRequestFiles(HashMap<String, String> serverHashes) throws SQLException, NoSuchAlgorithmException, IOException {
 		ArrayList<String> files = new ArrayList<String>();
 		
 		for (Entry<String, String> entry : serverHashes.entrySet()) {
@@ -172,7 +172,7 @@ public class LuaCache {
 			}
 		}
 		
-		if (files.isEmpty()) return; // Nothing needed!
+		if (files.isEmpty()) return false; // Nothing needed!
 		
 		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
 		buffer.writeString("GetCachedLuaFiles");
@@ -181,6 +181,8 @@ public class LuaCache {
 			buffer.writeString(file);
 		}
 		LuaCraft.channel.sendToServer(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL));
+		
+		return true;
 	}
 
 	// Only used by the client

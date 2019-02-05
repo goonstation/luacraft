@@ -53,7 +53,7 @@ public class LuaCraft {
 	private static Logger logger;
 	public static LuaConfig config;
 
-	public static String rootDir = System.getProperty("user.dir") + File.separator + "luacraft" + File.separator;
+	public static String rootDir = System.getProperty("user.dir") + File.separator + MODID + File.separator;
 	
 	public static HashMap<String, LuaJavaChannel> threadChannels = new HashMap<String, LuaJavaChannel>();
 	public static HashMap<Side, LuaCraftState> states = new HashMap<Side, LuaCraftState>();
@@ -95,7 +95,7 @@ public class LuaCraft {
 			LuaClient state = new LuaClient();
 			synchronized (state) {
 				state.initialize(true);
-				state.runScripts();
+				//state.autoRunScripts();
 			}
 			synchronized (states) {
 				states.put(Side.CLIENT, state);
@@ -104,7 +104,7 @@ public class LuaCraft {
 			LuaServer state = new LuaServer();
 			synchronized (state) {
 				state.initialize(true);
-				state.runScripts();
+				state.autorunScripts();
 			}
 			synchronized (states) {
 				states.put(Side.SERVER, state);
@@ -126,7 +126,7 @@ public class LuaCraft {
 			synchronized (state) {
 				state.setRunningSide(Side.CLIENT); // Singleplayer fix.. the server is running on the client
 				state.initialize(true);
-				state.runScripts();
+				state.autorunScripts();
 			}
 			synchronized (states) {
 				states.put(Side.SERVER, state);
@@ -213,7 +213,7 @@ public class LuaCraft {
 		LuaClient state = (LuaClient) getLuaState(Side.CLIENT);
 
 		synchronized (state) {
-			state.runScripts();
+			state.autorunScripts();
 		}
 	}
 
@@ -221,7 +221,7 @@ public class LuaCraft {
 		LuaServer state = (LuaServer) getLuaState(Side.SERVER);
 		
 		synchronized (state) {
-			state.runScripts();
+			state.autorunScripts();
 		}
 	}
 
