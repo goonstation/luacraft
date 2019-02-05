@@ -3,6 +3,7 @@ package com.luacraft;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.luacraft.classes.LuaCache;
@@ -31,32 +32,32 @@ public class LuaPacketManager {
 		String func = buffer.readString(32767);
 
 		// If it's a LuaFile handle it internally
-		if (func.equals("CachedLuaFile")) {
-			String file = buffer.readString(32767);
-			String hash = buffer.readString(32767);
-			byte[] data = buffer.readByteArray();
-			try {
-				l.info("Downloaded file: " + file);
-				LuaCache.cacheFile(file, hash, data);
-			} catch (SQLException e) {
-				l.error("Failed to cache file: " + e.getLocalizedMessage());
+		if (func.equals("CachedLuaFiles")) {
+			int numFiles = buffer.readVarInt();
+			for (int i = 1; i <= numFiles; i++) {
+				String file = buffer.readString(32767);
+				String hash = buffer.readString(32767);
+				byte[] data = buffer.readByteArray();
+				try {
+					l.info("Downloaded file: " + file);
+					LuaCache.cacheFile(file, hash, data);
+				} catch (SQLException e) {
+					l.error("Failed to cache file: " + e.getLocalizedMessage());
+				}
 			}
 			return;
 		} else if (func.equals("LuaCacheSync")) {
 			l.warning("Received LuaCacheSync");
+			// Store the servers values so we can compare against our own
+			HashMap<String, String> serverCache = new HashMap<String, String>();
 			
 			int numFiles = buffer.readVarInt();
-			
-			// Store the servers values so we can compare against our own
-			HashMap<String, String> serverCache = new HashMap<String, String>();;
-			
 			for (int i = 1; i <= numFiles; i++) {
 				String file = buffer.readString(32767);
 				String hash = buffer.readString(32767);
 				serverCache.put(file, hash);
 				l.info("\t" + file + ":\t" + hash);
 			}
-			
 			try {
 				LuaCache.compareAndRequestFiles(serverCache);
 			} catch (SQLException | NoSuchAlgorithmException | IOException e) {
@@ -65,6 +66,7 @@ public class LuaPacketManager {
 			return;
 		}
 
+		// Call net.Incomming library
 		buffer.readerIndex(0);
 		l.pushIncomingNet();
 		l.pushUserdataWithMeta(buffer, "ByteBuf");
@@ -77,15 +79,21 @@ public class LuaPacketManager {
 		String func = buffer.readString(32767);
 
 		// If it's a LuaFile handle it internally
-		if (func.equals("GetCachedLuaFile")) {
+		if (func.equals("GetCachedLuaFiles")) {
+			ArrayList<String> files = new ArrayList<String>();
+			int numFiles = buffer.readVarInt();
+			for (int i = 1; i <= numFiles; i++) {
+				files.add(buffer.readString(32767));
+			}
 			try {
-				LuaCache.sendFileToClient(buffer.readString(32767), player);
+				LuaCache.sendFilesToClient(files, player);
 			} catch (SQLException e) {
 				l.error("Failed to send file to client: " + e.getLocalizedMessage());
 			}
 			return;
 		}
 
+		// Call net.Incomming library
 		buffer.readerIndex(0);
 		l.pushIncomingNet();
 		l.pushUserdataWithMeta(buffer, "ByteBuf");

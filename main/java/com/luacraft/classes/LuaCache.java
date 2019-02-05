@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.zip.GZIPInputStream;
@@ -46,6 +47,7 @@ public class LuaCache {
 		connection = DriverManager.getConnection("jdbc:sqlite:luacraft/cache.db");
 		Statement stmt = connection.createStatement();
 		stmt.execute("CREATE TABLE IF NOT EXISTS cache ( file TEXT NOT NULL PRIMARY KEY, hash TEXT NOT NULL, data TEXT NOT NULL )");
+		stmt.close();
 	}
 	
 	// Only used by the server
@@ -112,43 +114,40 @@ public class LuaCache {
 		buffer.writeVarInt(cache.size());
 
 		for (Entry<String, String> entry : cache.entrySet()) {
-		    String file = entry.getKey();
-		    String hash = entry.getValue();
-		    buffer.writeString(file);
-		    buffer.writeString(hash);
+		    buffer.writeString(entry.getKey()); // Filename
+		    buffer.writeString(entry.getValue()); // Hash value
 		}
 		LuaCraft.channel.sendTo(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL), (EntityPlayerMP) player);
 	}
 	
 	// Only used by the server
-	public static void sendFileToClient(String file, EntityPlayer player) throws SQLException {
-		PreparedStatement stmt = connection.prepareStatement("SELECT hash, data FROM cache WHERE file=?;");
-		stmt.setString(1, file);
-		ResultSet result = stmt.executeQuery();
-		
-		if (result.next()) {
-			PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
-			buffer.writeString("CachedLuaFile");
-			buffer.writeString(file);
-			buffer.writeString(result.getString("hash"));
-			buffer.writeByteArray(result.getBytes("data"));
-			LuaCraft.channel.sendTo(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL), (EntityPlayerMP) player);
+	public static void sendFilesToClient(ArrayList<String> files, EntityPlayer player) throws SQLException {
+		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+		buffer.writeString("CachedLuaFiles");
+		buffer.writeVarInt(files.size());
+
+		for (String file : files) {
+			PreparedStatement stmt = connection.prepareStatement("SELECT hash, data FROM cache WHERE file=?;");
+			stmt.setString(1, file);
+			ResultSet result = stmt.executeQuery();
+			
+			if (result.next()) {
+				buffer.writeString(file);
+				buffer.writeString(result.getString("hash"));
+				buffer.writeByteArray(result.getBytes("data"));
+			}
+			
+			result.close();
+			stmt.close();
 		}
 		
-		result.close();
-		stmt.close();
-	}
-	
-	// Only used by the client
-	public static void requestFileFromServer(String file) {
-		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
-		buffer.writeString("GetCachedLuaFile");
-		buffer.writeString(file);
-		LuaCraft.channel.sendToServer(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL));
+		LuaCraft.channel.sendTo(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL), (EntityPlayerMP) player);
 	}
 	
 	// Only used by the client
 	public static void compareAndRequestFiles(HashMap<String, String> serverHashes) throws SQLException, NoSuchAlgorithmException, IOException {
+		ArrayList<String> files = new ArrayList<String>();
+		
 		for (Entry<String, String> entry : serverHashes.entrySet()) {
 			String file = entry.getKey();
 			String hash = entry.getValue();
@@ -169,9 +168,19 @@ public class LuaCache {
 			
 			// Request the file if the entry doesn't exist in the cache or the hashes mismatch
 			if (stream == null || clHash == null || !clHash.equals(hash)) {
-				requestFileFromServer(file);
+				files.add(file);
 			}
 		}
+		
+		if (files.isEmpty()) return; // Nothing needed!
+		
+		PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
+		buffer.writeString("GetCachedLuaFiles");
+		buffer.writeVarInt(files.size());
+		for (String file : files) {
+			buffer.writeString(file);
+		}
+		LuaCraft.channel.sendToServer(new FMLProxyPacket(buffer, LuaCraft.NET_CHANNEL));
 	}
 
 	// Only used by the client
