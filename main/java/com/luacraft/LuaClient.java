@@ -55,17 +55,9 @@ public class LuaClient extends LuaShared {
 		autorunSharedScripts();
 		try {
 			info("Loading lua/autorun/client/*.lua");
-
-			// Include autorun files in the cache
-			for (Entry<String, String> entry : LuaCache.getCachedFilesForServer().entrySet()) {
-				String file = entry.getKey();
-				if (!file.startsWith("autorun/")) continue;
-				try {
+			
+			for (String file : LuaCache.getAutorunClient()) {
 					includeFileStream(LuaCache.getFileInputStream(file), "cache:" + file);
-				} catch (IOException | SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			
 			autorun("client"); // Load all files within autorun/client
@@ -75,11 +67,11 @@ public class LuaClient extends LuaShared {
 			for (File file : files) {
 				LuaScriptLoader.loadItemScript(this, file);
 			}
-		} catch(LuaRuntimeException e) {
-			handleLuaRuntimeError(e);
-		} catch(LuaSyntaxException e) {
+		} catch(IOException | SQLException | LuaSyntaxException e) {
 			error(e.getMessage());
 			e.printStackTrace();
+		} catch(LuaRuntimeException e) {
+			handleLuaRuntimeError(e);
 		}
 	}
 

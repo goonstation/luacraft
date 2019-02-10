@@ -15,7 +15,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -40,6 +43,30 @@ public class LuaCache {
 	
 	public static HashMap<String, String> getCachedFilesForServer() {
 		return serverCache;
+	}
+	
+	public static List<String> getAutorunShared() {
+		List<String> files = new ArrayList<String>();
+		
+		for (Entry<String, String> entry : serverCache.entrySet()) {
+			String file = entry.getKey();
+			if (!file.startsWith("autorun/client/") && (file.startsWith("autorun/") || file.startsWith("autorun/shared/")))
+				files.add(file);
+		}
+		
+		return files;
+	}
+	
+	public static List<String> getAutorunClient() {
+		List<String> files = new ArrayList<String>();
+		
+		for (Entry<String, String> entry : serverCache.entrySet()) {
+			String file = entry.getKey();
+			if (file.startsWith("autorun/client/"))
+				files.add(file);
+		}
+		
+		return files;
 	}
 	
 	// Server and client both have a cache.db file to sync

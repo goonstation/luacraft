@@ -1,5 +1,9 @@
 package com.luacraft;
 
+import java.io.IOException;
+import java.sql.SQLException;
+
+import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.LuaScriptedItem;
 import com.luacraft.library.LuaGlobals;
 import com.luacraft.library.LuaLibConsole;
@@ -65,13 +69,16 @@ public class LuaShared extends LuaCraftState {
 	public void autorunSharedScripts() {
 		info("Loading lua/autorun/*.lua");
 		try {
+			for (String file : LuaCache.getAutorunShared()) {
+				includeFileStream(LuaCache.getFileInputStream(file), "cache:" + file);
+			}
 			autorun(); // Load all files within autorun
 			autorun("shared"); // Failsafe, incase someone thinks they need a shared folder
-		} catch(LuaRuntimeException e) {
-			handleLuaRuntimeError(e);
-		} catch(LuaSyntaxException e) {
+		} catch (IOException | SQLException | LuaSyntaxException e) {
 			error(e.getMessage());
 			e.printStackTrace();
+		} catch(LuaRuntimeException e) {
+			handleLuaRuntimeError(e);
 		}
 	}
 
