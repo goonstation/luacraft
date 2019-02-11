@@ -27,7 +27,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.storage.WorldInfo;
 
 public class LuaWorld {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushString(String.format("World [%d][%s]", self.provider.getDimension(),
@@ -44,7 +44,7 @@ public class LuaWorld {
 	 * @return [[Block]]:block
 	 */
 
-	public static JavaFunction GetBlock = new JavaFunction() {
+	private static JavaFunction GetBlock = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 
@@ -75,7 +75,7 @@ public class LuaWorld {
 	 * @return [[Block]]:block
 	 */
 
-	public static JavaFunction GetTopBlock = new JavaFunction() {
+	private static JavaFunction GetTopBlock = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 
@@ -109,7 +109,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction ChatPrint = new JavaFunction() {
+	private static JavaFunction ChatPrint = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			List<EntityPlayer> playerList = self.playerEntities;
@@ -130,7 +130,7 @@ public class LuaWorld {
 	 * @return [[Table]]:players
 	 */
 
-	public static JavaFunction GetPlayers = new JavaFunction() {
+	private static JavaFunction GetPlayers = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			List<EntityPlayer> playerList = self.playerEntities;
@@ -154,7 +154,7 @@ public class LuaWorld {
 	 * @return [[Player]]:player
 	 */
 
-	public static JavaFunction GetPlayerByName = new JavaFunction() {
+	private static JavaFunction GetPlayerByName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			String search = l.checkString(2);
@@ -179,7 +179,7 @@ public class LuaWorld {
 	 * @return [[Entity]]:entity
 	 */
 
-	public static JavaFunction GetEntity = new JavaFunction() {
+	private static JavaFunction GetEntity = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			int searchId = l.checkInteger(2);
@@ -203,7 +203,7 @@ public class LuaWorld {
 	 * @return [[Table]]:players
 	 */
 
-	public static JavaFunction GetEntities = new JavaFunction() {
+	private static JavaFunction GetEntities = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			List<Entity> entityList = self.loadedEntityList;
@@ -227,7 +227,7 @@ public class LuaWorld {
 	 * @return [[Table]]:entities
 	 */
 
-	public static JavaFunction GetEntitiesByClass = new JavaFunction() {
+	private static JavaFunction GetEntitiesByClass = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			String search = l.checkString(2);
@@ -256,7 +256,7 @@ public class LuaWorld {
 	 * @return [[Entity]]:entity
 	 */
 
-	public static JavaFunction CreateEntity = new JavaFunction() {
+	private static JavaFunction CreateEntity = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 
@@ -282,7 +282,7 @@ public class LuaWorld {
 	 * @return [[Boolean]]:day
 	 */
 
-	public static JavaFunction IsDayTime = new JavaFunction() {
+	private static JavaFunction IsDayTime = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushBoolean(self.isDaytime());
@@ -298,7 +298,7 @@ public class LuaWorld {
 	 * @return [[Boolean]]:night
 	 */
 
-	public static JavaFunction IsNightTime = new JavaFunction() {
+	private static JavaFunction IsNightTime = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushBoolean(!self.isDaytime());
@@ -314,7 +314,7 @@ public class LuaWorld {
 	 * @return [[Number]]:time
 	 */
 
-	public static JavaFunction GetTime = new JavaFunction() {
+	private static JavaFunction GetTime = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushNumber(self.getWorldTime());
@@ -330,7 +330,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetTime = new JavaFunction() {
+	private static JavaFunction SetTime = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			self.setWorldTime((long) l.checkNumber(2));
@@ -346,7 +346,7 @@ public class LuaWorld {
 	 * @return [[Boolean]]:rain
 	 */
 
-	public static JavaFunction IsRaining = new JavaFunction() {
+	private static JavaFunction IsRaining = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushBoolean(self.getWorldInfo().isRaining());
@@ -362,7 +362,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetRaining = new JavaFunction() {
+	private static JavaFunction SetRaining = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			self.getWorldInfo().setRaining(l.checkBoolean(2));
@@ -378,7 +378,7 @@ public class LuaWorld {
 	 * @return [[Boolean]]:storm
 	 */
 
-	public static JavaFunction IsStorming = new JavaFunction() {
+	private static JavaFunction IsStorming = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushBoolean(self.getWorldInfo().isThundering());
@@ -394,7 +394,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetStorming = new JavaFunction() {
+	private static JavaFunction SetStorming = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			self.getWorldInfo().setThundering(l.checkBoolean(2));
@@ -410,7 +410,7 @@ public class LuaWorld {
 	 * @return [[Number]]:diff
 	 */
 
-	public static JavaFunction GetDifficulty = new JavaFunction() {
+	private static JavaFunction GetDifficulty = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushNumber(self.getDifficulty().ordinal());
@@ -426,7 +426,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetDifficulty = new JavaFunction() {
+	private static JavaFunction SetDifficulty = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			self.getWorldInfo().setDifficulty(EnumDifficulty.getDifficultyEnum(l.checkInteger(2)));
@@ -442,7 +442,7 @@ public class LuaWorld {
 	 * @return [[Vector]]:pos
 	 */
 
-	public static JavaFunction GetSpawnPos = new JavaFunction() {
+	private static JavaFunction GetSpawnPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			WorldInfo info = self.getWorldInfo();
@@ -460,7 +460,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetSpawnPos = new JavaFunction() {
+	private static JavaFunction SetSpawnPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -478,7 +478,7 @@ public class LuaWorld {
 	 * @return [[Boolean]]:animals
 	 */
 
-	public static JavaFunction GetAnimalSpawning = new JavaFunction() {
+	private static JavaFunction GetAnimalSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushBoolean(self.spawnPeacefulMobs);
@@ -494,7 +494,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetAnimalSpawning = new JavaFunction() {
+	private static JavaFunction SetAnimalSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			self.spawnPeacefulMobs = l.checkBoolean(2);
@@ -510,7 +510,7 @@ public class LuaWorld {
 	 * @return [[Boolean]]:mobs
 	 */
 
-	public static JavaFunction GetMobSpawning = new JavaFunction() {
+	private static JavaFunction GetMobSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushBoolean(self.spawnHostileMobs);
@@ -526,7 +526,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetMobSpawning = new JavaFunction() {
+	private static JavaFunction SetMobSpawning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			self.spawnHostileMobs = l.checkBoolean(2);
@@ -542,7 +542,7 @@ public class LuaWorld {
 	 * @return [[Number]]:gamemode
 	 */
 
-	public static JavaFunction GetGamemode = new JavaFunction() {
+	private static JavaFunction GetGamemode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushInteger(self.getWorldInfo().getGameType().ordinal());
@@ -558,7 +558,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetGamemode = new JavaFunction() {
+	private static JavaFunction SetGamemode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			self.getWorldInfo().setGameType(GameType.getByID(l.checkInteger(2)));
@@ -574,7 +574,7 @@ public class LuaWorld {
 	 * @return [[Number]]:seed
 	 */
 
-	public static JavaFunction GetSeed = new JavaFunction() {
+	private static JavaFunction GetSeed = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushNumber(self.getWorldInfo().getSeed());
@@ -590,7 +590,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddLightning = new JavaFunction() {
+	private static JavaFunction AddLightning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -607,7 +607,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddExplosion = new JavaFunction() {
+	private static JavaFunction AddExplosion = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -625,7 +625,7 @@ public class LuaWorld {
 	 * @return [[Number]]:dimension
 	 */
 
-	public static JavaFunction GetDimension = new JavaFunction() {
+	private static JavaFunction GetDimension = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.pushNumber(self.provider.getDimension());
@@ -641,7 +641,7 @@ public class LuaWorld {
 	 * @return [[String]]:biome
 	 */
 
-	public static JavaFunction GetBiome = new JavaFunction() {
+	private static JavaFunction GetBiome = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -659,7 +659,7 @@ public class LuaWorld {
 	 * @return nil
 	 */
 
-	public static JavaFunction EmitSound = new JavaFunction() {
+	private static JavaFunction EmitSound = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -677,7 +677,7 @@ public class LuaWorld {
 	 * @return [[TraceHitTable]]:hit
 	 */
 
-	public static JavaFunction TraceLine = new JavaFunction() {
+	private static JavaFunction TraceLine = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World self = (World) l.checkUserdata(1, World.class, "World");
 			l.checkType(2, LuaType.TABLE);

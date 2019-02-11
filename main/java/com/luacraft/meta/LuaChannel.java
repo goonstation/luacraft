@@ -6,7 +6,7 @@ import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaState;
 
 public class LuaChannel {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaChannel self = (LuaJavaChannel) l.checkUserdata(1, LuaJavaChannel.class, "Channel");
 			l.pushString(String.format("Channel: 0x%08x", l.toPointer(1)));
@@ -22,7 +22,7 @@ public class LuaChannel {
 	 * @return [[Boolean]]:empty
 	 */
 
-	public static JavaFunction Empty = new JavaFunction() {
+	private static JavaFunction Empty = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaChannel self = (LuaJavaChannel) l.checkUserdata(1, LuaJavaChannel.class, "Channel");
 			l.pushBoolean(self.empty());
@@ -38,7 +38,7 @@ public class LuaChannel {
 	 * @return [[Object]]:obj
 	 */
 
-	public static JavaFunction Peek = new JavaFunction() {
+	private static JavaFunction Peek = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaChannel self = (LuaJavaChannel) l.checkUserdata(1, LuaJavaChannel.class, "Channel");
 			self.peek(l);
@@ -54,7 +54,7 @@ public class LuaChannel {
 	 * @return [[Object]]:obj
 	 */
 
-	public static JavaFunction Pop = new JavaFunction() {
+	private static JavaFunction Pop = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaChannel self = (LuaJavaChannel) l.checkUserdata(1, LuaJavaChannel.class, "Channel");
 			self.pop(l);
@@ -70,7 +70,7 @@ public class LuaChannel {
 	 * @return nil
 	 */
 
-	public static JavaFunction Push = new JavaFunction() {
+	private static JavaFunction Push = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaChannel self = (LuaJavaChannel) l.checkUserdata(1, LuaJavaChannel.class, "Channel");
 			self.push(l, 2);
@@ -86,7 +86,7 @@ public class LuaChannel {
 	 * @return [[Number]]:position
 	 */
 
-	public static JavaFunction Search = new JavaFunction() {
+	private static JavaFunction Search = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaChannel self = (LuaJavaChannel) l.checkUserdata(1, LuaJavaChannel.class, "Channel");
 			l.pushInteger(self.Search(l, 2));

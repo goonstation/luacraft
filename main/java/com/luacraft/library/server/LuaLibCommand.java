@@ -24,7 +24,7 @@ public class LuaLibCommand {
 	 * @return nil
 	 */
 
-	public static JavaFunction Add = new JavaFunction() {
+	private static JavaFunction Add = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String commandName = l.checkString(1);
 			l.checkType(2, LuaType.FUNCTION);
@@ -60,7 +60,7 @@ public class LuaLibCommand {
 	 * @return nil
 	 */
 
-	public static JavaFunction Remove = new JavaFunction() {
+	private static JavaFunction Remove = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String commandName = l.checkString(1);
 			commandHandler.getCommands().remove(commandName);
@@ -77,7 +77,7 @@ public class LuaLibCommand {
 	 * @return nil
 	 */
 
-	public static JavaFunction AutoComplete = new JavaFunction() {
+	private static JavaFunction AutoComplete = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String commandName = l.checkString(1);
 			l.checkType(2, LuaType.FUNCTION);
@@ -93,50 +93,32 @@ public class LuaLibCommand {
 	/**
 	 * @author Jake
 	 * @library command
+	 * @function Get
+	 * @info Get the command object by name
+	 * @arguments [[String]]:name
+	 * @return [[Command]]:command
+	 */
+
+	private static JavaFunction Get = new JavaFunction() {
+		public int invoke(LuaState l) {
+			l.newMetatable("CommandCallbacks");
+			l.getField(-1, l.checkString(1));
+			return 1;
+		}
+	};
+
+	/**
+	 * @author Jake
+	 * @library command
 	 * @function GetAll
 	 * @info Gets a table of all registered commmands
 	 * @arguments nil
 	 * @return [[Table]]:commands
 	 */
 
-	public static JavaFunction GetAll = new JavaFunction() {
+	private static JavaFunction GetAll = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.newMetatable("CommandCallbacks");
-			return 1;
-		}
-	};
-	
-	public static JavaFunction __tostring = new JavaFunction() {
-		public int invoke(LuaState l) {
-			LuaJavaCommand self = (LuaJavaCommand) l.checkUserdata(1, LuaJavaCommand.class, "Command");
-			l.pushString(String.format("Command: 0x%08x", l.toPointer(1)));
-			return 1;
-		}
-	};
-	
-	public static JavaFunction AddAlias = new JavaFunction() {
-		public int invoke(LuaState l) {
-			LuaJavaCommand self = (LuaJavaCommand) l.checkUserdata(1, LuaJavaCommand.class, "Command");
-			self.addAlias(l.checkString(2));
-			l.setTop(1); // Return ourself to chain aliases and stuff
-			return 1;
-		}
-	};
-	
-	public static JavaFunction SetUsage = new JavaFunction() {
-		public int invoke(LuaState l) {
-			LuaJavaCommand self = (LuaJavaCommand) l.checkUserdata(1, LuaJavaCommand.class, "Command");
-			self.setUsage(l.checkString(2));
-			l.setTop(1); // Return ourself to chain aliases and stuff
-			return 1;
-		}
-	};
-	
-	public static JavaFunction CanPlayerUseCommand = new JavaFunction() {
-		public int invoke(LuaState l) {
-			LuaJavaCommand self = (LuaJavaCommand) l.checkUserdata(1, LuaJavaCommand.class, "Command");
-			ICommandSender player = (ICommandSender) l.checkUserdata(2, EntityPlayer.class, "Player");
-			l.pushBoolean(player.canUseCommand(self.getRequiredPermissionLevel(), self.getName()));
 			return 1;
 		}
 	};
@@ -145,29 +127,14 @@ public class LuaLibCommand {
 		MinecraftServer server = l.getServer();
 		commandHandler = (CommandHandler) server.getCommandManager();
 		
-		l.newMetatable("Command");
-		{
-			l.pushJavaFunction(__tostring);
-			l.setField(-2, "__tostring");
-
-			LuaUserdata.SetupBasicMeta(l);
-			LuaUserdata.SetupMeta(l, false);
-
-			l.newMetatable("Object");
-			l.setField(-2, "__basemeta");
-
-			l.pushJavaFunction(AddAlias);
-			l.setField(-2, "AddAlias");
-			l.pushJavaFunction(SetUsage);
-			l.setField(-2, "SetUsage");
-		}
-
 		l.newTable();
 		{
 			l.pushJavaFunction(Add);
 			l.setField(-2, "Add");
 			l.pushJavaFunction(AutoComplete);
 			l.setField(-2, "AutoComplete");
+			l.pushJavaFunction(Get);
+			l.setField(-2, "Get");
 			l.pushJavaFunction(GetAll);
 			l.setField(-2, "GetAll");
 		}

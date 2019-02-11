@@ -23,7 +23,7 @@ public class LuaLibLanguage {
 	 * @return [[String]]:translation
 	 */
 
-	public static JavaFunction Translate = new JavaFunction() {
+	private static JavaFunction Translate = new JavaFunction() {
 		public int invoke(LuaState l) {
 			int top = l.getTop();
 
@@ -53,7 +53,7 @@ public class LuaLibLanguage {
 	 * @return nil
 	 */
 
-	public static JavaFunction ParseFile = new JavaFunction() {
+	private static JavaFunction ParseFile = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String file = l.checkString(1);
 			InputStream stream;
@@ -76,7 +76,7 @@ public class LuaLibLanguage {
 	 * @return [[Boolean]]:cantranslate
 	 */
 
-	public static JavaFunction CanTranslate = new JavaFunction() {
+	private static JavaFunction CanTranslate = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(I18n.canTranslate(l.checkString(1)));
 			return 1;

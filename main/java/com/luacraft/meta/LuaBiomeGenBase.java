@@ -8,7 +8,7 @@ import com.naef.jnlua.LuaState;
 import net.minecraft.world.biome.Biome;
 
 public class LuaBiomeGenBase {
-    public static JavaFunction __tostring = new JavaFunction() {
+    private static JavaFunction __tostring = new JavaFunction() {
         public int invoke(LuaState l) {
             Biome biome = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushString(biome.getBiomeName());
@@ -16,7 +16,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction HasWeather = new JavaFunction() {
+    private static JavaFunction HasWeather = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushBoolean(biomeGenBase.canRain() || biomeGenBase.isSnowyBiome());
@@ -24,7 +24,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction IsRainy = new JavaFunction() {
+    private static JavaFunction IsRainy = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushBoolean(biomeGenBase.canRain());
@@ -32,7 +32,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction IsSnowy = new JavaFunction() {
+    private static JavaFunction IsSnowy = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushBoolean(biomeGenBase.isSnowyBiome());
@@ -40,7 +40,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction IsHighHumidity = new JavaFunction() {
+    private static JavaFunction IsHighHumidity = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushBoolean(biomeGenBase.isHighHumidity());
@@ -48,7 +48,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction IsMutation = new JavaFunction() {
+    private static JavaFunction IsMutation = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushBoolean(biomeGenBase.isMutation());
@@ -56,7 +56,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction RainfallLevel = new JavaFunction() {
+    private static JavaFunction RainfallLevel = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushNumber(biomeGenBase.getRainfall());
@@ -64,7 +64,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction Temperature = new JavaFunction() {
+    private static JavaFunction Temperature = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushNumber(biomeGenBase.getDefaultTemperature());
@@ -72,7 +72,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction HeightVariation = new JavaFunction() {
+    private static JavaFunction HeightVariation = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushNumber(biomeGenBase.getHeightVariation());
@@ -80,7 +80,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction SpawningChance = new JavaFunction() {
+    private static JavaFunction SpawningChance = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushNumber(biomeGenBase.getSpawningChance());
@@ -88,7 +88,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction Name = new JavaFunction() {
+    private static JavaFunction Name = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushString(biomeGenBase.getBiomeName());
@@ -96,7 +96,7 @@ public class LuaBiomeGenBase {
         }
     };
 
-    public static JavaFunction BaseHeight = new JavaFunction() {
+    private static JavaFunction BaseHeight = new JavaFunction() {
         public int invoke(LuaState l) {
         	Biome biomeGenBase = (Biome)(l.checkUserdata(-1, Biome.class, "Biome"));
             l.pushNumber(biomeGenBase.getBaseHeight());

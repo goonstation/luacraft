@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class LuaItemStack {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushString(String.format("ItemStack [%s][%d]", self.getDisplayName(), self.stackSize));
@@ -19,7 +19,7 @@ public class LuaItemStack {
 		}
 	};
 
-	public static JavaFunction __eq = new JavaFunction() {
+	private static JavaFunction __eq = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			ItemStack other = (ItemStack) l.checkUserdata(2, ItemStack.class, "ItemStack");
@@ -36,7 +36,7 @@ public class LuaItemStack {
 	 * @return [[ItemStack]]:stack
 	 */
 
-	public static JavaFunction Copy = new JavaFunction() {
+	private static JavaFunction Copy = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushUserdataWithMeta(self.copy(), "ItemStack");
@@ -52,7 +52,7 @@ public class LuaItemStack {
 	 * @return [[Number]]:id
 	 */
 
-	public static JavaFunction GetID = new JavaFunction() {
+	private static JavaFunction GetID = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushInteger(Item.getIdFromItem(self.getItem()));
@@ -68,7 +68,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetID = new JavaFunction() {
+	private static JavaFunction SetID = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			//self.item = Item.getItemById(l.checkInteger(2, 1));
@@ -85,7 +85,7 @@ public class LuaItemStack {
 	 * @return [[String]]:name
 	 */
 
-	public static JavaFunction GetName = new JavaFunction() {
+	private static JavaFunction GetName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushString(self.getDisplayName());
@@ -101,7 +101,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetName = new JavaFunction() {
+	private static JavaFunction SetName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			self.setStackDisplayName(l.checkString(2, "error"));
@@ -117,7 +117,7 @@ public class LuaItemStack {
 	 * @return [[NBTTag]]:tag
 	 */
 
-	public static JavaFunction GetNBT = new JavaFunction() {
+	private static JavaFunction GetNBT = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			if (!self.hasTagCompound())
@@ -136,7 +136,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetNBT = new JavaFunction() {
+	private static JavaFunction SetNBT = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			NBTTagCompound nbtTag = (NBTTagCompound) l.checkUserdata(2, NBTTagCompound.class, "NBTTag");
@@ -153,7 +153,7 @@ public class LuaItemStack {
 	 * @return [[Number]]:size
 	 */
 
-	public static JavaFunction GetSize = new JavaFunction() {
+	private static JavaFunction GetSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushInteger(self.stackSize);
@@ -169,7 +169,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetSize = new JavaFunction() {
+	private static JavaFunction SetSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			self.stackSize = l.checkInteger(2, 1);
@@ -185,7 +185,7 @@ public class LuaItemStack {
 	 * @return [[Number]]:size
 	 */
 
-	public static JavaFunction GetMaxSize = new JavaFunction() {
+	private static JavaFunction GetMaxSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushInteger(self.getMaxStackSize());
@@ -201,7 +201,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetMaxSize = new JavaFunction() {
+	private static JavaFunction SetMaxSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			self.getItem().setMaxStackSize(l.checkInteger(2, 1));
@@ -217,7 +217,7 @@ public class LuaItemStack {
 	 * @return [[Number]]:damage
 	 */
 
-	public static JavaFunction GetDamage = new JavaFunction() {
+	private static JavaFunction GetDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushInteger(self.getItemDamage());
@@ -233,7 +233,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetDamage = new JavaFunction() {
+	private static JavaFunction SetDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			self.setItemDamage(l.checkInteger(2, 0));
@@ -249,7 +249,7 @@ public class LuaItemStack {
 	 * @return [[Number]]:damage
 	 */
 
-	public static JavaFunction GetMaxDamage = new JavaFunction() {
+	private static JavaFunction GetMaxDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushInteger(self.getMaxDamage());
@@ -265,7 +265,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetMaxDamage = new JavaFunction() {
+	private static JavaFunction SetMaxDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			self.getItem().setMaxDamage(l.checkInteger(2, 0));
@@ -281,7 +281,7 @@ public class LuaItemStack {
 	 * @return [[Boolean]]:status
 	 */
 
-	public static JavaFunction IsEnchanted = new JavaFunction() {
+	private static JavaFunction IsEnchanted = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			l.pushBoolean(self.isItemEnchanted());
@@ -297,7 +297,7 @@ public class LuaItemStack {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddEnchantment = new JavaFunction() {
+	private static JavaFunction AddEnchantment = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ItemStack self = (ItemStack) l.checkUserdata(1, ItemStack.class, "ItemStack");
 			self.addEnchantment(Enchantment.getEnchantmentByID(l.checkInteger(2, 0)), l.checkInteger(3, 1));

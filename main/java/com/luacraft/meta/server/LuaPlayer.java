@@ -17,7 +17,8 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.GameType;
 
 public class LuaPlayer {
-	public static MinecraftServer server = null;
+	
+	private static MinecraftServer server = null;
 
 	/**
 	 * @author Gregor
@@ -27,7 +28,7 @@ public class LuaPlayer {
 	 * @return [[Boolean]]:status, [ [[String]]:error ]
 	 */
 
-	public static JavaFunction SetTeam = new JavaFunction() {
+	private static JavaFunction SetTeam = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			try {
@@ -49,7 +50,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetGamemode = new JavaFunction() {
+	private static JavaFunction SetGamemode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			self.setGameType(GameType.getByID(l.checkInteger(2)));
@@ -65,7 +66,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:gamemode
 	 */
 
-	public static JavaFunction GetGamemode = new JavaFunction() {
+	private static JavaFunction GetGamemode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			l.pushNumber(self.interactionManager.getGameType().ordinal());
@@ -81,7 +82,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:ping
 	 */
 
-	public static JavaFunction GetPing = new JavaFunction() {
+	private static JavaFunction GetPing = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			l.pushInteger(self.ping);
@@ -92,16 +93,17 @@ public class LuaPlayer {
 	/**
 	 * @author Jake
 	 * @function GetIP
-	 * @info Return the players ping
+	 * @info Return the players IP address
 	 * @arguments nil
-	 * @return [[Number]]:ping
+	 * @return [[String]]:address
 	 */
 
-	public static JavaFunction GetIP = new JavaFunction() {
+	private static JavaFunction GetIP = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 
 			String ip = self.connection.netManager.getRemoteAddress().toString();
+			
 			ip = ip.substring(ip.indexOf("/") + 1);
 			ip = ip.substring(0, ip.indexOf(":"));
 			l.pushString(ip);
@@ -117,7 +119,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetPos = new JavaFunction() {
+	private static JavaFunction SetPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -134,7 +136,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction Remove = new JavaFunction() {
+	private static JavaFunction Remove = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			self.connection.disconnect(new TextComponentString("You were removed"));
@@ -150,7 +152,7 @@ public class LuaPlayer {
 	 * @return [[Boolean]]:op
 	 */
 
-	public static JavaFunction IsOP = new JavaFunction() {
+	private static JavaFunction IsOP = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			l.pushBoolean(server.getPlayerList().getOppedPlayers().getEntry(self.getGameProfile()) != null);
@@ -166,7 +168,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetOP = new JavaFunction() {
+	private static JavaFunction SetOP = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			boolean state = l.checkBoolean(2);
@@ -191,7 +193,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction Kick = new JavaFunction() {
+	private static JavaFunction Kick = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			self.connection.disconnect(new TextComponentString(l.checkString(2, "You have been kicked.")));
@@ -207,7 +209,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction Ban = new JavaFunction() {
+	private static JavaFunction Ban = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			String reason = l.checkString(2, "You have been banned.");

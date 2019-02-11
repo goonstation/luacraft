@@ -17,7 +17,7 @@ public class LuaEntityItem {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetItemStack = new JavaFunction() {
+	private static JavaFunction SetItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			ItemStack item = (ItemStack) l.checkUserdata(2, ItemStack.class, "ItemStack");
@@ -34,7 +34,7 @@ public class LuaEntityItem {
 	 * @return [[ItemStack]]:item
 	 */
 
-	public static JavaFunction GetItemStack = new JavaFunction() {
+	private static JavaFunction GetItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			l.pushUserdataWithMeta(self.getItem(), "ItemStack");
@@ -50,7 +50,7 @@ public class LuaEntityItem {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetAge = new JavaFunction() {
+	private static JavaFunction SetAge = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			self.age = l.checkInteger(2);
@@ -66,7 +66,7 @@ public class LuaEntityItem {
 	 * @return [[Number]]:age
 	 */
 
-	public static JavaFunction GetAge = new JavaFunction() {
+	private static JavaFunction GetAge = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			l.pushInteger(self.getAge());
@@ -82,7 +82,7 @@ public class LuaEntityItem {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetPickupDelay = new JavaFunction() {
+	private static JavaFunction SetPickupDelay = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			self.pickupDelay = l.checkInteger(2);
@@ -98,7 +98,7 @@ public class LuaEntityItem {
 	 * @return [[Number]]:age
 	 */
 
-	public static JavaFunction GetPickupDelay = new JavaFunction() {
+	private static JavaFunction GetPickupDelay = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			l.pushInteger(self.pickupDelay);
@@ -114,7 +114,7 @@ public class LuaEntityItem {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetLifespan = new JavaFunction() {
+	private static JavaFunction SetLifespan = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			self.lifespan = l.checkInteger(2);
@@ -130,7 +130,7 @@ public class LuaEntityItem {
 	 * @return [[Number]]:lifespan
 	 */
 
-	public static JavaFunction GetLifespan = new JavaFunction() {
+	private static JavaFunction GetLifespan = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			l.pushInteger(self.lifespan);

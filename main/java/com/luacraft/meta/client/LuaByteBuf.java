@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class LuaByteBuf {
 
-	public static Minecraft client = LuaCraft.getClient();
+	private static final Minecraft client = LuaCraft.getClient();
 
 	/**
 	 * @author Jake
@@ -21,7 +21,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction SendToServer = new JavaFunction() {
+	private static JavaFunction SendToServer = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (client.player == null)
 				return 0;

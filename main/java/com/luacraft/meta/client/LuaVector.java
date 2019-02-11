@@ -16,7 +16,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
 
 public class LuaVector {
-	private static Minecraft client = LuaCraft.getClient();
+	private static final Minecraft client = LuaCraft.getClient();
 
 	static Matrix4f viewMatrix = new Matrix4f();
 	static Matrix4f projectionMatrix = new Matrix4f();
@@ -43,7 +43,7 @@ public class LuaVector {
 	 * @return [[Boolean]]:visible, [[Number]]:x, [[Number]]:y
 	 */
 
-	public static JavaFunction ToScreen = new JavaFunction() {
+	private static JavaFunction ToScreen = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 

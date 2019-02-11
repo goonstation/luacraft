@@ -10,7 +10,7 @@ import com.naef.jnlua.LuaState;
 
 public class LuaSQLQuery {
 
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaQuery self = (LuaJavaQuery) l.checkUserdata(1, LuaJavaQuery.class, "SQLQuery");
 			l.pushString(String.format("SQLQuery: 0x%08x", l.toPointer(1)));
@@ -26,7 +26,7 @@ public class LuaSQLQuery {
 	 * @return nil
 	 */
 
-	public static JavaFunction Start = new JavaFunction() {
+	private static JavaFunction Start = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaQuery self = (LuaJavaQuery) l.checkUserdata(1, LuaJavaQuery.class, "SQLQuery");
 			self.start();
@@ -42,7 +42,7 @@ public class LuaSQLQuery {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetString = new JavaFunction() {
+	private static JavaFunction SetString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaQuery self = (LuaJavaQuery) l.checkUserdata(1, LuaJavaQuery.class, "SQLQuery");
 			try {
@@ -62,7 +62,7 @@ public class LuaSQLQuery {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetInt = new JavaFunction() {
+	private static JavaFunction SetInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaQuery self = (LuaJavaQuery) l.checkUserdata(1, LuaJavaQuery.class, "SQLQuery");
 			try {

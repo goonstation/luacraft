@@ -9,7 +9,7 @@ import com.naef.jnlua.LuaState;
 
 public class LuaColor {
 
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Color.class, "Color");
 			l.pushString(self.toString());
@@ -17,7 +17,7 @@ public class LuaColor {
 		}
 	};
 
-	public static JavaFunction __index = new JavaFunction() {
+	private static JavaFunction __index = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Color.class, "Color");
 			String key = l.checkString(2);
@@ -37,7 +37,7 @@ public class LuaColor {
 		}
 	};
 
-	public static JavaFunction __newindex = new JavaFunction() {
+	private static JavaFunction __newindex = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Color.class, "Color");
 			String key = l.checkString(2);
@@ -56,7 +56,7 @@ public class LuaColor {
 		}
 	};
 
-	public static JavaFunction __eq = new JavaFunction() {
+	private static JavaFunction __eq = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Color.class, "Color");
 			Color other = (Color) l.checkUserdata(2, Color.class, "Color");
@@ -65,7 +65,7 @@ public class LuaColor {
 		}
 	};
 
-	public static JavaFunction __add = new JavaFunction() {
+	private static JavaFunction __add = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Color.class, "Color");
 			Color other = (Color) l.checkUserdata(2, Color.class, "Color");
@@ -74,7 +74,7 @@ public class LuaColor {
 		}
 	};
 
-	public static JavaFunction __sub = new JavaFunction() {
+	private static JavaFunction __sub = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Vector.class, "Color");
 			Color other = (Color) l.checkUserdata(2, Vector.class, "Color");
@@ -83,7 +83,7 @@ public class LuaColor {
 		}
 	};
 
-	public static JavaFunction __mul = new JavaFunction() {
+	private static JavaFunction __mul = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Color.class, "Color");
 			if (l.isUserdata(2, Vector.class)) {
@@ -99,7 +99,7 @@ public class LuaColor {
 		}
 	};
 
-	public static JavaFunction __div = new JavaFunction() {
+	private static JavaFunction __div = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = (Color) l.checkUserdata(1, Color.class, "Color");
 			if (l.isUserdata(2, Color.class)) {

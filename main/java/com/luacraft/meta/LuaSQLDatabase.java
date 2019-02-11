@@ -10,7 +10,7 @@ import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaState;
 
 public class LuaSQLDatabase {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Connection self = (Connection) l.checkUserdata(1, Connection.class, "SQLDatabase");
 			l.pushString(String.format("SQLDatabase: 0x%08x", l.toPointer(1)));
@@ -26,7 +26,7 @@ public class LuaSQLDatabase {
 	 * @return [[Boolean]]:success, [ [[String]]:error ]
 	 */
 
-	public static JavaFunction Disconnect = new JavaFunction() {
+	private static JavaFunction Disconnect = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Connection self = (Connection) l.checkUserdata(1, Connection.class, "SQLDatabase");
 			try {
@@ -49,7 +49,7 @@ public class LuaSQLDatabase {
 	 * @return [[SQLQuery]]:query, [ [[String]]:error ]
 	 */
 
-	public static JavaFunction Query = new JavaFunction() {
+	private static JavaFunction Query = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Connection self = (Connection) l.checkUserdata(1, Connection.class, "SQLDatabase");
 			try {

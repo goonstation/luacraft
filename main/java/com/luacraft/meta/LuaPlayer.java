@@ -16,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 
 public class LuaPlayer {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushString(String.format("Player [%d][%s]", self.getEntityId(), self.getGameProfile().getName()));
@@ -32,7 +32,7 @@ public class LuaPlayer {
 	 * @return [[String]]:name
 	 */
 
-	public static JavaFunction GetName = new JavaFunction() {
+	private static JavaFunction GetName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushString(self.getDisplayNameString());
@@ -48,7 +48,7 @@ public class LuaPlayer {
 	 * @return [[String]]:name
 	 */
 
-	public static JavaFunction GetUserName = new JavaFunction() {
+	private static JavaFunction GetUserName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushString(self.getName());
@@ -64,7 +64,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:score
 	 */
 
-	public static JavaFunction GetScore = new JavaFunction() {
+	private static JavaFunction GetScore = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushInteger(self.getScore());
@@ -80,7 +80,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddScore = new JavaFunction() {
+	private static JavaFunction AddScore = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.addScore(l.checkInteger(2, 1));
@@ -96,7 +96,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetScore = new JavaFunction() {
+	private static JavaFunction SetScore = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.setScore(l.checkInteger(2));
@@ -112,7 +112,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetHunger = new JavaFunction() {
+	private static JavaFunction SetHunger = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.getFoodStats().setFoodLevel(l.checkInteger(2));
@@ -128,7 +128,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:hunger
 	 */
 
-	public static JavaFunction GetHunger = new JavaFunction() {
+	private static JavaFunction GetHunger = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushInteger(self.getFoodStats().getFoodLevel());
@@ -144,7 +144,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:armor
 	 */
 
-	public static JavaFunction GetArmor = new JavaFunction() {
+	private static JavaFunction GetArmor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushInteger(self.getTotalArmorValue());
@@ -160,7 +160,7 @@ public class LuaPlayer {
 	 * @return [[Table]]:inv
 	 */
 
-	public static JavaFunction GetInventory = new JavaFunction() {
+	private static JavaFunction GetInventory = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 
@@ -189,7 +189,7 @@ public class LuaPlayer {
 	 * @return [[Table]]:equipment
 	 */
 
-	public static JavaFunction GetEquipment = new JavaFunction() {
+	private static JavaFunction GetEquipment = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 
@@ -218,7 +218,7 @@ public class LuaPlayer {
 	 * @return [[ItemStack]]:item, [[Number]]:slot
 	 */
 
-	public static JavaFunction GetActiveSlot = new JavaFunction() {
+	private static JavaFunction GetActiveSlot = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushUserdataWithMeta(self.inventory.getCurrentItem(), "ItemStack");
@@ -234,7 +234,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetCreative = new JavaFunction() {
+	private static JavaFunction SetCreative = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.capabilities.isCreativeMode = l.checkBoolean(2);
@@ -250,7 +250,7 @@ public class LuaPlayer {
 	 * @return [[Boolean]]:creative
 	 */
 
-	public static JavaFunction IsCreative = new JavaFunction() {
+	private static JavaFunction IsCreative = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushBoolean(self.capabilities.isCreativeMode);
@@ -266,7 +266,7 @@ public class LuaPlayer {
 	 * @return [[Boolean]]:inbed
 	 */
 
-	public static JavaFunction IsSleeping = new JavaFunction() {
+	private static JavaFunction IsSleeping = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushBoolean(self.isPlayerSleeping());
@@ -282,7 +282,7 @@ public class LuaPlayer {
 	 * @return [[Boolean]]:asleep
 	 */
 
-	public static JavaFunction IsFullyAsleep = new JavaFunction() {
+	private static JavaFunction IsFullyAsleep = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushBoolean(self.isPlayerFullyAsleep());
@@ -298,7 +298,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:exp
 	 */
 
-	public static JavaFunction GetExperience = new JavaFunction() {
+	private static JavaFunction GetExperience = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushNumber(self.experience);
@@ -314,7 +314,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:totalexp
 	 */
 
-	public static JavaFunction GetTotalExperience = new JavaFunction() {
+	private static JavaFunction GetTotalExperience = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushNumber(self.experienceTotal);
@@ -330,7 +330,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:level
 	 */
 
-	public static JavaFunction GetLevel = new JavaFunction() {
+	private static JavaFunction GetLevel = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushNumber(self.experienceLevel);
@@ -346,7 +346,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetLevel = new JavaFunction() {
+	private static JavaFunction SetLevel = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.experienceLevel = l.checkInteger(2);
@@ -362,7 +362,7 @@ public class LuaPlayer {
 	 * @return [[Number]]:lvlcap
 	 */
 
-	public static JavaFunction GetLevelCap = new JavaFunction() {
+	private static JavaFunction GetLevelCap = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushInteger(self.xpBarCap());
@@ -378,7 +378,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddExperience = new JavaFunction() {
+	private static JavaFunction AddExperience = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.addExperience(l.checkInteger(2));
@@ -394,7 +394,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SubExperience = new JavaFunction() {
+	private static JavaFunction SubExperience = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			int diff = self.experienceTotal - l.checkInteger(2);
@@ -414,7 +414,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetExperience = new JavaFunction() {
+	private static JavaFunction SetExperience = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.experience = l.checkInteger(2);
@@ -430,7 +430,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetTotalExperience = new JavaFunction() {
+	private static JavaFunction SetTotalExperience = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.experienceTotal = l.checkInteger(2);
@@ -441,12 +441,13 @@ public class LuaPlayer {
 	/**
 	 * @author Jake
 	 * @function SetGod
+	 * @alias SetDamageDisabled
 	 * @info Set if the player should take damage or not
 	 * @arguments [[Boolean]]:godmode
 	 * @return nil
 	 */
 
-	public static JavaFunction SetGod = new JavaFunction() {
+	private static JavaFunction SetGod = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.capabilities.disableDamage = l.checkBoolean(2);
@@ -457,12 +458,13 @@ public class LuaPlayer {
 	/**
 	 * @author Jake
 	 * @function IsGod
+	 * @alias IsDamageDisabled
 	 * @info Return if the player is in god mode or not
 	 * @arguments [[Boolean]]:godmode
 	 * @return nil
 	 */
 
-	public static JavaFunction IsGod = new JavaFunction() {
+	private static JavaFunction IsGod = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushBoolean(self.capabilities.disableDamage);
@@ -478,7 +480,7 @@ public class LuaPlayer {
 	 * @return [[String]]url
 	 */
 
-	public static JavaFunction GetSkinURL = new JavaFunction() {
+	private static JavaFunction GetSkinURL = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushString("http://s3.amazonaws.com/MinecraftSkins/" + self.getName() + ".png");
@@ -494,7 +496,7 @@ public class LuaPlayer {
 	 * @return [[Container]]:inv
 	 */
 
-	public static JavaFunction GetContainer = new JavaFunction() {
+	private static JavaFunction GetContainer = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushUserdataWithMeta(self.inventory, "Container");
@@ -510,7 +512,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetBedPos = new JavaFunction() {
+	private static JavaFunction SetBedPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -528,7 +530,7 @@ public class LuaPlayer {
 	 * @return [[Vector]]:vec
 	 */
 
-	public static JavaFunction GetBedPos = new JavaFunction() {
+	private static JavaFunction GetBedPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			BlockPos bed = self.getBedLocation(l.checkInteger(2, self.dimension));
@@ -549,7 +551,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetFlying = new JavaFunction() {
+	private static JavaFunction SetFlying = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.capabilities.isFlying = l.checkBoolean(2);
@@ -565,7 +567,7 @@ public class LuaPlayer {
 	 * @return [[Boolean]]:flying
 	 */
 
-	public static JavaFunction IsFlying = new JavaFunction() {
+	private static JavaFunction IsFlying = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushBoolean(self.capabilities.isFlying);
@@ -581,7 +583,7 @@ public class LuaPlayer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetFlightAllowed = new JavaFunction() {
+	private static JavaFunction SetFlightAllowed = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.capabilities.allowFlying = l.checkBoolean(2);
@@ -597,7 +599,7 @@ public class LuaPlayer {
 	 * @return [[Boolean]]:flying
 	 */
 
-	public static JavaFunction IsFlightAllowed = new JavaFunction() {
+	private static JavaFunction IsFlightAllowed = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushBoolean(self.capabilities.allowFlying);
@@ -613,7 +615,7 @@ public class LuaPlayer {
 	 * @return [[Team]]:team
 	 */
 
-	public static JavaFunction GetTeam = new JavaFunction() {
+	private static JavaFunction GetTeam = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushUserdataWithMeta(self.getTeam(), "Team");
@@ -625,17 +627,82 @@ public class LuaPlayer {
 	 * @author Gregor
 	 * @function ChatPrint
 	 * @alias Msg
+	 * @alias PrintChat
 	 * @info Print something to a players chat
 	 * @arguments [[String]]:msg OR [[Number]]:color, ...
 	 * @return nil
 	 */
 
-	public static JavaFunction ChatPrint = new JavaFunction() {
+	private static JavaFunction ChatPrint = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayerMP.class, "Player");
 			String chatMsg = LuaLibUtil.toChat(l, 2);
 			self.sendMessage(new TextComponentString(chatMsg));
 			return 0;
+		}
+	};
+
+	/**
+	 * @author Jake
+	 * @function SetFlySpeed
+	 * @info Sets the players flight speed
+	 * @arguments [[Number]]:speed
+	 * @return nil
+	 */
+
+	private static JavaFunction SetFlySpeed = new JavaFunction() {
+		public int invoke(LuaState l) {
+			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
+			self.capabilities.setFlySpeed((float) l.checkNumber(2));
+			return 0;
+		}
+	};
+
+	/**
+	 * @author Jake
+	 * @function GetFlySpeed
+	 * @info Returns the players flight speed
+	 * @arguments nil
+	 * @return [[Number]]:speed
+	 */
+
+	private static JavaFunction GetFlySpeed = new JavaFunction() {
+		public int invoke(LuaState l) {
+			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
+			l.pushNumber(self.capabilities.getFlySpeed());
+			return 1;
+		}
+	};
+
+	/**
+	 * @author Jake
+	 * @function SetWalkSpeed
+	 * @info Sets the players walk speed
+	 * @arguments [[Number]]:speed
+	 * @return nil
+	 */
+
+	private static JavaFunction SetWalkSpeed = new JavaFunction() {
+		public int invoke(LuaState l) {
+			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
+			self.capabilities.setPlayerWalkSpeed((float) l.checkNumber(2));
+			return 0;
+		}
+	};
+
+	/**
+	 * @author Jake
+	 * @function GetWalkSpeed
+	 * @info Returns the players walking speed
+	 * @arguments nil
+	 * @return [[Number]]:speed
+	 */
+
+	private static JavaFunction GetWalkSpeed = new JavaFunction() {
+		public int invoke(LuaState l) {
+			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
+			l.pushNumber(self.capabilities.getWalkSpeed());
+			return 1;
 		}
 	};
 
@@ -701,8 +768,12 @@ public class LuaPlayer {
 			l.setField(-2, "SetTotalExperience");
 			l.pushJavaFunction(SetGod);
 			l.setField(-2, "SetGod");
+			l.pushJavaFunction(SetGod);
+			l.setField(-2, "SetDamageDisabled");
 			l.pushJavaFunction(IsGod);
 			l.setField(-2, "IsGod");
+			l.pushJavaFunction(IsGod);
+			l.setField(-2, "IsDamageDisabled");
 			l.pushJavaFunction(GetSkinURL);
 			l.setField(-2, "GetSkinURL");
 			l.pushJavaFunction(GetContainer);
@@ -725,6 +796,16 @@ public class LuaPlayer {
 			l.setField(-2, "Msg");
 			l.pushJavaFunction(ChatPrint);
 			l.setField(-2, "ChatPrint");
+			l.pushJavaFunction(ChatPrint);
+			l.setField(-2, "PrintChat");
+			l.pushJavaFunction(SetFlySpeed);
+			l.setField(-2, "SetFlySpeed");
+			l.pushJavaFunction(GetFlySpeed);
+			l.setField(-2, "GetFlySpeed");
+			l.pushJavaFunction(SetWalkSpeed);
+			l.setField(-2, "SetWalkSpeed");
+			l.pushJavaFunction(GetWalkSpeed);
+			l.setField(-2, "GetWalkSpeed");
 		}
 		l.pop(1);
 	}

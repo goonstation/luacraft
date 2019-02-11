@@ -17,7 +17,7 @@ import net.minecraft.network.PacketBuffer;
 
 public class LuaByteBuf {
 
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushString(String.format("ByteBuf: 0x%08x", l.toPointer(1)));
@@ -33,7 +33,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteVector = new JavaFunction() {
+	private static JavaFunction WriteVector = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			Vector vector = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -52,7 +52,7 @@ public class LuaByteBuf {
 	 * @return [[Vector]]:vector
 	 */
 
-	public static JavaFunction ReadVector = new JavaFunction() {
+	private static JavaFunction ReadVector = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			new Vector(self.readDouble(), self.readDouble(), self.readDouble()).push(l);
@@ -68,7 +68,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteAngle = new JavaFunction() {
+	private static JavaFunction WriteAngle = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			Angle angle = (Angle) l.checkUserdata(2, Angle.class, "Angle");
@@ -87,7 +87,7 @@ public class LuaByteBuf {
 	 * @return [[Angle]]:angle
 	 */
 
-	public static JavaFunction ReadAngle = new JavaFunction() {
+	private static JavaFunction ReadAngle = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			new Angle(self.readDouble(), self.readDouble(), self.readDouble()).push(l);
@@ -103,7 +103,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteColor = new JavaFunction() {
+	private static JavaFunction WriteColor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			Color color = (Color) l.checkUserdata(2, Color.class, "Color");
@@ -123,7 +123,7 @@ public class LuaByteBuf {
 	 * @return [[Color]]:angle
 	 */
 
-	public static JavaFunction ReadColor = new JavaFunction() {
+	private static JavaFunction ReadColor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			new Color(self.readUnsignedByte(), self.readUnsignedByte(), self.readUnsignedByte(),
@@ -140,7 +140,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteBool = new JavaFunction() {
+	private static JavaFunction WriteBool = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeBoolean(l.checkBoolean(2));
@@ -156,7 +156,7 @@ public class LuaByteBuf {
 	 * @return [[Boolean]]:bool
 	 */
 
-	public static JavaFunction ReadBool = new JavaFunction() {
+	private static JavaFunction ReadBool = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushBoolean(self.readBoolean());
@@ -172,7 +172,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteByte = new JavaFunction() {
+	private static JavaFunction WriteByte = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeByte(l.checkInteger(2));
@@ -188,7 +188,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:byte
 	 */
 
-	public static JavaFunction ReadByte = new JavaFunction() {
+	private static JavaFunction ReadByte = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushInteger(self.readByte());
@@ -204,7 +204,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:byte
 	 */
 
-	public static JavaFunction ReadUByte = new JavaFunction() {
+	private static JavaFunction ReadUByte = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushInteger(self.readUnsignedByte());
@@ -220,7 +220,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteChar = new JavaFunction() {
+	private static JavaFunction WriteChar = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeChar(l.checkInteger(2));
@@ -236,7 +236,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:char
 	 */
 
-	public static JavaFunction ReadChar = new JavaFunction() {
+	private static JavaFunction ReadChar = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushInteger(self.readChar());
@@ -252,7 +252,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteDouble = new JavaFunction() {
+	private static JavaFunction WriteDouble = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeDouble(l.checkNumber(2));
@@ -268,7 +268,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:double
 	 */
 
-	public static JavaFunction ReadDouble = new JavaFunction() {
+	private static JavaFunction ReadDouble = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readDouble());
@@ -284,7 +284,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteFloat = new JavaFunction() {
+	private static JavaFunction WriteFloat = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeFloat((float) l.checkNumber(2));
@@ -300,7 +300,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:float
 	 */
 
-	public static JavaFunction ReadFloat = new JavaFunction() {
+	private static JavaFunction ReadFloat = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readFloat());
@@ -316,7 +316,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteInt = new JavaFunction() {
+	private static JavaFunction WriteInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeInt(l.checkInteger(2));
@@ -332,7 +332,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:integer
 	 */
 
-	public static JavaFunction ReadInt = new JavaFunction() {
+	private static JavaFunction ReadInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readInt());
@@ -348,7 +348,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:integer
 	 */
 
-	public static JavaFunction ReadUInt = new JavaFunction() {
+	private static JavaFunction ReadUInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readUnsignedInt());
@@ -364,7 +364,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteLong = new JavaFunction() {
+	private static JavaFunction WriteLong = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeLong(l.checkInteger(2));
@@ -380,7 +380,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:long
 	 */
 
-	public static JavaFunction ReadLong = new JavaFunction() {
+	private static JavaFunction ReadLong = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readLong());
@@ -396,7 +396,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteMedium = new JavaFunction() {
+	private static JavaFunction WriteMedium = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeMedium(l.checkInteger(2));
@@ -412,7 +412,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:medium
 	 */
 
-	public static JavaFunction ReadMedium = new JavaFunction() {
+	private static JavaFunction ReadMedium = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readMedium());
@@ -428,7 +428,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:medium
 	 */
 
-	public static JavaFunction ReadUMedium = new JavaFunction() {
+	private static JavaFunction ReadUMedium = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readUnsignedMedium());
@@ -444,7 +444,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteShort = new JavaFunction() {
+	private static JavaFunction WriteShort = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeShort(l.checkInteger(2));
@@ -460,7 +460,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:short
 	 */
 
-	public static JavaFunction ReadShort = new JavaFunction() {
+	private static JavaFunction ReadShort = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readShort());
@@ -476,7 +476,7 @@ public class LuaByteBuf {
 	 * @return [[Number]]:short
 	 */
 
-	public static JavaFunction ReadUShort = new JavaFunction() {
+	private static JavaFunction ReadUShort = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushNumber(self.readUnsignedShort());
@@ -492,7 +492,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteNBTTag = new JavaFunction() {
+	private static JavaFunction WriteNBTTag = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeCompoundTag((NBTTagCompound) l.checkUserdata(2, NBTTagCompound.class, "NBTTag"));
@@ -508,7 +508,7 @@ public class LuaByteBuf {
 	 * @return [[NBTTag]]:tag
 	 */
 
-	public static JavaFunction ReadNBTTag = new JavaFunction() {
+	private static JavaFunction ReadNBTTag = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			try {
@@ -528,7 +528,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteItemStack = new JavaFunction() {
+	private static JavaFunction WriteItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeItemStack((ItemStack) l.checkUserdata(2, ItemStack.class, "ItemStack"));
@@ -544,7 +544,7 @@ public class LuaByteBuf {
 	 * @return [[ItemStack]]:stack
 	 */
 
-	public static JavaFunction ReadItemStack = new JavaFunction() {
+	private static JavaFunction ReadItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			try {
@@ -564,7 +564,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteString = new JavaFunction() {
+	private static JavaFunction WriteString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeString(l.checkString(2));
@@ -580,7 +580,7 @@ public class LuaByteBuf {
 	 * @return [[String]]:string
 	 */
 
-	public static JavaFunction ReadString = new JavaFunction() {
+	private static JavaFunction ReadString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			l.pushString(self.readString((int) l.checkNumber(2, 32767)));
@@ -596,7 +596,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction WriteData = new JavaFunction() {
+	private static JavaFunction WriteData = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.writeBytes(l.checkString(2).getBytes());
@@ -612,7 +612,7 @@ public class LuaByteBuf {
 	 * @return [[String]]:string
 	 */
 
-	public static JavaFunction ReadData = new JavaFunction() {
+	private static JavaFunction ReadData = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			byte[] data = new byte[l.checkInteger(2, self.readableBytes())];
@@ -630,7 +630,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction Seek = new JavaFunction() {
+	private static JavaFunction Seek = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			self.readerIndex(l.checkInteger(2));
@@ -647,7 +647,7 @@ public class LuaByteBuf {
 	 * @return [[ByteBuf]]:buffer
 	 */
 
-	public static JavaFunction Slice = new JavaFunction() {
+	private static JavaFunction Slice = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			PacketBuffer buffer = new PacketBuffer(
@@ -665,7 +665,7 @@ public class LuaByteBuf {
 	 * @return [[ByteBuf]]:buffer
 	 */
 
-	public static JavaFunction Copy = new JavaFunction() {
+	private static JavaFunction Copy = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			PacketBuffer buffer = new PacketBuffer(

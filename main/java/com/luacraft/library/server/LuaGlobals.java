@@ -20,7 +20,7 @@ import net.minecraft.world.World;
 public class LuaGlobals {
 	private static MinecraftServer server = null;
 
-	public static JavaFunction AddCSLuaFile = new JavaFunction() {
+	private static JavaFunction AddCSLuaFile = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String fileName = l.checkString(1);
 
@@ -44,7 +44,7 @@ public class LuaGlobals {
 	 * @return [[PropertyManager]]:manager
 	 */
 
-	public static JavaFunction PropertyManager = new JavaFunction() {
+	private static JavaFunction PropertyManager = new JavaFunction() {
 		public int invoke(LuaState l) {
 			File file = new File(LuaCraft.rootDir, l.checkString(1));
 			PropertyManager property = new PropertyManager(file);
@@ -61,7 +61,7 @@ public class LuaGlobals {
 	 * @return [[World]]:world
 	 */
 
-	public static JavaFunction World = new JavaFunction() {
+	private static JavaFunction World = new JavaFunction() {
 		public int invoke(LuaState l) {
 			World world = server.worlds[l.checkInteger(1, 0)];
 			LuaUserdata.PushUserdata(l, world);

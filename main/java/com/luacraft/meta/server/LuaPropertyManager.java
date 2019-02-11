@@ -6,7 +6,8 @@ import com.naef.jnlua.LuaState;
 import net.minecraft.server.dedicated.PropertyManager;
 
 public class LuaPropertyManager {
-	public static JavaFunction __tostring = new JavaFunction() {
+	
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			l.pushString(String.format("PropertyManager: 0x%08x", l.toPointer(1)));
@@ -22,7 +23,7 @@ public class LuaPropertyManager {
 	 * @return [[String]]:value
 	 */
 
-	public static JavaFunction GetString = new JavaFunction() {
+	private static JavaFunction GetString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			l.pushString(self.getStringProperty(l.checkString(2), l.checkString(3)));
@@ -38,7 +39,7 @@ public class LuaPropertyManager {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetString = new JavaFunction() {
+	private static JavaFunction SetString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			self.setProperty(l.checkString(2), l.checkString(3));
@@ -54,7 +55,7 @@ public class LuaPropertyManager {
 	 * @return [[Number]]:value
 	 */
 
-	public static JavaFunction GetInt = new JavaFunction() {
+	private static JavaFunction GetInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			l.pushInteger(self.getIntProperty(l.checkString(2), l.checkInteger(3)));
@@ -70,7 +71,7 @@ public class LuaPropertyManager {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetInt = new JavaFunction() {
+	private static JavaFunction SetInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			self.setProperty(l.checkString(2), l.checkInteger(3));
@@ -86,7 +87,7 @@ public class LuaPropertyManager {
 	 * @return [[Boolean]]:value
 	 */
 
-	public static JavaFunction GetBool = new JavaFunction() {
+	private static JavaFunction GetBool = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			l.pushBoolean(self.getBooleanProperty(l.checkString(2), l.checkBoolean(3)));
@@ -102,7 +103,7 @@ public class LuaPropertyManager {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetBool = new JavaFunction() {
+	private static JavaFunction SetBool = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			self.setProperty(l.checkString(2), l.checkBoolean(3));
@@ -118,7 +119,7 @@ public class LuaPropertyManager {
 	 * @return nil
 	 */
 
-	public static JavaFunction Save = new JavaFunction() {
+	private static JavaFunction Save = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PropertyManager self = (PropertyManager) l.checkUserdata(1, PropertyManager.class, "PropertyManager");
 			self.saveProperties();

@@ -34,7 +34,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction AttackFrom = new JavaFunction() {
+	private static JavaFunction AttackFrom = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			DamageSource damage = (DamageSource) l.checkUserdata(2, DamageSource.class, "DamageSource");
@@ -51,7 +51,7 @@ public class LuaEntity {
 	 * @return [[String]]:id
 	 */
 
-	public static JavaFunction GetUniqueID = new JavaFunction() {
+	private static JavaFunction GetUniqueID = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushString(self.getUniqueID().toString());
@@ -67,7 +67,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:alive
 	 */
 
-	public static JavaFunction IsAlive = new JavaFunction() {
+	private static JavaFunction IsAlive = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isEntityAlive());
@@ -83,7 +83,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:onground
 	 */
 
-	public static JavaFunction IsOnGround = new JavaFunction() {
+	private static JavaFunction IsOnGround = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.onGround);
@@ -99,7 +99,7 @@ public class LuaEntity {
 	 * @return [[Angle]]:ang
 	 */
 
-	public static JavaFunction GetAngles = new JavaFunction() {
+	private static JavaFunction GetAngles = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Angle ang = new Angle(self.rotationPitch, self.rotationYaw);
@@ -116,7 +116,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetAngles = new JavaFunction() {
+	private static JavaFunction SetAngles = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Angle ang = (Angle) l.checkUserdata(2, Angle.class, "Angle");
@@ -133,7 +133,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:pos
 	 */
 
-	public static JavaFunction GetPos = new JavaFunction() {
+	private static JavaFunction GetPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector pos = new Vector(self.posX, self.posZ, self.posY);
@@ -150,7 +150,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:pos
 	 */
 
-	public static JavaFunction GetLastPos = new JavaFunction() {
+	private static JavaFunction GetLastPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector pos = new Vector(self.lastTickPosX, self.lastTickPosZ, self.lastTickPosY);
@@ -167,7 +167,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetPos = new JavaFunction() {
+	private static JavaFunction SetPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -184,7 +184,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:burning
 	 */
 
-	public static JavaFunction IsBurning = new JavaFunction() {
+	private static JavaFunction IsBurning = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isBurning());
@@ -200,7 +200,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction Ignite = new JavaFunction() {
+	private static JavaFunction Ignite = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.setFire(l.checkInteger(2, 15));
@@ -216,7 +216,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction Extinguish = new JavaFunction() {
+	private static JavaFunction Extinguish = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.setFire(0);
@@ -232,7 +232,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetNoClip = new JavaFunction() {
+	private static JavaFunction SetNoClip = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.noClip = l.checkBoolean(2);
@@ -248,7 +248,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:noclipping
 	 */
 
-	public static JavaFunction GetNoClip = new JavaFunction() {
+	private static JavaFunction GetNoClip = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.noClip);
@@ -264,7 +264,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:mounted
 	 */
 
-	public static JavaFunction IsMounted = new JavaFunction() {
+	private static JavaFunction IsMounted = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isRiding());
@@ -280,7 +280,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetMount = new JavaFunction() {
+	private static JavaFunction SetMount = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Entity other = (Entity) l.checkUserdata(2, Entity.class, "Entity");
@@ -297,7 +297,7 @@ public class LuaEntity {
 	 * @return [[Entity]]:riding
 	 */
 
-	public static JavaFunction GetMount = new JavaFunction() {
+	private static JavaFunction GetMount = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushUserdataWithMeta(self.getRidingEntity(), "Entity");
@@ -313,7 +313,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:sneak
 	 */
 
-	public static JavaFunction IsSneaking = new JavaFunction() {
+	private static JavaFunction IsSneaking = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isSneaking());
@@ -329,7 +329,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:inwater
 	 */
 
-	public static JavaFunction IsInWater = new JavaFunction() {
+	private static JavaFunction IsInWater = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isInWater());
@@ -345,7 +345,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:wet
 	 */
 
-	public static JavaFunction IsWet = new JavaFunction() {
+	private static JavaFunction IsWet = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isWet());
@@ -361,7 +361,7 @@ public class LuaEntity {
 	 * @return [[Number]]:air
 	 */
 
-	public static JavaFunction GetAir = new JavaFunction() {
+	private static JavaFunction GetAir = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushInteger(self.getAir());
@@ -377,7 +377,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetAir = new JavaFunction() {
+	private static JavaFunction SetAir = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.setAir(l.checkInteger(2));
@@ -393,7 +393,7 @@ public class LuaEntity {
 	 * @return [[Number]]:res
 	 */
 
-	public static JavaFunction GetFireResistance = new JavaFunction() {
+	private static JavaFunction GetFireResistance = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushInteger(1); //self.getFireImmuneTicks();
@@ -410,7 +410,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetFireResistance = new JavaFunction() {
+	private static JavaFunction SetFireResistance = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			//self.fireResistance = l.checkInteger(2);
@@ -427,7 +427,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:pos
 	 */
 
-	public static JavaFunction GetEyePos = new JavaFunction() {
+	private static JavaFunction GetEyePos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector pos = new Vector(self.posX, self.posZ, self.posY + self.getEyeHeight());
@@ -444,7 +444,7 @@ public class LuaEntity {
 	 * @return [[Number]]:height
 	 */
 
-	public static JavaFunction GetEyeHeight = new JavaFunction() {
+	private static JavaFunction GetEyeHeight = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushNumber(self.getEyeHeight());
@@ -460,7 +460,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:vel
 	 */
 
-	public static JavaFunction GetVelocity = new JavaFunction() {
+	private static JavaFunction GetVelocity = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector pos = new Vector(self.motionX, self.motionZ, self.motionY);
@@ -477,7 +477,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetVelocity = new JavaFunction() {
+	private static JavaFunction SetVelocity = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector vel = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -496,7 +496,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddVelocity = new JavaFunction() {
+	private static JavaFunction AddVelocity = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector vel = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -513,7 +513,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:inportal
 	 */
 
-	public static JavaFunction IsInPortal = new JavaFunction() {
+	private static JavaFunction IsInPortal = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.inPortal);
@@ -529,7 +529,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:inair
 	 */
 
-	public static JavaFunction IsInAir = new JavaFunction() {
+	private static JavaFunction IsInAir = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isAirBorne);
@@ -545,7 +545,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:sprinting
 	 */
 
-	public static JavaFunction IsSprinting = new JavaFunction() {
+	private static JavaFunction IsSprinting = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isSprinting());
@@ -561,7 +561,7 @@ public class LuaEntity {
 	 * @return nil This onls works if the forward movement is not zero
 	 */
 
-	public static JavaFunction SetSprinting = new JavaFunction() {
+	private static JavaFunction SetSprinting = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.setSprinting(l.checkBoolean(2));
@@ -577,7 +577,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:classname
 	 */
 
-	public static JavaFunction GetClass = new JavaFunction() {
+	private static JavaFunction GetClass = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			String name = EntityList.getEntityString(self);
@@ -594,7 +594,7 @@ public class LuaEntity {
 	 * @return [[Number]]:index
 	 */
 
-	public static JavaFunction EntIndex = new JavaFunction() {
+	private static JavaFunction EntIndex = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushInteger(self.getEntityId());
@@ -610,7 +610,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:web
 	 */
 
-	public static JavaFunction IsInWeb = new JavaFunction() {
+	private static JavaFunction IsInWeb = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isInWeb);
@@ -626,7 +626,7 @@ public class LuaEntity {
 	 * @return [[Number]]:stepsize
 	 */
 
-	public static JavaFunction GetStepSize = new JavaFunction() {
+	private static JavaFunction GetStepSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushNumber(self.stepHeight);
@@ -642,7 +642,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetStepSize = new JavaFunction() {
+	private static JavaFunction SetStepSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.stepHeight = l.checkInteger(2);
@@ -658,7 +658,7 @@ public class LuaEntity {
 	 * @return [[Number]]:dimension
 	 */
 
-	public static JavaFunction GetDimensionID = new JavaFunction() {
+	private static JavaFunction GetDimensionID = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushInteger(self.dimension);
@@ -674,7 +674,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetWorld = new JavaFunction() {
+	private static JavaFunction SetWorld = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			World world = (World) l.checkUserdata(2, World.class, "World");
@@ -691,7 +691,7 @@ public class LuaEntity {
 	 * @return [[World]]:world
 	 */
 
-	public static JavaFunction GetWorld = new JavaFunction() {
+	private static JavaFunction GetWorld = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			LuaUserdata.PushUserdata(l, self.world);
@@ -707,7 +707,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction TravelToWorld = new JavaFunction() {
+	private static JavaFunction TravelToWorld = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			World world = (World) l.checkUserdata(2, World.class, "World");
@@ -724,7 +724,7 @@ public class LuaEntity {
 	 * @return [[Number]]:width
 	 */
 
-	public static JavaFunction GetWidth = new JavaFunction() {
+	private static JavaFunction GetWidth = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushNumber(self.width);
@@ -740,7 +740,7 @@ public class LuaEntity {
 	 * @return [[Number]]:height
 	 */
 
-	public static JavaFunction GetHeight = new JavaFunction() {
+	private static JavaFunction GetHeight = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushNumber(self.height);
@@ -756,7 +756,7 @@ public class LuaEntity {
 	 * @return [[Number]]:width, [[Number]]:height
 	 */
 
-	public static JavaFunction GetSize = new JavaFunction() {
+	private static JavaFunction GetSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushNumber(self.width);
@@ -773,7 +773,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetSize = new JavaFunction() {
+	private static JavaFunction SetSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.setSize((float) l.checkNumber(2), (float) l.checkNumber(3));
@@ -789,7 +789,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction Explode = new JavaFunction() {
+	private static JavaFunction Explode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.world.createExplosion(self, self.posX, self.posY, self.posZ, (float) l.checkNumber(2, 5),
@@ -806,7 +806,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:mins
 	 */
 
-	public static JavaFunction OBBMins = new JavaFunction() {
+	private static JavaFunction OBBMins = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			AxisAlignedBB bb = self.getEntityBoundingBox();
@@ -824,7 +824,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:maxs
 	 */
 
-	public static JavaFunction OBBMaxs = new JavaFunction() {
+	private static JavaFunction OBBMaxs = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			AxisAlignedBB bb = self.getEntityBoundingBox();
@@ -842,7 +842,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:local
 	 */
 
-	public static JavaFunction WorldToLocal = new JavaFunction() {
+	private static JavaFunction WorldToLocal = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector toVec = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -860,7 +860,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:world
 	 */
 
-	public static JavaFunction LocalToWorld = new JavaFunction() {
+	private static JavaFunction LocalToWorld = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector toVec = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -878,7 +878,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction Move = new JavaFunction() {
+	private static JavaFunction Move = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -895,7 +895,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction PlaySound = new JavaFunction() {
+	private static JavaFunction PlaySound = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			//self.playSound(l.checkString(2), (float) l.checkNumber(3, 1), (float) l.checkNumber(4, 1));
@@ -915,7 +915,7 @@ public class LuaEntity {
 	 * @return [[ItemStack]]:item
 	 */
 
-	public static JavaFunction GetItem = new JavaFunction() {
+	private static JavaFunction GetItem = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityItem self = (EntityItem) l.checkUserdata(1, EntityItem.class, "EntityItem");
 			l.pushUserdataWithMeta(self.getItem(), "ItemStack");
@@ -931,7 +931,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:success
 	 */
 
-	public static JavaFunction Spawn = new JavaFunction() {
+	private static JavaFunction Spawn = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.forceSpawn = l.checkBoolean(2, false);
@@ -948,7 +948,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction Remove = new JavaFunction() {
+	private static JavaFunction Remove = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.world.removeEntity(self);
@@ -964,7 +964,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetInvisible = new JavaFunction() {
+	private static JavaFunction SetInvisible = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			self.setInvisible(l.checkBoolean(2));
@@ -980,7 +980,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:invisible
 	 */
 
-	public static JavaFunction IsInvisible = new JavaFunction() {
+	private static JavaFunction IsInvisible = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushBoolean(self.isInvisible());
@@ -996,7 +996,7 @@ public class LuaEntity {
 	 * @return [[NBTTag]]:nbttag
 	 */
 
-	public static JavaFunction GetNBTTag = new JavaFunction() {
+	private static JavaFunction GetNBTTag = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushUserdataWithMeta(self.getEntityData(), "NBTTag");
@@ -1012,7 +1012,7 @@ public class LuaEntity {
 	 * @return [[DataWatcher]]:networkdata
 	 */
 
-	public static JavaFunction GetDataWatcher = new JavaFunction() {
+	private static JavaFunction GetDataWatcher = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			l.pushUserdataWithMeta(self.getDataManager(), "DataWatcher");
@@ -1028,7 +1028,7 @@ public class LuaEntity {
 	 * @return [[Boolean]]:silent
 	 */
 
-	public static JavaFunction IsSilent = new JavaFunction() {
+	private static JavaFunction IsSilent = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			l.pushBoolean(self.isSilent());
@@ -1044,7 +1044,7 @@ public class LuaEntity {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetSilent = new JavaFunction() {
+	private static JavaFunction SetSilent = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayer self = (EntityPlayer) l.checkUserdata(1, EntityPlayer.class, "Player");
 			self.setSilent(l.checkBoolean(2));

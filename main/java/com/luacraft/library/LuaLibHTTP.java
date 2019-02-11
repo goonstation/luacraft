@@ -18,7 +18,7 @@ public class LuaLibHTTP {
 	 * @return [[Boolean]]:success, [ [[String]]:error ]
 	 */
 
-	public static JavaFunction Get = new JavaFunction() {
+	private static JavaFunction Get = new JavaFunction() {
 		public int invoke(LuaState l) {
 			try {
 				URL url = new URL(l.checkString(1));

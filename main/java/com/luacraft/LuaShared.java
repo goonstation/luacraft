@@ -7,6 +7,7 @@ import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.LuaScriptedItem;
 import com.luacraft.library.LuaGlobals;
 import com.luacraft.library.LuaLibConsole;
+import com.luacraft.library.LuaLibFile;
 import com.luacraft.library.LuaLibHTTP;
 import com.luacraft.library.LuaLibLanguage;
 import com.luacraft.library.LuaLibSQL;
@@ -26,6 +27,7 @@ import com.luacraft.meta.LuaEntity;
 import com.luacraft.meta.LuaEntityDamageSource;
 import com.luacraft.meta.LuaEntityItem;
 import com.luacraft.meta.LuaExplosion;
+import com.luacraft.meta.LuaFile;
 import com.luacraft.meta.LuaItemStack;
 import com.luacraft.meta.LuaLiving;
 import com.luacraft.meta.LuaLivingBase;
@@ -158,6 +160,7 @@ public class LuaShared extends LuaCraftState {
 
 		// Libs
 		LuaGlobals.Init(this);
+		LuaLibFile.Init(this);
 		LuaLibHTTP.Init(this);
 		LuaLibConsole.Init(this);
 		LuaLibLanguage.Init(this);
@@ -180,6 +183,7 @@ public class LuaShared extends LuaCraftState {
 		LuaEntityDamageSource.Init(this);
 		LuaEntityItem.Init(this);
 		LuaExplosion.Init(this);
+		LuaFile.Init(this);
 		LuaScriptedItem.Init(this);
 		LuaItemStack.Init(this);
 		LuaLiving.Init(this);

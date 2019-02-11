@@ -50,7 +50,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction IgnoreZ = new JavaFunction() {
+	private static JavaFunction IgnoreZ = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ignoreZ = l.checkBoolean(1, false);
 			return 0;
@@ -66,7 +66,7 @@ public class LuaLibRender {
 	 * @return [[Color]]:color
 	 */
 
-	public static JavaFunction GetDrawColor = new JavaFunction() {
+	private static JavaFunction GetDrawColor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushUserdataWithMeta(drawColor, "Color");
 			return 1;
@@ -82,7 +82,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetDrawColor = new JavaFunction() {
+	private static JavaFunction SetDrawColor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (l.isUserdata(1, Color.class))
 				drawColor = (Color) l.checkUserdata(1, Color.class, "Color");
@@ -107,7 +107,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawText = new JavaFunction() {
+	private static JavaFunction DrawText = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String text = l.checkString(1);
 			Vector vec1 = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -164,7 +164,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawLine = new JavaFunction() {
+	private static JavaFunction DrawLine = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector vec1 = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector vec2 = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -219,7 +219,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawBoundingBox = new JavaFunction() {
+	private static JavaFunction DrawBoundingBox = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector vec1 = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector vec2 = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -293,7 +293,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawCircle = new JavaFunction() {
+	private static JavaFunction DrawCircle = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector vec1 = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			float flRadius1 = (float) l.checkNumber(2);
@@ -353,7 +353,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawCylinder = new JavaFunction() {
+	private static JavaFunction DrawCylinder = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector vec1 = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			float flLength = (float) l.checkNumber(2);
@@ -414,7 +414,7 @@ public class LuaLibRender {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawSphere = new JavaFunction() {
+	private static JavaFunction DrawSphere = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector vec1 = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			float flRadius1 = (float) l.checkNumber(2);

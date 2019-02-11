@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 
 public class LuaEntity {
-	private static Minecraft client = LuaCraft.getClient();
+	private static final Minecraft client = LuaCraft.getClient();
 
 	/**
 	 * @author Gregor
@@ -20,7 +20,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:pos
 	 */
 
-	public static JavaFunction GetPos = new JavaFunction() {
+	private static JavaFunction GetPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			double posX = self.prevPosX + (self.posX - self.prevPosX) * client.timer.renderPartialTicks;
@@ -40,7 +40,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:pos
 	 */
 
-	public static JavaFunction GetServerPos = new JavaFunction() {
+	private static JavaFunction GetServerPos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			Vector pos = new Vector(self.serverPosX, self.serverPosZ, self.serverPosY);
@@ -57,7 +57,7 @@ public class LuaEntity {
 	 * @return [[Vector]]:pos
 	 */
 
-	public static JavaFunction GetEyePos = new JavaFunction() {
+	private static JavaFunction GetEyePos = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Entity self = (Entity) l.checkUserdata(1, Entity.class, "Entity");
 			double posX = self.prevPosX + (self.posX - self.prevPosX) * client.timer.renderPartialTicks;

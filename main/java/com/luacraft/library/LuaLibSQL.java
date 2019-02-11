@@ -19,7 +19,7 @@ public class LuaLibSQL {
 	 * @return [[SQLDatabase]]:database, [ [[String]]:error ]
 	 */
 
-	public static JavaFunction Connect = new JavaFunction() {
+	private static JavaFunction Connect = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String url = l.checkString(1);
 			Connection dataBase;
@@ -48,7 +48,7 @@ public class LuaLibSQL {
 	 * @return [[Table]]:queries
 	 */
 
-	public static JavaFunction GetQueries = new JavaFunction() {
+	private static JavaFunction GetQueries = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.newMetatable("PendingQueries");
 			return 1;

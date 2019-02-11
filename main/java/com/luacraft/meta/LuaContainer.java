@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 
 public class LuaContainer {
 
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			l.pushString(String.format("Container: 0x%08x", l.toPointer(1)));
@@ -26,7 +26,7 @@ public class LuaContainer {
 	 * @return [[Number]]:slots
 	 */
 
-	public static JavaFunction GetMaxSlots = new JavaFunction() {
+	private static JavaFunction GetMaxSlots = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			l.pushInteger(self.getSizeInventory());
@@ -42,7 +42,7 @@ public class LuaContainer {
 	 * @return [[Number]]:slots
 	 */
 
-	public static JavaFunction GetStackLimit = new JavaFunction() {
+	private static JavaFunction GetStackLimit = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			l.pushInteger(self.getInventoryStackLimit());
@@ -58,7 +58,7 @@ public class LuaContainer {
 	 * @return [[String]]:name
 	 */
 
-	public static JavaFunction GetName = new JavaFunction() {
+	private static JavaFunction GetName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			l.pushString(self.getName());
@@ -74,7 +74,7 @@ public class LuaContainer {
 	 * @return [[ItemStack]]:item
 	 */
 
-	public static JavaFunction GetSlot = new JavaFunction() {
+	private static JavaFunction GetSlot = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			ItemStack item = self.getStackInSlot(l.checkInteger(2));
@@ -91,7 +91,7 @@ public class LuaContainer {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetSlot = new JavaFunction() {
+	private static JavaFunction SetSlot = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			ItemStack item = (ItemStack) l.checkUserdata(3, ItemStack.class, "ItemStack");
@@ -108,7 +108,7 @@ public class LuaContainer {
 	 * @return nil
 	 */
 
-	public static JavaFunction DecreaseSlot = new JavaFunction() {
+	private static JavaFunction DecreaseSlot = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			self.decrStackSize(l.checkInteger(2), l.checkInteger(3, 1));
@@ -124,7 +124,7 @@ public class LuaContainer {
 	 * @return [[Boolean]]:isvalid
 	 */
 
-	public static JavaFunction IsItemValidForSlot = new JavaFunction() {
+	private static JavaFunction IsItemValidForSlot = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 			ItemStack item = (ItemStack) l.checkUserdata(3, ItemStack.class, "ItemStack");
@@ -141,7 +141,7 @@ public class LuaContainer {
 	 * @return [[Table]]:items
 	 */
 
-	public static JavaFunction GetAll = new JavaFunction() {
+	private static JavaFunction GetAll = new JavaFunction() {
 		public int invoke(LuaState l) {
 			IInventory self = (IInventory) l.checkUserdata(1, IInventory.class, "Container");
 

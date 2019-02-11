@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.network.internal.FMLProxyPacket;
 
 public class LuaByteBuf {
 
-	public static MinecraftServer server = null;
+	private static MinecraftServer server = null;
 
 	/**
 	 * @author Jake
@@ -23,7 +23,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction Send = new JavaFunction() {
+	private static JavaFunction Send = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 
@@ -55,7 +55,7 @@ public class LuaByteBuf {
 	 * @return nil
 	 */
 
-	public static JavaFunction Broadcast = new JavaFunction() {
+	private static JavaFunction Broadcast = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer self = (PacketBuffer) l.checkUserdata(1, PacketBuffer.class, "ByteBuf");
 			SPacketCustomPayload packet = new SPacketCustomPayload(LuaCraft.NET_CHANNEL, self);

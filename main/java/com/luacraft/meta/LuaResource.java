@@ -8,7 +8,7 @@ import com.naef.jnlua.LuaState;
 import net.minecraft.util.ResourceLocation;
 
 public class LuaResource {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ResourceLocation self = (ResourceLocation) l.checkUserdata(1, ResourceLocation.class, "Resource");
 			l.pushString(String.format("Resource: 0x%08x", l.toPointer(1)));
@@ -24,7 +24,7 @@ public class LuaResource {
 	 * @return [[String]]:domain
 	 */
 
-	public static JavaFunction GetDomain = new JavaFunction() {
+	private static JavaFunction GetDomain = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ResourceLocation self = (ResourceLocation) l.checkUserdata(1, ResourceLocation.class, "Resource");
 			l.pushString(self.getResourceDomain());
@@ -40,7 +40,7 @@ public class LuaResource {
 	 * @return [[String]]:path
 	 */
 
-	public static JavaFunction GetPath = new JavaFunction() {
+	private static JavaFunction GetPath = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ResourceLocation self = (ResourceLocation) l.checkUserdata(1, ResourceLocation.class, "Resource");
 			l.pushString(self.getResourcePath());

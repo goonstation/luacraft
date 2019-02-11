@@ -85,7 +85,7 @@ public class LuaLibConsole {
 	 * @return nil
 	 */
 
-	public static JavaFunction print = new JavaFunction() {
+	private static JavaFunction print = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.PRINT), true, true));
 			return 0;
@@ -101,7 +101,7 @@ public class LuaLibConsole {
 	 * @return nil
 	 */
 
-	public static JavaFunction consolePrint = new JavaFunction() {
+	private static JavaFunction consolePrint = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.PRINT), false, false));
 			return 0;
@@ -117,7 +117,7 @@ public class LuaLibConsole {
 	 * @return nil
 	 */
 
-	public static JavaFunction consoleInfo = new JavaFunction() {
+	private static JavaFunction consoleInfo = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaCraft.getLogger().info(easyMsgC(l, 1, new Color(ConsoleManager.INFO), false, false));
 			return 0;
@@ -133,7 +133,7 @@ public class LuaLibConsole {
 	 * @return nil
 	 */
 
-	public static JavaFunction consoleWarn = new JavaFunction() {
+	private static JavaFunction consoleWarn = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaCraft.getLogger().warn(easyMsgC(l, 1, new Color(ConsoleManager.WARNING), false, false));
 			return 0;
@@ -149,7 +149,7 @@ public class LuaLibConsole {
 	 * @return nil
 	 */
 
-	public static JavaFunction consoleError = new JavaFunction() {
+	private static JavaFunction consoleError = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaCraft.getLogger().error(easyMsgC(l, 1, new Color(ConsoleManager.ERROR), false, false));
 			return 0;

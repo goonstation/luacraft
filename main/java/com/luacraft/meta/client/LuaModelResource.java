@@ -5,8 +5,9 @@ import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaState;
 
 public class LuaModelResource {
+	
 	@Deprecated
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushString("Deprecated as of Minecraft 1.9");
 			return 1;

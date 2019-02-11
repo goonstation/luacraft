@@ -9,7 +9,7 @@ import com.naef.jnlua.LuaState;
 import net.minecraft.world.chunk.Chunk;
 
 public class LuaChunk {
-    public static JavaFunction __tostring = new JavaFunction() {
+    private static JavaFunction __tostring = new JavaFunction() {
         public int invoke(LuaState l) {
             Chunk self = (Chunk) l.checkUserdata(1, Chunk.class, "Chunk");
             l.pushString("Chunk: " + self.toString());
@@ -17,7 +17,7 @@ public class LuaChunk {
         }
     };
 
-    public static JavaFunction IsLoaded = new JavaFunction() {
+    private static JavaFunction IsLoaded = new JavaFunction() {
         public int invoke(LuaState l) {
             Chunk self = (Chunk) l.checkUserdata(1, Chunk.class, "Chunk");
             l.pushBoolean(self.isLoaded());
@@ -25,7 +25,7 @@ public class LuaChunk {
         }
     };
 
-    public static JavaFunction GetWorld = new JavaFunction() {
+    private static JavaFunction GetWorld = new JavaFunction() {
         public int invoke(LuaState l) {
             Chunk self = (Chunk) l.checkUserdata(1, Chunk.class, "Chunk");
             LuaUserdata.PushUserdata(l, self.getWorld());
@@ -33,7 +33,7 @@ public class LuaChunk {
         }
     };
 
-    public static JavaFunction GetPos = new JavaFunction() {
+    private static JavaFunction GetPos = new JavaFunction() {
         public int invoke(LuaState l) {
             Chunk self = (Chunk) l.checkUserdata(1, Chunk.class, "Chunk");
             Vector vec = new Vector(self.x, self.z, 0);

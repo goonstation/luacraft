@@ -18,7 +18,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction LookAt = new JavaFunction() {
+	private static JavaFunction LookAt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			Entity other = (Entity) l.checkUserdata(2, Entity.class, "Entity");
@@ -35,7 +35,7 @@ public class LuaLiving {
 	 * @return [[Number]]:exp
 	 */
 
-	public static JavaFunction GetExperienceValue = new JavaFunction() {
+	private static JavaFunction GetExperienceValue = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			l.pushNumber(self.experienceValue);
@@ -51,7 +51,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetExperienceValue = new JavaFunction() {
+	private static JavaFunction SetExperienceValue = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			self.experienceValue = l.checkInteger(2);
@@ -67,7 +67,7 @@ public class LuaLiving {
 	 * @return [[Entity]]:target
 	 */
 
-	public static JavaFunction GetAttackTarget = new JavaFunction() {
+	private static JavaFunction GetAttackTarget = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			LuaUserdata.PushUserdata(l, self.getAttackTarget());
@@ -83,7 +83,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetAttackTarget = new JavaFunction() {
+	private static JavaFunction SetAttackTarget = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			EntityLiving other = (EntityLiving) l.checkUserdata(2, Entity.class, "Living");
@@ -101,7 +101,7 @@ public class LuaLiving {
 	 * @return [[Boolean]]:avoid sun
 	 */
 
-	public static JavaFunction GetAvoidSun = new JavaFunction() {
+	private static JavaFunction GetAvoidSun = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// l.pushBoolean(self.shouldAvoidSun);
@@ -118,7 +118,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetAvoidSun = new JavaFunction() {
+	private static JavaFunction SetAvoidSun = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// self.shouldAvoidSun = l.checkBoolean(2);
@@ -135,7 +135,7 @@ public class LuaLiving {
 	 * @return [[Boolean]]:avoid water
 	 */
 
-	public static JavaFunction GetAvoidWater = new JavaFunction() {
+	private static JavaFunction GetAvoidWater = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// l.pushBoolean(self.getNavigator().getAvoidsWater());
@@ -151,7 +151,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetAvoidWater = new JavaFunction() {
+	private static JavaFunction SetAvoidWater = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// self.getNavigator().setAvoidsWater(l.checkBoolean(2));
@@ -168,7 +168,7 @@ public class LuaLiving {
 	 * @return [[Boolean]]:door breaking
 	 */
 
-	public static JavaFunction GetBreakDoors = new JavaFunction() {
+	private static JavaFunction GetBreakDoors = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// l.pushBoolean(self.getNavigator().getCanBreakDoors());
@@ -185,7 +185,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetBreakDoors = new JavaFunction() {
+	private static JavaFunction SetBreakDoors = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// self.getNavigator().setBreakDoors(l.checkBoolean(2));
@@ -202,7 +202,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetCanSwim = new JavaFunction() {
+	private static JavaFunction SetCanSwim = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// self.getNavigator().setCanSwim(l.checkBoolean(2));
@@ -219,7 +219,7 @@ public class LuaLiving {
 	 * @return [[Boolean]]:swimming
 	 */
 
-	public static JavaFunction GetCanSwim = new JavaFunction() {
+	private static JavaFunction GetCanSwim = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// l.pushBoolean(self.getNavigator().canSwim);
@@ -236,7 +236,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetEnterDoors = new JavaFunction() {
+	private static JavaFunction SetEnterDoors = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// self.getNavigator().setEnterDoors(l.checkBoolean(2));
@@ -253,7 +253,7 @@ public class LuaLiving {
 	 * @return [[Number]]: speed
 	 */
 
-	public static JavaFunction GetEnterDoors = new JavaFunction() {
+	private static JavaFunction GetEnterDoors = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			// l.pushBoolean(self.getNavigator().canPassOpenWoodenDoors);
@@ -269,7 +269,7 @@ public class LuaLiving {
 	 * @return [[Number]]: speed
 	 */
 
-	public static JavaFunction GetMovementSpeed = new JavaFunction() {
+	private static JavaFunction GetMovementSpeed = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			l.pushNumber(self.getNavigator().speed);
@@ -285,7 +285,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetMovementSpeed = new JavaFunction() {
+	private static JavaFunction SetMovementSpeed = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			self.getNavigator().setSpeed(l.checkNumber(2));
@@ -301,7 +301,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction MoveTo = new JavaFunction() {
+	private static JavaFunction MoveTo = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			Vector pos = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -318,7 +318,7 @@ public class LuaLiving {
 	 * @return nil
 	 */
 
-	public static JavaFunction MoveToEntity = new JavaFunction() {
+	private static JavaFunction MoveToEntity = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLiving self = (EntityLiving) l.checkUserdata(1, EntityLiving.class, "Living");
 			EntityLiving other = (EntityLiving) l.checkUserdata(2, Entity.class, "Living");

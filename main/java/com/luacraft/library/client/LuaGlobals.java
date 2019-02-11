@@ -21,7 +21,7 @@ public class LuaGlobals {
 	 * @return [[Block]]:block
 	 */
 
-	public static JavaFunction Block = new JavaFunction() {
+	private static JavaFunction Block = new JavaFunction() {
 		public int invoke(LuaState l) {
 			int x, y, z;
 
@@ -50,7 +50,7 @@ public class LuaGlobals {
 	 * @return [[World]]:world
 	 */
 
-	public static JavaFunction World = new JavaFunction() {
+	private static JavaFunction World = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaUserdata.PushUserdata(l, client.world);
 			return 1;
@@ -65,7 +65,7 @@ public class LuaGlobals {
 	 * @return [[Player]]:localplayer
 	 */
 
-	public static JavaFunction LocalPlayer = new JavaFunction() {
+	private static JavaFunction LocalPlayer = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaUserdata.PushUserdata(l, client.player);
 			return 1;
@@ -81,12 +81,13 @@ public class LuaGlobals {
 	 */
 
 	@Deprecated
-	public static JavaFunction ModelResource = new JavaFunction() {
+	private static JavaFunction ModelResource = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (l.getTop() > 1)
 				l.pushUserdataWithMeta(new Object(), "ModelResource");
 			else
 				l.pushUserdataWithMeta(new Object(), "ModelResource");
+			((LuaCraftState) l).depricated();
 			return 1;
 		}
 	};

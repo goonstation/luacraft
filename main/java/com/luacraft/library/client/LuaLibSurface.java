@@ -33,7 +33,7 @@ public class LuaLibSurface {
 	 * @return [[Font]]:font
 	 */
 
-	public static JavaFunction GetDefaultGalacticFont = new JavaFunction() {
+	private static JavaFunction GetDefaultGalacticFont = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushUserdataWithMeta(client.standardGalacticFontRenderer, "Font");
 			return 1;
@@ -48,7 +48,7 @@ public class LuaLibSurface {
 	 * @return [[Font]]:font
 	 */
 
-	public static JavaFunction GetDefaultFont = new JavaFunction() {
+	private static JavaFunction GetDefaultFont = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushUserdataWithMeta(client.fontRenderer, "Font");
 			return 1;
@@ -64,7 +64,7 @@ public class LuaLibSurface {
 	 * @return [[Font]]:font
 	 */
 
-	public static JavaFunction CreateFont = new JavaFunction() {
+	private static JavaFunction CreateFont = new JavaFunction() {
 		public int invoke(LuaState l) {
 			ResourceLocation resource = new ResourceLocation(l.checkString(1));
 
@@ -86,7 +86,7 @@ public class LuaLibSurface {
 	 * @return [[Color]]:color
 	 */
 
-	public static JavaFunction GetDrawColor = new JavaFunction() {
+	private static JavaFunction GetDrawColor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushUserdataWithMeta(drawColor, "Color");
 			return 1;
@@ -102,7 +102,7 @@ public class LuaLibSurface {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetDrawColor = new JavaFunction() {
+	private static JavaFunction SetDrawColor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (l.isUserdata(1, Color.class))
 				drawColor = (Color) l.checkUserdata(1, Color.class, "Color");
@@ -127,7 +127,7 @@ public class LuaLibSurface {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawRect = new JavaFunction() {
+	private static JavaFunction DrawRect = new JavaFunction() {
 		public int invoke(LuaState l) {
 			int x = l.checkInteger(1);
 			int y = l.checkInteger(2);
@@ -164,7 +164,7 @@ public class LuaLibSurface {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawGradientRect = new JavaFunction() {
+	private static JavaFunction DrawGradientRect = new JavaFunction() {
 		public int invoke(LuaState l) {
 			int x = l.checkInteger(1);
 			int y = l.checkInteger(2);
@@ -203,7 +203,7 @@ public class LuaLibSurface {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetTexture = new JavaFunction() {
+	private static JavaFunction SetTexture = new JavaFunction() {
 		public int invoke(LuaState l) {
 			currentTexture = (ResourceLocation) l.checkUserdata(1, ResourceLocation.class, "Resource");
 			return 0;
@@ -219,7 +219,7 @@ public class LuaLibSurface {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawTexturedRect = new JavaFunction() {
+	private static JavaFunction DrawTexturedRect = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (currentTexture == null)
 				return 0;
@@ -260,7 +260,7 @@ public class LuaLibSurface {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawTexturedSubRect = new JavaFunction() {
+	private static JavaFunction DrawTexturedSubRect = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (currentTexture == null)
 				return 0;
@@ -297,7 +297,7 @@ public class LuaLibSurface {
 		}
 	};
 
-	public static JavaFunction StartPoly = new JavaFunction() {
+	private static JavaFunction StartPoly = new JavaFunction() {
 		public int invoke(LuaState l) {
 
 			return 0;

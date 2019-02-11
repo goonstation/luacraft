@@ -15,9 +15,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 
 public class LuaLivingBase {
-	private static Minecraft client = LuaCraft.getClient();
+	private static final Minecraft client = LuaCraft.getClient();
 
-	public static JavaFunction GetAimVector = new JavaFunction() {
+	private static JavaFunction GetAimVector = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			Vector dir = new Vector(self.getLook(client.timer.renderPartialTicks));
@@ -26,7 +26,7 @@ public class LuaLivingBase {
 		}
 	};
 
-	public static JavaFunction GetEyeTrace = new JavaFunction() {
+	private static JavaFunction GetEyeTrace = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 

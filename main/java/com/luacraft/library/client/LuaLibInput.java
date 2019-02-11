@@ -16,7 +16,7 @@ public class LuaLibInput {
 	 * @return [[Boolean]]:isdown
 	 */
 
-	public static JavaFunction IsKeyDown = new JavaFunction() {
+	private static JavaFunction IsKeyDown = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(Keyboard.isKeyDown(l.checkInteger(1)));
 			return 1;
@@ -32,7 +32,7 @@ public class LuaLibInput {
 	 * @return [[Boolean]]:isdown
 	 */
 
-	public static JavaFunction IsMouseDown = new JavaFunction() {
+	private static JavaFunction IsMouseDown = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(Mouse.isButtonDown(l.checkInteger(1)));
 			return 1;

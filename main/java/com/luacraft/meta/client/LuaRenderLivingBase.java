@@ -10,7 +10,8 @@ import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.entity.EntityLivingBase;
 
 public class LuaRenderLivingBase {
-    public static JavaFunction __tostring = new JavaFunction() {
+	
+    private static JavaFunction __tostring = new JavaFunction() {
         public int invoke(LuaState l) {
             RenderLivingBase self = (RenderLivingBase) l.checkUserdata(1, RenderLivingBase.class, "RenderLivingBase");
             l.pushString(self.toString());
@@ -18,7 +19,7 @@ public class LuaRenderLivingBase {
         }
     };
 
-    public static JavaFunction DrawModel = new JavaFunction() {
+    private static JavaFunction DrawModel = new JavaFunction() {
         public int invoke(LuaState l) {
             RenderLivingBase self = (RenderLivingBase) l.checkUserdata(1, RenderLivingBase.class, "RenderLivingBase");
             EntityLivingBase entity = (EntityLivingBase)l.checkUserdata(2, EntityLivingBase.class, "EntityLivingBase");

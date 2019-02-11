@@ -6,7 +6,7 @@ import com.naef.jnlua.JavaFunction;
 import com.naef.jnlua.LuaState;
 
 public class LuaThread {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			l.pushString(String.format("Thread: 0x%08x", l.toPointer(1)));
@@ -22,7 +22,7 @@ public class LuaThread {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetPriority = new JavaFunction() {
+	private static JavaFunction SetPriority = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			self.setPriority(l.checkInteger(2));
@@ -38,7 +38,7 @@ public class LuaThread {
 	 * @return [[ENUM:THREAD_PRIORITY_*]]:priority
 	 */
 
-	public static JavaFunction GetPriority = new JavaFunction() {
+	private static JavaFunction GetPriority = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			l.pushNumber(self.getPriority());
@@ -54,7 +54,7 @@ public class LuaThread {
 	 * @return [[Boolean]]:alive
 	 */
 
-	public static JavaFunction IsAlive = new JavaFunction() {
+	private static JavaFunction IsAlive = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			l.pushBoolean(self.isAlive());
@@ -70,7 +70,7 @@ public class LuaThread {
 	 * @return nil
 	 */
 
-	public static JavaFunction Interrupt = new JavaFunction() {
+	private static JavaFunction Interrupt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			self.interrupt();
@@ -86,7 +86,7 @@ public class LuaThread {
 	 * @return [[Boolean]]:interrupted
 	 */
 
-	public static JavaFunction IsInterrupted = new JavaFunction() {
+	private static JavaFunction IsInterrupted = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			l.pushBoolean(self.isInterrupted());
@@ -102,7 +102,7 @@ public class LuaThread {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetName = new JavaFunction() {
+	private static JavaFunction SetName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			self.setName(l.checkString(2));
@@ -118,7 +118,7 @@ public class LuaThread {
 	 * @return [[String]]:name
 	 */
 
-	public static JavaFunction GetName = new JavaFunction() {
+	private static JavaFunction GetName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			l.pushString(self.getName());
@@ -134,7 +134,7 @@ public class LuaThread {
 	 * @return [[Number]]:id
 	 */
 
-	public static JavaFunction GetID = new JavaFunction() {
+	private static JavaFunction GetID = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			l.pushNumber(self.getId());
@@ -150,7 +150,7 @@ public class LuaThread {
 	 * @return nil
 	 */
 
-	public static JavaFunction Sleep = new JavaFunction() {
+	private static JavaFunction Sleep = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			try {
@@ -170,7 +170,7 @@ public class LuaThread {
 	 * @return nil
 	 */
 
-	public static JavaFunction Start = new JavaFunction() {
+	private static JavaFunction Start = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			self.start();
@@ -186,7 +186,7 @@ public class LuaThread {
 	 * @return [[ENUM:THREAD_STATE_*]]:priority
 	 */
 
-	public static JavaFunction GetState = new JavaFunction() {
+	private static JavaFunction GetState = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaJavaThread self = (LuaJavaThread) l.checkUserdata(1, LuaJavaThread.class, "Thread");
 			l.pushNumber(self.getState().ordinal());

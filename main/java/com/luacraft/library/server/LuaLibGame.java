@@ -26,7 +26,7 @@ public class LuaLibGame {
 	 * @return [[Table]]:players
 	 */
 
-	public static JavaFunction GetPlayers = new JavaFunction() {
+	private static JavaFunction GetPlayers = new JavaFunction() {
 		public int invoke(LuaState l) {
 			List<EntityPlayerMP> playerList = server.getPlayerList().getPlayers();
 
@@ -50,7 +50,7 @@ public class LuaLibGame {
 	 * @return [[Player]]:player
 	 */
 
-	public static JavaFunction GetPlayerByName = new JavaFunction() {
+	private static JavaFunction GetPlayerByName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String search = l.checkString(1);
 			List<EntityPlayerMP> playerList = server.getPlayerList().getPlayers();
@@ -75,7 +75,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction ChatPrint = new JavaFunction() {
+	private static JavaFunction ChatPrint = new JavaFunction() {
 		public int invoke(LuaState l) {
 			List<EntityPlayerMP> playerList = server.getPlayerList().getPlayers();
 
@@ -95,7 +95,7 @@ public class LuaLibGame {
 	 * @return [[Number]]:slots
 	 */
 
-	public static JavaFunction MaxPlayers = new JavaFunction() {
+	private static JavaFunction MaxPlayers = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushNumber(server.getPlayerList().getMaxPlayers());
 			return 1;
@@ -111,7 +111,7 @@ public class LuaLibGame {
 	 * @return [[String]]:motd
 	 */
 
-	public static JavaFunction GetMOTD = new JavaFunction() {
+	private static JavaFunction GetMOTD = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushString(server.getMOTD());
 			return 1;
@@ -127,7 +127,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetMOTD = new JavaFunction() {
+	private static JavaFunction SetMOTD = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setMOTD(l.checkString(1));
 			return 0;
@@ -143,7 +143,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:pvp
 	 */
 
-	public static JavaFunction GetPVP = new JavaFunction() {
+	private static JavaFunction GetPVP = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(server.isPVPEnabled());
 			return 1;
@@ -159,7 +159,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetPVP = new JavaFunction() {
+	private static JavaFunction SetPVP = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setAllowPvp(l.checkBoolean(1));
 			return 0;
@@ -175,7 +175,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:online
 	 */
 
-	public static JavaFunction GetOnlineMode = new JavaFunction() {
+	private static JavaFunction GetOnlineMode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(server.isServerInOnlineMode());
 			return 1;
@@ -191,7 +191,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetOnlineMode = new JavaFunction() {
+	private static JavaFunction SetOnlineMode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setOnlineMode(l.checkBoolean(1));
 			return 0;
@@ -207,7 +207,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:animals
 	 */
 
-	public static JavaFunction GetCanSpawnAnimals = new JavaFunction() {
+	private static JavaFunction GetCanSpawnAnimals = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(server.getCanSpawnAnimals());
 			return 1;
@@ -223,7 +223,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetCanSpawnAnimals = new JavaFunction() {
+	private static JavaFunction SetCanSpawnAnimals = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setCanSpawnAnimals(l.checkBoolean(1));
 			return 0;
@@ -239,7 +239,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:npcs
 	 */
 
-	public static JavaFunction GetCanSpawnNPCs = new JavaFunction() {
+	private static JavaFunction GetCanSpawnNPCs = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(server.getCanSpawnNPCs());
 			return 1;
@@ -255,7 +255,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetCanSpawnNPCs = new JavaFunction() {
+	private static JavaFunction SetCanSpawnNPCs = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setCanSpawnNPCs(l.checkBoolean(1));
 			return 0;
@@ -271,7 +271,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:flight
 	 */
 
-	public static JavaFunction GetFlightEnabled = new JavaFunction() {
+	private static JavaFunction GetFlightEnabled = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(server.isFlightAllowed());
 			return 1;
@@ -287,7 +287,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetFlightEnabled = new JavaFunction() {
+	private static JavaFunction SetFlightEnabled = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setAllowFlight(l.checkBoolean(1));
 			return 0;
@@ -303,7 +303,7 @@ public class LuaLibGame {
 	 * @return [[Number]]:height
 	 */
 
-	public static JavaFunction GetBuildHeight = new JavaFunction() {
+	private static JavaFunction GetBuildHeight = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushInteger(server.getBuildLimit());
 			return 1;
@@ -319,7 +319,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetBuildHeight = new JavaFunction() {
+	private static JavaFunction SetBuildHeight = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setBuildLimit(l.checkInteger(1));
 			return 0;
@@ -335,7 +335,7 @@ public class LuaLibGame {
 	 * @return [[String]]:hostname
 	 */
 
-	public static JavaFunction GetHostName = new JavaFunction() {
+	private static JavaFunction GetHostName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushString(server.getServerHostname());
 			return 1;
@@ -351,7 +351,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetHostName = new JavaFunction() {
+	private static JavaFunction SetHostName = new JavaFunction() {
 		public int invoke(LuaState l) {
 			server.setHostname(l.checkString(1));
 			return 0;
@@ -367,7 +367,7 @@ public class LuaLibGame {
 	 * @return [[String]]:output
 	 */
 
-	public static JavaFunction ConCommand = new JavaFunction() {
+	private static JavaFunction ConCommand = new JavaFunction() {
 		public int invoke(LuaState l) {
 			RConConsoleSource source = new RConConsoleSource(server);
 			server.getCommandManager().executeCommand(source, l.checkString(1));
@@ -386,7 +386,7 @@ public class LuaLibGame {
 	 * @return [[Number]]:distance
 	 */
 
-	public static JavaFunction GetViewDistance = new JavaFunction() {
+	private static JavaFunction GetViewDistance = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushNumber(server.getPlayerList().getViewDistance());
 			return 1;
@@ -402,7 +402,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:singleplayer
 	 */
 
-	public static JavaFunction IsSinglePlayer = new JavaFunction() {
+	private static JavaFunction IsSinglePlayer = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(server.isSinglePlayer());
 			return 1;
@@ -418,7 +418,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:multiplayer
 	 */
 
-	public static JavaFunction IsMultiPlayer = new JavaFunction() {
+	private static JavaFunction IsMultiPlayer = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(server.isServerInOnlineMode());
 			return 1;

@@ -4,6 +4,7 @@ import com.luacraft.library.server.LuaGlobals;
 import com.luacraft.library.server.LuaLibCommand;
 import com.luacraft.library.server.LuaLibGame;
 import com.luacraft.meta.server.LuaByteBuf;
+import com.luacraft.meta.server.LuaCommand;
 import com.luacraft.meta.server.LuaPlayer;
 import com.luacraft.meta.server.LuaPropertyManager;
 import com.naef.jnlua.LuaRuntimeException;
@@ -50,6 +51,7 @@ public class LuaServer extends LuaShared {
 		LuaLibGame.Init(this);
 
 		// Meta
+		LuaCommand.Init(this);
 		LuaPlayer.Init(this);
 		LuaByteBuf.Init(this);
 		LuaPropertyManager.Init(this);

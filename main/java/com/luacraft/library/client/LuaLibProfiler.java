@@ -19,7 +19,7 @@ public class LuaLibProfiler {
 	 * @return nil
 	 */
 
-	public static JavaFunction Start = new JavaFunction() {
+	private static JavaFunction Start = new JavaFunction() {
 		public int invoke(LuaState l) {
 			profiler.startSection(l.checkString(1));
 			return 0;
@@ -35,7 +35,7 @@ public class LuaLibProfiler {
 	 * @return nil
 	 */
 
-	public static JavaFunction End = new JavaFunction() {
+	private static JavaFunction End = new JavaFunction() {
 		public int invoke(LuaState l) {
 			profiler.endSection();
 			return 0;
@@ -51,7 +51,7 @@ public class LuaLibProfiler {
 	 * @return nil
 	 */
 
-	public static JavaFunction Clear = new JavaFunction() {
+	private static JavaFunction Clear = new JavaFunction() {
 		public int invoke(LuaState l) {
 			profiler.clearProfiling();
 			return 0;

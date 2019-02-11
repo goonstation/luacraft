@@ -1,5 +1,7 @@
 package com.luacraft.meta;
 
+import java.io.File;
+
 import com.luacraft.LuaCraftState;
 import com.luacraft.LuaUserdata;
 import com.luacraft.classes.Angle;
@@ -109,7 +111,7 @@ public class LuaObject {
 	 * @return [[Boolean]]:instance
 	 */
 
-	public static JavaFunction IsInstanceOf = new JavaFunction() {
+	private static JavaFunction IsInstanceOf = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Object self = l.checkUserdata(1);
 			Object other = l.checkUserdata(2);
@@ -326,6 +328,20 @@ public class LuaObject {
 		}
 	};
 
+	/**
+	 * @author Jake
+	 * @function IsFile
+	 * @info Check if the object is a file
+	 * @arguments [[Object]]:object
+	 * @return [[Boolean]]:file
+	 */
+	public static JavaFunction IsFile = new JavaFunction() {
+		public int invoke(LuaState l) {
+			l.pushBoolean(l.isUserdata(1, File.class));
+			return 1;
+		}
+	};
+
 	public static void Init(final LuaCraftState l) {
 		l.newMetatable("Object");
 		{
@@ -372,6 +388,8 @@ public class LuaObject {
 			l.setField(-2, "IsChunk");
 			l.pushJavaFunction(IsBiome);
 			l.setField(-2, "IsBiome");
+			l.pushJavaFunction(IsFile);
+			l.setField(-2, "IsFile");
 		}
 		l.pop(1);
 	}

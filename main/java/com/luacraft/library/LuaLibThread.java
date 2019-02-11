@@ -28,7 +28,7 @@ public class LuaLibThread {
 	 * @return [[Thread]]:thread
 	 */
 
-	public static JavaFunction NewThread = new JavaFunction() {
+	private static JavaFunction NewThread = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String file = l.checkString(1);
 
@@ -54,7 +54,7 @@ public class LuaLibThread {
 	 * @return [[Thread]]:thread
 	 */
 
-	public static JavaFunction GetThread = new JavaFunction() {
+	private static JavaFunction GetThread = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushUserdataWithMeta((LuaJavaThread) Thread.currentThread(), "Thread");
 			return 1;
@@ -70,7 +70,7 @@ public class LuaLibThread {
 	 * @return [[Channel]]:channel
 	 */
 
-	public static JavaFunction GetChannel = new JavaFunction() {
+	private static JavaFunction GetChannel = new JavaFunction() {
 		public int invoke(LuaState l) {
 			synchronized (LuaCraft.threadChannels) {
 				String name = l.checkString(1);

@@ -23,7 +23,7 @@ public class LuaLivingBase {
 	 * @return [[Number]]:health
 	 */
 
-	public static JavaFunction GetMaxHealth = new JavaFunction() {
+	private static JavaFunction GetMaxHealth = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			l.pushNumber(self.getMaxHealth());
@@ -39,7 +39,7 @@ public class LuaLivingBase {
 	 * @return [[Number]]:health
 	 */
 
-	public static JavaFunction GetHealth = new JavaFunction() {
+	private static JavaFunction GetHealth = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			l.pushNumber(self.getHealth());
@@ -55,7 +55,7 @@ public class LuaLivingBase {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetHealth = new JavaFunction() {
+	private static JavaFunction SetHealth = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			float health = (float) l.checkNumber(2);
@@ -76,7 +76,7 @@ public class LuaLivingBase {
 	 * @return nil
 	 */
 
-	public static JavaFunction Kill = new JavaFunction() {
+	private static JavaFunction Kill = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			self.attackEntityFrom(DamageSource.GENERIC, self.getHealth());
@@ -92,7 +92,7 @@ public class LuaLivingBase {
 	 * @return [[Boolean]]:onladder
 	 */
 
-	public static JavaFunction IsOnLadder = new JavaFunction() {
+	private static JavaFunction IsOnLadder = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			l.pushBoolean(self.isOnLadder());
@@ -108,7 +108,7 @@ public class LuaLivingBase {
 	 * @return [[Boolean]]:waterbreath
 	 */
 
-	public static JavaFunction CanBreatheWater = new JavaFunction() {
+	private static JavaFunction CanBreatheWater = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			l.pushBoolean(self.canBreatheUnderwater());
@@ -124,7 +124,7 @@ public class LuaLivingBase {
 	 * @return [[Vector]]:vec
 	 */
 
-	public static JavaFunction GetAimVector = new JavaFunction() {
+	private static JavaFunction GetAimVector = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			Vector dir = new Vector(self.getLook(1F));
@@ -141,7 +141,7 @@ public class LuaLivingBase {
 	 * @return [[Number]]:age
 	 */
 
-	public static JavaFunction GetAge = new JavaFunction() {
+	private static JavaFunction GetAge = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 			l.pushInteger(self.getIdleTime());
@@ -157,7 +157,7 @@ public class LuaLivingBase {
 	 * @return [[Table]]:trace
 	 */
 
-	public static JavaFunction GetEyeTrace = new JavaFunction() {
+	private static JavaFunction GetEyeTrace = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityLivingBase self = (EntityLivingBase) l.checkUserdata(1, EntityLivingBase.class, "Living");
 

@@ -9,7 +9,7 @@ import net.minecraft.util.EntityDamageSource;
 
 public class LuaEntityDamageSource {
 
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDamageSource self = (EntityDamageSource) l.checkUserdata(1, EntityDamageSource.class,
 					"EntityDamageSource");
@@ -26,7 +26,7 @@ public class LuaEntityDamageSource {
 	 * @return [[Boolean]]:scaled
 	 */
 
-	public static JavaFunction IsDifficultyScaled = new JavaFunction() {
+	private static JavaFunction IsDifficultyScaled = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDamageSource self = (EntityDamageSource) l.checkUserdata(1, EntityDamageSource.class,
 					"EntityDamageSource");
@@ -43,7 +43,7 @@ public class LuaEntityDamageSource {
 	 * @return [[Boolean]]:thorns
 	 */
 
-	public static JavaFunction IsThornsDamage = new JavaFunction() {
+	private static JavaFunction IsThornsDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDamageSource self = (EntityDamageSource) l.checkUserdata(1, EntityDamageSource.class,
 					"EntityDamageSource");
@@ -60,7 +60,7 @@ public class LuaEntityDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetIsThornsDamage = new JavaFunction() {
+	private static JavaFunction SetIsThornsDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDamageSource self = (EntityDamageSource) l.checkUserdata(1, EntityDamageSource.class,
 					"EntityDamageSource");

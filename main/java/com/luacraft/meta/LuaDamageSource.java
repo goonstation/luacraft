@@ -10,7 +10,7 @@ import net.minecraft.util.EntityDamageSource;
 
 public class LuaDamageSource {
 
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushString(String.format("DamageSource: 0x%08x", l.toPointer(1)));
@@ -26,7 +26,7 @@ public class LuaDamageSource {
 	 * @return [[String]]:type
 	 */
 
-	public static JavaFunction GetDamageType = new JavaFunction() {
+	private static JavaFunction GetDamageType = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushString(self.getDamageType());
@@ -42,7 +42,7 @@ public class LuaDamageSource {
 	 * @return [[Entity]]:target
 	 */
 
-	public static JavaFunction GetImmediateSource = new JavaFunction() {
+	private static JavaFunction GetImmediateSource = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDamageSource self = (EntityDamageSource) l.checkUserdata(1, EntityDamageSource.class,
 					"EntityDamageSource");
@@ -59,7 +59,7 @@ public class LuaDamageSource {
 	 * @return [[Entity]]:source
 	 */
 
-	public static JavaFunction GetTrueSource = new JavaFunction() {
+	private static JavaFunction GetTrueSource = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDamageSource self = (EntityDamageSource) l.checkUserdata(1, EntityDamageSource.class,
 					"EntityDamageSource");
@@ -76,7 +76,7 @@ public class LuaDamageSource {
 	 * @return [[Number]]:damage
 	 */
 
-	public static JavaFunction GetHungerDamage = new JavaFunction() {
+	private static JavaFunction GetHungerDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushNumber(self.getHungerDamage());
@@ -92,7 +92,7 @@ public class LuaDamageSource {
 	 * @return [[Entity]]:source
 	 */
 
-	public static JavaFunction GetSource = new JavaFunction() {
+	private static JavaFunction GetSource = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.getTrueSource());
@@ -108,7 +108,7 @@ public class LuaDamageSource {
 	 * @return [[Boolean]]:absolute
 	 */
 
-	public static JavaFunction IsAbsolute = new JavaFunction() {
+	private static JavaFunction IsAbsolute = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushBoolean(self.isDamageAbsolute());
@@ -124,7 +124,7 @@ public class LuaDamageSource {
 	 * @return [[Boolean]]:scaled
 	 */
 
-	public static JavaFunction IsDifficultyScaled = new JavaFunction() {
+	private static JavaFunction IsDifficultyScaled = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushBoolean(self.isDifficultyScaled());
@@ -140,7 +140,7 @@ public class LuaDamageSource {
 	 * @return [[Boolean]]:explosion
 	 */
 
-	public static JavaFunction IsExplosion = new JavaFunction() {
+	private static JavaFunction IsExplosion = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushBoolean(self.isExplosion());
@@ -156,7 +156,7 @@ public class LuaDamageSource {
 	 * @return [[Boolean]]:fire
 	 */
 
-	public static JavaFunction IsFireDamage = new JavaFunction() {
+	private static JavaFunction IsFireDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushBoolean(self.isFireDamage());
@@ -172,7 +172,7 @@ public class LuaDamageSource {
 	 * @return [[Boolean]]:magic
 	 */
 
-	public static JavaFunction IsMagicDamage = new JavaFunction() {
+	private static JavaFunction IsMagicDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushBoolean(self.isMagicDamage());
@@ -188,7 +188,7 @@ public class LuaDamageSource {
 	 * @return [[Boolean]]:projectile
 	 */
 
-	public static JavaFunction IsProjectile = new JavaFunction() {
+	private static JavaFunction IsProjectile = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushBoolean(self.isProjectile());
@@ -204,7 +204,7 @@ public class LuaDamageSource {
 	 * @return [[Boolean]]:unblockable
 	 */
 
-	public static JavaFunction IsUnblockable = new JavaFunction() {
+	private static JavaFunction IsUnblockable = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			l.pushBoolean(self.isUnblockable());
@@ -220,7 +220,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetAllowedInCreative = new JavaFunction() {
+	private static JavaFunction SetAllowedInCreative = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setDamageAllowedInCreativeMode());
@@ -236,7 +236,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetBypassesArmor = new JavaFunction() {
+	private static JavaFunction SetBypassesArmor = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setDamageBypassesArmor());
@@ -252,7 +252,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetIsAbsolute = new JavaFunction() {
+	private static JavaFunction SetIsAbsolute = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setDamageIsAbsolute());
@@ -268,7 +268,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetDifficultyScaled = new JavaFunction() {
+	private static JavaFunction SetDifficultyScaled = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setDifficultyScaled());
@@ -284,7 +284,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetExplosion = new JavaFunction() {
+	private static JavaFunction SetExplosion = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setExplosion());
@@ -300,7 +300,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetFireDamage = new JavaFunction() {
+	private static JavaFunction SetFireDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setFireDamage());
@@ -316,7 +316,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetMagicDamage = new JavaFunction() {
+	private static JavaFunction SetMagicDamage = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setMagicDamage());
@@ -332,7 +332,7 @@ public class LuaDamageSource {
 	 * @return [[DamageSource]]:this
 	 */
 
-	public static JavaFunction SetProjectile = new JavaFunction() {
+	private static JavaFunction SetProjectile = new JavaFunction() {
 		public int invoke(LuaState l) {
 			DamageSource self = (DamageSource) l.checkUserdata(1, DamageSource.class, "DamageSource");
 			LuaUserdata.PushUserdata(l, self.setProjectile());

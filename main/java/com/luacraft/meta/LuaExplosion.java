@@ -14,7 +14,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.Explosion;
 
 public class LuaExplosion {
-    public static JavaFunction __tostring = new JavaFunction() {
+    private static JavaFunction __tostring = new JavaFunction() {
         public int invoke(LuaState l) {
             Explosion self = (Explosion) l.checkUserdata(1, Explosion.class, "Explosion");
             l.pushString(String.format("Explosion [%.2f, %.2f, %.2f]",
@@ -25,7 +25,7 @@ public class LuaExplosion {
         }
     };
 
-    public static JavaFunction Explode = new JavaFunction() {
+    private static JavaFunction Explode = new JavaFunction() {
         public int invoke(LuaState l) {
             Explosion self = (Explosion) l.checkUserdata(1, Explosion.class, "Explosion");
             boolean spawnParticles = l.checkBoolean(2, true);
@@ -35,7 +35,7 @@ public class LuaExplosion {
         }
     };
 
-    public static JavaFunction GetEntityPlacedBy = new JavaFunction() {
+    private static JavaFunction GetEntityPlacedBy = new JavaFunction() {
         public int invoke(LuaState l) {
             Explosion self = (Explosion) l.checkUserdata(1, Explosion.class, "Explosion");
             LuaUserdata.PushUserdata(l, self.getExplosivePlacedBy());
@@ -43,7 +43,7 @@ public class LuaExplosion {
         }
     };
 
-    public static JavaFunction GetKnockedBackedPlayers = new JavaFunction() {
+    private static JavaFunction GetKnockedBackedPlayers = new JavaFunction() {
         public int invoke(LuaState l) {
             Explosion self = (Explosion) l.checkUserdata(1, Explosion.class, "Explosion");
             l.newTable();
@@ -59,7 +59,7 @@ public class LuaExplosion {
         }
     };
 
-    public static JavaFunction GetAffectedBlocks = new JavaFunction() {
+    private static JavaFunction GetAffectedBlocks = new JavaFunction() {
         public int invoke(LuaState l) {
             Explosion self = (Explosion) l.checkUserdata(1, Explosion.class, "Explosion");
             l.newTable();
@@ -76,7 +76,7 @@ public class LuaExplosion {
         }
     };
 
-    public static JavaFunction GetPos = new JavaFunction() {
+    private static JavaFunction GetPos = new JavaFunction() {
         public int invoke(LuaState l) {
             Explosion self = (Explosion) l.checkUserdata(1, Explosion.class, "Explosion");
             Vector vec = new Vector(self.getPosition().x, self.getPosition().z, self.getPosition().y);

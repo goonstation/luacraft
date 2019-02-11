@@ -11,7 +11,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 
 public class LuaFont {
-	public static JavaFunction __tostring = new JavaFunction() {
+	
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			FontRenderer self = (FontRenderer) l.checkUserdata(1, FontRenderer.class, "Font");
 			l.pushString(String.format("Font: 0x%08x", l.toPointer(1)));
@@ -27,7 +28,7 @@ public class LuaFont {
 	 * @return [[Number]]:width, [[Number]]:height
 	 */
 
-	public static JavaFunction GetSize = new JavaFunction() {
+	private static JavaFunction GetSize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			FontRenderer self = (FontRenderer) l.checkUserdata(1, FontRenderer.class, "Font");
 			l.pushNumber(self.getStringWidth(l.checkString(2)));
@@ -44,7 +45,7 @@ public class LuaFont {
 	 * @return [[Number]]:width
 	 */
 
-	public static JavaFunction GetWidth = new JavaFunction() {
+	private static JavaFunction GetWidth = new JavaFunction() {
 		public int invoke(LuaState l) {
 			FontRenderer self = (FontRenderer) l.checkUserdata(1, FontRenderer.class, "Font");
 			l.pushNumber(self.getStringWidth(l.checkString(2)));
@@ -60,7 +61,7 @@ public class LuaFont {
 	 * @return [[Number]]:height
 	 */
 
-	public static JavaFunction GetHeight = new JavaFunction() {
+	private static JavaFunction GetHeight = new JavaFunction() {
 		public int invoke(LuaState l) {
 			FontRenderer self = (FontRenderer) l.checkUserdata(1, FontRenderer.class, "Font");
 			l.pushNumber(self.FONT_HEIGHT);
@@ -76,7 +77,7 @@ public class LuaFont {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawText = new JavaFunction() {
+	private static JavaFunction DrawText = new JavaFunction() {
 		public int invoke(LuaState l) {
 			FontRenderer self = (FontRenderer) l.checkUserdata(1, FontRenderer.class, "Font");
 			String text = l.checkString(2);
@@ -104,7 +105,7 @@ public class LuaFont {
 	 * @return nil
 	 */
 
-	public static JavaFunction DrawTextWrapped = new JavaFunction() {
+	private static JavaFunction DrawTextWrapped = new JavaFunction() {
 		public int invoke(LuaState l) {
 			FontRenderer self = (FontRenderer) l.checkUserdata(1, FontRenderer.class, "Font");
 			String text = l.checkString(2);

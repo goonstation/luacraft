@@ -3,11 +3,13 @@ package com.luacraft.library;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 
 import com.luacraft.LuaCraftState;
 import com.luacraft.classes.Angle;
 import com.luacraft.classes.Color;
 import com.luacraft.classes.FileMount;
+import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.Vector;
 import com.luacraft.meta.LuaObject;
 import com.naef.jnlua.JavaFunction;
@@ -38,7 +40,7 @@ public class LuaGlobals {
 	 * @return [[Angle]]:angle
 	 */
 
-	public static JavaFunction Angle = new JavaFunction() {
+	private static JavaFunction Angle = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Angle ang = new Angle(l.checkNumber(1, 0), l.checkNumber(2, 0), l.checkNumber(3, 0));
 			ang.push(l);
@@ -54,7 +56,7 @@ public class LuaGlobals {
 	 * @return [[ByteBuf]]:buffer
 	 */
 
-	public static JavaFunction ByteBuf = new JavaFunction() {
+	private static JavaFunction ByteBuf = new JavaFunction() {
 		public int invoke(LuaState l) {
 			PacketBuffer buffer = new PacketBuffer(Unpooled.buffer());
 			l.pushUserdataWithMeta(buffer, "ByteBuf");
@@ -70,7 +72,7 @@ public class LuaGlobals {
 	 * @return [[Color]]:color
 	 */
 
-	public static JavaFunction Color = new JavaFunction() {
+	private static JavaFunction Color = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Color self = new Color(l.checkInteger(1), l.checkInteger(2), l.checkInteger(3), l.checkInteger(4, 255));
 			l.pushUserdataWithMeta(self, "Color");
@@ -86,7 +88,7 @@ public class LuaGlobals {
 	 * @return [[DamageSource]]:damagesource
 	 */
 
-	public static JavaFunction DamageSource = new JavaFunction() {
+	private static JavaFunction DamageSource = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String type = l.checkString(1);
 
@@ -108,7 +110,7 @@ public class LuaGlobals {
 	 * @return [[ItemStack]]:item
 	 */
 
-	public static JavaFunction ItemStack = new JavaFunction() {
+	private static JavaFunction ItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			int itemID = l.checkInteger(1, 1);
 			int stackSize = l.checkInteger(2, 1);
@@ -128,7 +130,7 @@ public class LuaGlobals {
 	 * @return [[NBTTag]]:tag
 	 */
 
-	public static JavaFunction NBTTag = new JavaFunction() {
+	private static JavaFunction NBTTag = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushUserdataWithMeta(new NBTTagCompound(), "NBTTag");
 			return 1;
@@ -143,7 +145,7 @@ public class LuaGlobals {
 	 * @return [[Resource]]:resource
 	 */
 
-	public static JavaFunction Resource = new JavaFunction() {
+	private static JavaFunction Resource = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (l.getTop() > 1)
 				l.pushUserdataWithMeta(new ResourceLocation(l.checkString(1), l.checkString(2)), "Resource");
@@ -161,7 +163,7 @@ public class LuaGlobals {
 	 * @return [[Vector]]:vector
 	 */
 
-	public static JavaFunction Vector = new JavaFunction() {
+	private static JavaFunction Vector = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector vec = new Vector(l.checkNumber(1, 0), l.checkNumber(2, 0), l.checkNumber(3, 0));
 			vec.push(l);
@@ -177,7 +179,7 @@ public class LuaGlobals {
 	 * @return [[Boolean]]:function
 	 */
 
-	public static JavaFunction IsFunction = new JavaFunction() {
+	private static JavaFunction IsFunction = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(l.isFunction(1));
 			return 1;
@@ -192,7 +194,7 @@ public class LuaGlobals {
 	 * @return [[Boolean]]:number
 	 */
 
-	public static JavaFunction IsNumber = new JavaFunction() {
+	private static JavaFunction IsNumber = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(l.isNumber(1));
 			return 1;
@@ -207,7 +209,7 @@ public class LuaGlobals {
 	 * @return [[Boolean]]:string
 	 */
 
-	public static JavaFunction IsString = new JavaFunction() {
+	private static JavaFunction IsString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(l.isString(1));
 			return 1;
@@ -222,7 +224,7 @@ public class LuaGlobals {
 	 * @return [[Boolean]]:bool
 	 */
 
-	public static JavaFunction IsBool = new JavaFunction() {
+	private static JavaFunction IsBool = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(l.isBoolean(1));
 			return 1;
@@ -237,7 +239,7 @@ public class LuaGlobals {
 	 * @return [[Boolean]]:table
 	 */
 
-	public static JavaFunction IsTable = new JavaFunction() {
+	private static JavaFunction IsTable = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(l.isTable(1));
 			return 1;
@@ -252,7 +254,7 @@ public class LuaGlobals {
 	 * @return [[Table]]:table
 	 */
 
-	public static JavaFunction FindMetaTable = new JavaFunction() {
+	private static JavaFunction FindMetaTable = new JavaFunction() {
 		public int invoke(LuaState l) {
 			String meta = l.checkString(1);
 			l.newMetatable(meta);
@@ -269,10 +271,16 @@ public class LuaGlobals {
 				throw new LuaRuntimeException("File must be a Lua file");
 
 			InputStream in = null;
+			
 			try {
-				in = FileMount.GetFileInputStream(fullpath);
-			} catch (FileNotFoundException e) {
-				throw new LuaRuntimeException("Cannot open " + fullpath + ": No such file or directory");
+				in = LuaCache.getFileInputStream(file);
+			} catch (SQLException e1) {
+			} finally {
+				try {
+					in = FileMount.GetFileInputStream(fullpath);
+				} catch (FileNotFoundException e) {
+					throw new LuaRuntimeException("Cannot open " + fullpath + ": No such file or directory");
+				}
 			}
 			try {
 				l.load(in, fullpath);
@@ -288,7 +296,7 @@ public class LuaGlobals {
 		}
 	};
 
-	public static JavaFunction dofile = new JavaFunction() {
+	private static JavaFunction dofile = new JavaFunction() {
 		public int invoke(LuaState l) {
 			loadfileInternal.invoke(l);
 			l.call(0, 0);
@@ -296,7 +304,7 @@ public class LuaGlobals {
 		}
 	};
 
-	public static JavaFunction loadfile = new JavaFunction() {
+	private static JavaFunction loadfile = new JavaFunction() {
 		public int invoke(LuaState l) {
 			try {
 				loadfileInternal.invoke(l);
@@ -309,14 +317,14 @@ public class LuaGlobals {
 		}
 	};
 
-	public static JavaFunction nanotime = new JavaFunction() {
+	private static JavaFunction nanotime = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushNumber(System.nanoTime());
 			return 1;
 		}
 	};
 
-	public static JavaFunction print_lua_stack = new JavaFunction() {
+	private static JavaFunction print_lua_stack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			((LuaCraftState)l).printStack();
 			return 0;
@@ -357,12 +365,16 @@ public class LuaGlobals {
 		l.setGlobal("IsWorld");
 		l.pushJavaFunction(LuaObject.IsThread);
 		l.setGlobal("IsThread");
+		l.pushJavaFunction(LuaObject.IsValid);
+		l.setGlobal("IsValid");
 		l.pushJavaFunction(LuaObject.IsAngle);
 		l.setGlobal("IsAngle");
 		l.pushJavaFunction(LuaObject.IsVector);
 		l.setGlobal("IsVector");
 		l.pushJavaFunction(LuaObject.IsColor);
 		l.setGlobal("IsColor");
+		l.pushJavaFunction(LuaObject.IsNBTTag);
+		l.setGlobal("IsNBTTag");
 
 		/**
 		 * @author Jake
@@ -396,12 +408,16 @@ public class LuaGlobals {
 		l.setGlobal("IsLiving");
 		l.pushJavaFunction(LuaObject.IsItem);
 		l.setGlobal("IsItem");
+		l.pushJavaFunction(LuaObject.IsItemStack);
+		l.setGlobal("IsItemStack");
 		l.pushJavaFunction(LuaObject.IsChunk);
 		l.setGlobal("IsChunk");
 		l.pushJavaFunction(LuaObject.IsExplosion);
 		l.setGlobal("IsExplosion");
 		l.pushJavaFunction(LuaObject.IsBiome);
 		l.setGlobal("IsBiome");
+		l.pushJavaFunction(LuaObject.IsFile);
+		l.setGlobal("IsFile");
 
 		l.pushJavaFunction(FindMetaTable);
 		l.setGlobal("FindMetaTable");

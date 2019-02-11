@@ -8,7 +8,7 @@ import com.naef.jnlua.LuaState;
 
 public class LuaVector {
 
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			l.pushString(self.toString());
@@ -16,7 +16,7 @@ public class LuaVector {
 		}
 	};
 
-	public static JavaFunction __index = new JavaFunction() {
+	private static JavaFunction __index = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			String key = l.checkString(2);
@@ -34,7 +34,7 @@ public class LuaVector {
 		}
 	};
 
-	public static JavaFunction __newindex = new JavaFunction() {
+	private static JavaFunction __newindex = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			String key = l.checkString(2);
@@ -51,7 +51,7 @@ public class LuaVector {
 		}
 	};
 
-	public static JavaFunction __eq = new JavaFunction() {
+	private static JavaFunction __eq = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector other = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -60,7 +60,7 @@ public class LuaVector {
 		}
 	};
 
-	public static JavaFunction __add = new JavaFunction() {
+	private static JavaFunction __add = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector other = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -69,7 +69,7 @@ public class LuaVector {
 		}
 	};
 
-	public static JavaFunction __sub = new JavaFunction() {
+	private static JavaFunction __sub = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector other = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -78,7 +78,7 @@ public class LuaVector {
 		}
 	};
 
-	public static JavaFunction __mul = new JavaFunction() {
+	private static JavaFunction __mul = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector ret = self.copy();
@@ -94,7 +94,7 @@ public class LuaVector {
 		}
 	};
 
-	public static JavaFunction __div = new JavaFunction() {
+	private static JavaFunction __div = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector ret = self.copy();
@@ -118,7 +118,7 @@ public class LuaVector {
 	 * @return [[Number]]:len
 	 */
 
-	public static JavaFunction Length = new JavaFunction() {
+	private static JavaFunction Length = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			l.pushNumber(self.length());
@@ -134,7 +134,7 @@ public class LuaVector {
 	 * @return [[Number]]:distance
 	 */
 
-	public static JavaFunction Distance = new JavaFunction() {
+	private static JavaFunction Distance = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector other = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -151,7 +151,7 @@ public class LuaVector {
 	 * @return [[Number]]:distance
 	 */
 
-	public static JavaFunction DistanceSqr = new JavaFunction() {
+	private static JavaFunction DistanceSqr = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector other = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -168,7 +168,7 @@ public class LuaVector {
 	 * @return [[Vector]]:norm
 	 */
 
-	public static JavaFunction GetNormal = new JavaFunction() {
+	private static JavaFunction GetNormal = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			self.getNormal().push(l);
@@ -184,7 +184,7 @@ public class LuaVector {
 	 * @return nil
 	 */
 
-	public static JavaFunction Normalize = new JavaFunction() {
+	private static JavaFunction Normalize = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			self.normalize();
@@ -200,7 +200,7 @@ public class LuaVector {
 	 * @return [[Number]]:dot
 	 */
 
-	public static JavaFunction DotProduct = new JavaFunction() {
+	private static JavaFunction DotProduct = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector other = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -217,7 +217,7 @@ public class LuaVector {
 	 * @return [[Vector]]:cross
 	 */
 
-	public static JavaFunction Cross = new JavaFunction() {
+	private static JavaFunction Cross = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector other = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -234,7 +234,7 @@ public class LuaVector {
 	 * @return [[Number]]:u, [[Number]]:v
 	 */
 
-	public static JavaFunction RayQuadIntersect = new JavaFunction() {
+	private static JavaFunction RayQuadIntersect = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			Vector dir = (Vector) l.checkUserdata(2, Vector.class, "Vector");
@@ -262,7 +262,7 @@ public class LuaVector {
 	 * @return [[Angle]]:angle
 	 */
 
-	public static JavaFunction Angle = new JavaFunction() {
+	private static JavaFunction Angle = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 

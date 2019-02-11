@@ -15,7 +15,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 // TODO: Test all these out after updating them to use the new MC 1.9 classes
 
 public class LuaDataWatcher {
-	public static JavaFunction __tostring = new JavaFunction() {
+	private static JavaFunction __tostring = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager)l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			l.pushString(String.format("DataWatcher: 0x%08x", l.toPointer(1)));
@@ -31,7 +31,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddByte = new JavaFunction() {
+	private static JavaFunction AddByte = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			// TODO: check this out
@@ -48,7 +48,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetByte = new JavaFunction() {
+	private static JavaFunction SetByte = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.updateObject(l.checkInteger(2), (byte) l.checkInteger(3));
@@ -65,7 +65,7 @@ public class LuaDataWatcher {
 	 * @return [[Number]]
 	 */
 
-	public static JavaFunction GetByte = new JavaFunction() {
+	private static JavaFunction GetByte = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//l.pushNumber(self.getWatchableObjectByte(l.checkInteger(2)));
@@ -82,7 +82,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddShort = new JavaFunction() {
+	private static JavaFunction AddShort = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.addObject(l.checkInteger(2), (short) l.checkInteger(3, 0));
@@ -99,7 +99,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetShort = new JavaFunction() {
+	private static JavaFunction SetShort = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.updateObject(l.checkInteger(2), (short) l.checkInteger(3));
@@ -116,7 +116,7 @@ public class LuaDataWatcher {
 	 * @return [[Number]]
 	 */
 
-	public static JavaFunction GetShort = new JavaFunction() {
+	private static JavaFunction GetShort = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//l.pushNumber(self.getWatchableObjectShort(l.checkInteger(2)));
@@ -133,7 +133,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddInt = new JavaFunction() {
+	private static JavaFunction AddInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.addObject(l.checkInteger(2), l.checkInteger(3, 0));
@@ -150,7 +150,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetInt = new JavaFunction() {
+	private static JavaFunction SetInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.updateObject(l.checkInteger(2), l.checkInteger(3));
@@ -167,7 +167,7 @@ public class LuaDataWatcher {
 	 * @return [[Number]]
 	 */
 
-	public static JavaFunction GetInt = new JavaFunction() {
+	private static JavaFunction GetInt = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//l.pushInteger(self.getWatchableObjectInt(l.checkInteger(2)));
@@ -184,7 +184,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddFloat = new JavaFunction() {
+	private static JavaFunction AddFloat = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.addObject(l.checkInteger(2), (float) l.checkNumber(3, 0));
@@ -201,7 +201,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetFloat = new JavaFunction() {
+	private static JavaFunction SetFloat = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.updateObject(l.checkInteger(2), (float) l.checkNumber(3));
@@ -218,7 +218,7 @@ public class LuaDataWatcher {
 	 * @return [[Number]]
 	 */
 
-	public static JavaFunction GetFloat = new JavaFunction() {
+	private static JavaFunction GetFloat = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//l.pushNumber(self.getWatchableObjectFloat(l.checkInteger(2)));
@@ -235,7 +235,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddString = new JavaFunction() {
+	private static JavaFunction AddString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.addObject(l.checkInteger(2), l.checkString(3, ""));
@@ -252,7 +252,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetString = new JavaFunction() {
+	private static JavaFunction SetString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.updateObject(l.checkInteger(2), l.checkString(3));
@@ -269,7 +269,7 @@ public class LuaDataWatcher {
 	 * @return [[String]]
 	 */
 
-	public static JavaFunction GetString = new JavaFunction() {
+	private static JavaFunction GetString = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//l.pushString(self.getWatchableObjectString(l.checkInteger(2)));
@@ -286,7 +286,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction AddItemStack = new JavaFunction() {
+	private static JavaFunction AddItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.addObject(l.checkInteger(2), l.checkUserdata(3, ItemStack.class, "ItemStack"));
@@ -303,7 +303,7 @@ public class LuaDataWatcher {
 	 * @return nil
 	 */
 
-	public static JavaFunction SetItemStack = new JavaFunction() {
+	private static JavaFunction SetItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//self.updateObject(l.checkInteger(2), l.checkUserdata(3, ItemStack.class, "ItemStack"));
@@ -320,7 +320,7 @@ public class LuaDataWatcher {
 	 * @return [[ItemStack]]
 	 */
 
-	public static JavaFunction GetItemStack = new JavaFunction() {
+	private static JavaFunction GetItemStack = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityDataManager self = (EntityDataManager) l.checkUserdata(1, EntityDataManager.class, "DataWatcher");
 			//ItemStack item = self.getWatchableObjectItemStack(l.checkInteger(2));

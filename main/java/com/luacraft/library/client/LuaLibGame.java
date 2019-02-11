@@ -28,7 +28,7 @@ public class LuaLibGame {
 	 * @return [[Number]]:slots
 	 */
 
-	public static JavaFunction MaxPlayers = new JavaFunction() {
+	private static JavaFunction MaxPlayers = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (client.player == null)
 				return 0;
@@ -47,7 +47,7 @@ public class LuaLibGame {
 	 * @return [[String]]:IP
 	 */
 
-	public static JavaFunction HostAddress = new JavaFunction() {
+	private static JavaFunction HostAddress = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushString(net.channel().remoteAddress().toString());
 			return 1;
@@ -63,7 +63,7 @@ public class LuaLibGame {
 	 * @return [[Table]]:info
 	 */
 
-	public static JavaFunction PlayerInfo = new JavaFunction() {
+	private static JavaFunction PlayerInfo = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (client.player == null)
 				return 0;
@@ -99,7 +99,7 @@ public class LuaLibGame {
 	 * @return [[Boolean]]:focus
 	 */
 
-	public static JavaFunction HasFocus = new JavaFunction() {
+	private static JavaFunction HasFocus = new JavaFunction() {
 		public int invoke(LuaState l) {
 			l.pushBoolean(client.inGameHasFocus);
 			return 1;
@@ -115,7 +115,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction Say = new JavaFunction() {
+	private static JavaFunction Say = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (client.player == null)
 				return 0;
@@ -134,7 +134,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction ChatPrint = new JavaFunction() {
+	private static JavaFunction ChatPrint = new JavaFunction() {
 		public int invoke(LuaState l) {
 			if (client.player == null)
 				return 0;
@@ -154,7 +154,7 @@ public class LuaLibGame {
 	 * @return nil
 	 */
 
-	public static JavaFunction JoinServer = new JavaFunction() {
+	private static JavaFunction JoinServer = new JavaFunction() {
 		public int invoke(LuaState l) {
 			LuaCraft.getForgeClient().connectToServerAtStartup(l.checkString(1), l.checkInteger(2, 25565));
 			return 0;
