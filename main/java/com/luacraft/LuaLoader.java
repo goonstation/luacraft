@@ -26,6 +26,8 @@ public class LuaLoader implements Loader {
 			liblua = "libluajit.so";
 			libjnlua = "libjnluajit.so";
 		} else {
+			liblua = "libluajit.dylib";
+			libjnlua = "libjnluajit.dylib";
 			LuaCraft.getLogger().error(String.format("Your OS (%s) is currently unsupported", System.getProperty("os.name")));
 		}
 	}

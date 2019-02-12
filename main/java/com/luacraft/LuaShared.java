@@ -3,6 +3,8 @@ package com.luacraft;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import org.apache.commons.lang3.SystemUtils;
+
 import com.luacraft.classes.LuaCache;
 import com.luacraft.classes.LuaScriptedItem;
 import com.luacraft.library.LuaGlobals;
@@ -150,7 +152,12 @@ public class LuaShared extends LuaCraftState {
 
 		// Set the package path to the correct location
 		getGlobal("package");
-		pushString(lua + "modules/?.dll;" + lua + "modules/bin/?.dll;" + lua + "modules/bin/loadall.dll");
+		if (SystemUtils.IS_OS_WINDOWS)
+			pushString(lua + "modules/?.dll;" + lua + "modules/bin/?.dll;" + lua + "modules/bin/loadall.dll");
+		else if (SystemUtils.IS_OS_LINUX)
+			pushString(lua + "modules/?.so;" + lua + "modules/bin/?.so;" + lua + "modules/bin/loadall.so");
+		else if (SystemUtils.IS_OS_MAC_OSX)
+			pushString(lua + "modules/?.dylib;" + lua + "modules/bin/?.dylib;" + lua + "modules/bin/loadall.dylib");
 		setField(-2, "cpath");
 		pop(1);
 	}
