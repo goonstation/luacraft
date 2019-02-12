@@ -111,7 +111,7 @@ public class LuaJavaRunCommand extends CommandBase {
 
 		synchronized (l) {
 			if (l == null) {
-				TextComponentTranslation noLua = new TextComponentTranslation("luacraft.state.notinit");
+				TextComponentTranslation noLua = new TextComponentTranslation("luacraft.state.notinit", getSideChatName());
 				noLua.getStyle().setColor(TextFormatting.RED);
 				sender.sendMessage(noLua);
 				return;
@@ -124,7 +124,7 @@ public class LuaJavaRunCommand extends CommandBase {
 			LuaCraft.getLogger().info(sender.getName() + " Lua > " + strLua);
 
 			try {
-				l.load(strLua, I18n.translateToLocal("luacraft.console"));
+				l.load(strLua, I18n.translateToLocal("luacraft.chat"));
 				l.call(0, 0);
 			} catch (LuaException e) {
 				TextComponentString chatCT = new TextComponentString(e.getMessage());

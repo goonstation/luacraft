@@ -59,7 +59,7 @@ public class LuaVector {
 			float vecZ = (float) ((camPos.z + eyePos.z) - self.y);
 
 			Vector3f pos = new Vector3f(vecX, vecY, vecZ);
-
+			
 			viewMatrix.load(ActiveRenderInfo.MODELVIEW.asReadOnlyBuffer());
 			projectionMatrix.load(ActiveRenderInfo.PROJECTION.asReadOnlyBuffer());
 
@@ -70,14 +70,9 @@ public class LuaVector {
 			pos.x = (float) ((scaledRes.getScaledWidth() * (pos.x + 1.0)) / 2.0);
 			pos.y = (float) (scaledRes.getScaledHeight() * (1.0 - ((pos.y + 1.0) / 2.0)));
 
-			boolean bVisible = false;
-
 			double dot = viewNormal.x * vecX + viewNormal.y * vecY + viewNormal.z * vecZ;
 
-			if (dot < 0) // We only want vectors that are in front of the player
-				bVisible = true;
-
-			l.pushBoolean(bVisible);
+			l.pushBoolean(dot < 0); // Whether the position is in the the players FOV or not
 			l.pushNumber(pos.x);
 			l.pushNumber(pos.y);
 			return 3;

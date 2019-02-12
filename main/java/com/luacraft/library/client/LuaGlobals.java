@@ -74,6 +74,21 @@ public class LuaGlobals {
 
 	/**
 	 * @author Jake
+	 * @function ViewEntity
+	 * @info Get your view entity
+	 * @arguments nil
+	 * @return [[Entity]]:viewent
+	 */
+
+	private static JavaFunction ViewEntity = new JavaFunction() {
+		public int invoke(LuaState l) {
+			LuaUserdata.PushUserdata(l, client.getMinecraft().getRenderViewEntity());
+			return 1;
+		}
+	};
+
+	/**
+	 * @author Jake
 	 * @function ModelResource
 	 * @info Creates a new [[ModelResource]] object
 	 * @arguments [[String]]:path, [ [[String]]:modid ]
@@ -99,6 +114,8 @@ public class LuaGlobals {
 		l.setGlobal("World");
 		l.pushJavaFunction(LocalPlayer);
 		l.setGlobal("LocalPlayer");
+		l.pushJavaFunction(ViewEntity);
+		l.setGlobal("ViewEntity");
 		l.pushJavaFunction(ModelResource);
 		l.setGlobal("ModelResource");
 
