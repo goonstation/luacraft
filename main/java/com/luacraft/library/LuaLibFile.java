@@ -16,14 +16,14 @@ public class LuaLibFile {
 	 * @library file
 	 * @function Get
 	 * @info Gets a file in either a mounted directory or in root directory
-	 * @arguments nil
-	 * @return [[String]]:file
+	 * @arguments [[String]]:file
+	 * @return [[String]]:path
 	 */
 
 	private static JavaFunction Get = new JavaFunction() {
 		public int invoke(LuaState l) {
 			try {
-				l.pushUserdataWithMeta(FileMount.GetFile(l.checkString(1)), "File");
+				l.pushString(FileMount.GetFile(l.checkString(1)).toString());
 				return 1;
 			} catch (FileNotFoundException e) {
 				l.pushNil();
