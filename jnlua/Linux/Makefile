@@ -1,9 +1,9 @@
 # Paths
-JDK_DIR=/run/media/jake/storage/Documents/Developer/Java/jdk1.7.0_79
-LUA_INC_DIR=/run/media/jake/storage/Documents/Developer/Java/LuaJIT-2.0.4/src
+JDK_DIR=/run/media/jake/storage/Developer/Java/jdk1.8.0_211
+LUA_INC_DIR=/home/jake/Developer/Jitjat/src
 VERSION=jit
-#ARCH=amd64
-ARCH=i386
+ARCH=amd64
+#ARCH=i386
 
 # Tools
 MD=mkdir

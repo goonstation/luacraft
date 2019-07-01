@@ -83,7 +83,7 @@ public class LuaVector {
 		public int invoke(LuaState l) {
 			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
 			l.pushJavaFunction(iterator);
-			self.push(l);
+			l.pushValue(1);
 			l.pushNil();
 			return 3;
 		}

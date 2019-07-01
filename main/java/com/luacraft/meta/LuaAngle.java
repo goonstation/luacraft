@@ -82,7 +82,7 @@ public class LuaAngle {
 		public int invoke(LuaState l) {
 			Angle self = (Angle) l.checkUserdata(1, Angle.class, "Angle");
 			l.pushJavaFunction(iterator);
-			self.push(l);
+			l.pushValue(1);
 			l.pushNil();
 			return 3;
 		}
