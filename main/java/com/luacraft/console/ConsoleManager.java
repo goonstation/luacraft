@@ -84,22 +84,26 @@ public class ConsoleManager
         {
             @Override
         	public void print(String text) {
-        		console.clientPrint(CLIENT, text);
+				if (console != null)
+					console.clientPrint(CLIENT, text);
         	}
         	
             @Override
             public void print(Color color, String text) {
-                console.clientPrint(color, text);
+				if (console != null)
+					console.clientPrint(color, text);
             }
 
 			@Override
 			public void msg(String text) {
-				console.clientMsg(text);
+				if (console != null)
+					console.clientMsg(text);
 			}
 
 			@Override
 			public void msg(Color color, String text) {
-				console.clientMsg(color, text);
+				if (console != null)
+					console.clientMsg(color, text);
 			}
         }
 
@@ -107,22 +111,26 @@ public class ConsoleManager
         {
 			@Override
 			public void print(String text) {
-				console.serverPrint(SERVER, text);
+				if (console != null)
+					console.serverPrint(SERVER, text);
 			}
 			
             @Override
             public void print(Color color, String text) {
-                console.serverPrint(color, text);
+				if (console != null)
+					console.serverPrint(color, text);
             }
 
 			@Override
 			public void msg(String text) {
-				console.serverMsg(text);
+				if (console != null)
+					console.serverMsg(text);
 			}
 
 			@Override
 			public void msg(Color color, String text) {
-				console.serverMsg(color, text);
+				if (console != null)
+					console.serverMsg(color, text);
 			}
         }
     }

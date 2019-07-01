@@ -50,6 +50,44 @@ public class LuaVector {
 			return 0;
 		}
 	};
+	
+	private static JavaFunction iterator = new JavaFunction() {
+		public int invoke(LuaState l) {
+			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
+			
+			String key = l.toString(2);
+			double value = 0;
+			
+			if (key == null) {
+				l.pushString("x");
+				l.pushNumber(self.x);
+				return 2;
+			}
+			
+			switch (key) {
+			case "x":
+				l.pushString("y");
+				l.pushNumber(self.y);
+				return 2;
+			case "y":
+				l.pushString("z");
+				l.pushNumber(self.z);
+				return 2;
+			default:
+				return 0;
+			}
+		}
+	};
+
+	private static JavaFunction __pairs = new JavaFunction() {
+		public int invoke(LuaState l) {
+			Vector self = (Vector) l.checkUserdata(1, Vector.class, "Vector");
+			l.pushJavaFunction(iterator);
+			self.push(l);
+			l.pushNil();
+			return 3;
+		}
+	};
 
 	private static JavaFunction __eq = new JavaFunction() {
 		public int invoke(LuaState l) {
@@ -288,6 +326,8 @@ public class LuaVector {
 
 			LuaUserdata.SetupBasicMeta(l);
 
+			l.pushJavaFunction(__pairs);
+			l.setField(-2, "__pairs");
 			l.pushJavaFunction(__eq);
 			l.setField(-2, "__eq");
 			l.pushJavaFunction(__add);

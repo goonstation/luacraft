@@ -81,7 +81,6 @@ public class LuaCraft {
 		channel = NetworkRegistry.INSTANCE.newEventDrivenChannel(NET_CHANNEL);
 		MinecraftForge.EVENT_BUS.register(config);
 
-		ConsoleManager.create();
 		try {
 			LuaCache.initialize();
 		} catch (SQLException e) {
@@ -94,6 +93,7 @@ public class LuaCraft {
 		if (event.getSide() == Side.CLIENT) {
 			LuaClient state = new LuaClient();
 			synchronized (state) {
+				ConsoleManager.create();
 				state.initialize(true);
 				//state.autoRunScripts();
 			}
@@ -103,6 +103,8 @@ public class LuaCraft {
 		} else {
 			LuaServer state = new LuaServer();
 			synchronized (state) {
+				if (state.getServer().getGuiEnabled())
+					ConsoleManager.create();
 				state.initialize(true);
 				state.autorunScripts();
 			}

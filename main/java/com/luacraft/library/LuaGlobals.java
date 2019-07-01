@@ -481,15 +481,15 @@ public class LuaGlobals {
 		l.pushNumber(Result.DEFAULT.ordinal());
 		l.setGlobal("RESULT_DEFAULT");
 
-		l.pushNumber(GameType.NOT_SET.ordinal());
+		l.pushNumber(GameType.NOT_SET.getID());
 		l.setGlobal("MODE_NONE");
-		l.pushNumber(GameType.SURVIVAL.ordinal());
+		l.pushNumber(GameType.SURVIVAL.getID());
 		l.setGlobal("MODE_SURVIVAL");
-		l.pushNumber(GameType.CREATIVE.ordinal());
+		l.pushNumber(GameType.CREATIVE.getID());
 		l.setGlobal("MODE_CREATIVE");
-		l.pushNumber(GameType.ADVENTURE.ordinal());
+		l.pushNumber(GameType.ADVENTURE.getID());
 		l.setGlobal("MODE_ADVENTURE");
-		l.pushNumber(GameType.SPECTATOR.ordinal());
+		l.pushNumber(GameType.SPECTATOR.getID());
 		l.setGlobal("MODE_SPECTATOR");
 
 		l.pushNumber(EnumDifficulty.PEACEFUL.ordinal());

@@ -69,7 +69,7 @@ public class LuaPlayer {
 	private static JavaFunction GetGamemode = new JavaFunction() {
 		public int invoke(LuaState l) {
 			EntityPlayerMP self = (EntityPlayerMP) l.checkUserdata(1, EntityPlayerMP.class, "Player");
-			l.pushNumber(self.interactionManager.getGameType().ordinal());
+			l.pushNumber(self.interactionManager.getGameType().getID());
 			return 1;
 		}
 	};

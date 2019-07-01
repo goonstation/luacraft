@@ -9,17 +9,23 @@ local Player = FindMetaTable( "Player" )
 
 local pdata = sql.Connect( ("jdbc:sqlite:luacraft/%s.db"):format( SERVER and "sv" or "cl" ) )
 if pdata then
-	pdata:Query( "CREATE TABLE IF NOT EXISTS playerpdata ( infoid TEXT NOT NULL PRIMARY KEY, value TEXT )" ):Start()
+	local query = assert(pdata:Query([[CREATE TABLE IF NOT EXISTS playerpdata (
+		unique_id INTEGER,
+		key TEXT,
+		value TEXT,
+		UNIQUE (unique_id, key)
+	);]]))
+	query:Start()
 
 	function Player:GetPData( name, func )
-		local query = pdata:Query( "SELECT value FROM playerpdata WHERE infoid = ?[?] LIMIT 1", func )
+		local query = pdata:Query( "SELECT value FROM playerpdata WHERE unique_id = ? AND key = ?;", func )
 		query:SetString( 1, self:GetUniqueID() )
 		query:SetString( 2, name )
 		query:Start()
 	end
 
 	function Player:SetPData( name, value )
-		local query = pdata:Query( "REPLACE INTO playerpdata ( infoid, value ) VALUES (?[?],?)" )
+		local query = pdata:Query( "REPLACE INTO playerpdata (unique_id, key, value) VALUES (?,?,?);" )
 		query:SetString( 1, self:GetUniqueID() )
 		query:SetString( 2, name )
 		query:SetString( 3, value )
@@ -27,7 +33,7 @@ if pdata then
 	end
 
 	function Player:RemovePData( name )
-		local query = pdata:Query( "DELETE FROM playerpdata WHERE infoid = ?[?]" )
+		local query = pdata:Query( "DELETE FROM playerpdata WHERE unique_id = ? AND key = ?;" )
 		query:SetString( 1, self:GetUniqueID() )
 		query:SetString( 2, name )
 		query:Start()

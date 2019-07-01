@@ -50,6 +50,44 @@ public class LuaAngle {
 		}
 	};
 
+	private static JavaFunction iterator = new JavaFunction() {
+		public int invoke(LuaState l) {
+			Angle self = (Angle) l.checkUserdata(1, Angle.class, "Angle");
+			
+			String key = l.toString(2);
+			double value = 0;
+			
+			if (key == null) {
+				l.pushString("p");
+				l.pushNumber(self.p);
+				return 2;
+			}
+			
+			switch (key) {
+			case "p":
+				l.pushString("y");
+				l.pushNumber(self.y);
+				return 2;
+			case "y":
+				l.pushString("r");
+				l.pushNumber(self.r);
+				return 2;
+			default:
+				return 0;
+			}
+		}
+	};
+
+	private static JavaFunction __pairs = new JavaFunction() {
+		public int invoke(LuaState l) {
+			Angle self = (Angle) l.checkUserdata(1, Angle.class, "Angle");
+			l.pushJavaFunction(iterator);
+			self.push(l);
+			l.pushNil();
+			return 3;
+		}
+	};
+
 	private static JavaFunction __eq = new JavaFunction() {
 		public int invoke(LuaState l) {
 			Angle self = (Angle) l.checkUserdata(1, Angle.class, "Angle");
@@ -173,6 +211,8 @@ public class LuaAngle {
 			l.newMetatable("Object");
 			l.setField(-2, "__basemeta");
 
+			l.pushJavaFunction(__pairs);
+			l.setField(-2, "__pairs");
 			l.pushJavaFunction(__eq);
 			l.setField(-2, "__eq");
 			l.pushJavaFunction(__add);
